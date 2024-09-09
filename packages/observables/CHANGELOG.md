@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.0-beta.3](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0-beta.2...@rxjs-collection/observables-v1.0.0-beta.3) (2024-09-09)
+
+
+### Bug Fixes
+
+* **packages:** removed private attr in package.json ([ed66028](https://github.com/basics/rxjs-collection/commit/ed660284cef613a71527f510039d6988c32a2735))
+
 # [@rxjs-collection/observables-v1.0.0-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0-beta.1...@rxjs-collection/observables-v1.0.0-beta.2) (2024-09-09)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@rxjs-collection/observables",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "rxjs observables",
   "type": "module",
   "main": "index.js",
