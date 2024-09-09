@@ -2,13 +2,18 @@
   "name": "@rxjs-collection/observables",
   "version": "1.0.0-beta.3",
   "description": "rxjs observables",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Stephan Gerbeth",
+      "email": "stephan.gerbeth@gmail.com"
+    }
+  ],
   "type": "module",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "release": "npx semantic-release",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
-  "author": "",
-  "license": "MIT"
+  "devDependencies": {}
 }

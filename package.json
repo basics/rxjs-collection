@@ -2,6 +2,13 @@
   "name": "rxjs-collection",
   "version": "0.0.0",
   "description": "collection of rxjs helpers",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Stephan Gerbeth",
+      "email": "stephan.gerbeth@gmail.com"
+    }
+  ],
   "type": "module",
   "repository": {
     "type": "git",
@@ -15,7 +22,6 @@
     "release:proof": "npx dotenv-cli -- npm run release -- -- --dry-run",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
-  "license": "MIT",
   "workspaces": [
     "packages/operators",
     "packages/observables"
