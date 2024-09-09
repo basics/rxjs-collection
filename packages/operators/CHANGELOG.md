@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.0-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.0-beta.1...@rxjs-collection/operators-v1.0.0-beta.2) (2024-09-09)
+
+
+### Bug Fixes
+
+* **semver:** prevent npm publish ([1c3e233](https://github.com/basics/rxjs-collection/commit/1c3e233135bcf56335c9fd39a53b20b15bf07112))
+
 # @rxjs-collection/operators-v1.0.0-beta.1 (2024-09-09)
 
 
