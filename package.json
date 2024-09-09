@@ -4,10 +4,16 @@
   "description": "collection of rxjs helpers",
   "type": "module",
   "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/basics/rxjs-collection.git"
+  },
   "scripts": {
     "lint": "npm run lint:es",
     "lint:es": "eslint --fix .",
     "prepare": "husky",
+    "release": "npm run release --workspaces",
+    "release:proof": "npx dotenv-cli -- npm run release -- -- --dry-run",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "license": "MIT",

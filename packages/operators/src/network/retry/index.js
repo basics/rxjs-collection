@@ -1,3 +1,3 @@
 export default () => {
-  console.log('TEST 123');
+  console.log('TEST 123 abc');
 };

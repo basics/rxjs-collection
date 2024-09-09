@@ -6,6 +6,7 @@
   "private": "true",
   "main": "index.js",
   "scripts": {
+    "release": "npx semantic-release",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "author": "",
