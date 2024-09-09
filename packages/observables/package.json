@@ -2,6 +2,8 @@
   "name": "@rxjs-collection/observables",
   "version": "0.0.0",
   "description": "rxjs observables",
+  "type": "module",
+  "private": "true",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
