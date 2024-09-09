@@ -3,7 +3,6 @@
   "version": "1.0.0-beta.2",
   "description": "rxjs observables",
   "type": "module",
-  "private": "true",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {

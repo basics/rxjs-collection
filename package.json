@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "collection of rxjs helpers",
   "type": "module",
-  "private": "true",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/basics/rxjs-collection.git"

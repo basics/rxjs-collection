@@ -3,7 +3,6 @@
   "version": "1.0.0-beta.2",
   "description": "rxjs operators",
   "type": "module",
-  "private": "true",
   "main": "index.js",
   "scripts": {
     "release": "npx semantic-release",
