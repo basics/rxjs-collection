@@ -13,9 +13,10 @@
   "main": "index.js",
   "scripts": {
     "release": "npx semantic-release",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "mocha ./src/**/*.test.js"
   },
   "dependencies": {
+    "mocha": "^10.7.3",
     "rxjs": "7.8.1"
   }
 }
