@@ -1,5 +1,5 @@
 import { catchError, combineLatest, delay, filter, map, retry, tap } from 'rxjs';
-import { activeTabObservable, connectionObservable } from '../../../observables/src/dom/window.js';
+import { connectionObservable } from '../../../observables/src/dom/window.js';
 
 const defaultTimeout = count => Math.min(60000, Math.pow(count, 2) * 1000);
 
@@ -10,7 +10,7 @@ export const networkRetry = ({ timeout = defaultTimeout, count } = {}) => {
       retry({
         count,
         delay: _error => {
-          return combineLatest(connectionObservable, activeTabObservable).pipe(
+          return combineLatest([connectionObservable]).pipe(
             map(values => values.every(v => v === true)),
             tap(valid => (counter = counter * valid)),
             filter(valid => valid),
