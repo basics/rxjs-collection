@@ -1,15 +1,15 @@
 import { first } from 'rxjs';
 import { connectionObservable } from './window.js';
-import { setOffline, setOnline } from '../../../test-utils/network.js';
+import { mockOffline, mockOnline } from '../../../test-utils/network.js';
 
 describe('DOM: window', function () {
   it('receive online event', function () {
+    mockOnline();
     connectionObservable.pipe(first()).subscribe(e => expect(e).to.be.true);
-    setOnline();
   });
 
   it('receive offline event', function () {
-    setOffline();
+    mockOffline();
     connectionObservable.pipe(first()).subscribe(e => expect(e).to.be.false);
   });
 });

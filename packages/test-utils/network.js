@@ -1,8 +1,8 @@
-export const setOnline = () => {
+export const mockOnline = () => {
   updateOnLineStatus('online', true);
 };
 
-export const setOffline = () => {
+export const mockOffline = () => {
   updateOnLineStatus('offline', false);
 };
 
