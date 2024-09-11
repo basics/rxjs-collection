@@ -13,7 +13,20 @@
   "main": "index.js",
   "scripts": {
     "release": "npx semantic-release",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test:dev": "npx npm-watch",
+    "test": "mocha ./src/**/*.test.js"
+  },
+  "watch": {
+    "test": {
+      "inherit": true,
+      "patterns": [
+        "src"
+      ],
+      "extensions": [
+        "js"
+      ],
+      "clearBuffer": true
+    }
   },
   "devDependencies": {}
 }
