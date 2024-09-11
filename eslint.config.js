@@ -16,7 +16,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        myCustomGlobal: 'readonly'
+        expect: 'readonly'
       }
     },
     rules: {

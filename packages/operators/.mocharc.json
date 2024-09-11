@@ -1,0 +1,7 @@
+{
+  "file": [
+    "mocha.env.js"
+  ],
+  "timeout": 40000,
+  "exit": true
+}
