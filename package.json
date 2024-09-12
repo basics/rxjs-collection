@@ -43,7 +43,7 @@
     "husky": "9.1.6",
     "lint-staged": "15.2.10",
     "prettier": "3.3.3",
-    "semantic-release": "24.1.0",
+    "semantic-release": "24.1.1",
     "semantic-release-monorepo": "8.0.2"
   }
 }
