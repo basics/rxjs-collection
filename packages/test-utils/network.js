@@ -13,6 +13,7 @@ const updateOnLineStatus = (eventName, status) => {
       return status;
     }
   });
-  const e = new CustomEvent(eventName, { bubbles: true, cancelable: false });
+
+  const e = new window.Event(eventName, { bubbles: true, cancelable: false });
   window.dispatchEvent(e);
 };

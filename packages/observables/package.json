@@ -28,5 +28,7 @@
       "clearBuffer": true
     }
   },
-  "devDependencies": {}
+  "dependencies": {
+    "sinon": "^18.0.1"
+  }
 }

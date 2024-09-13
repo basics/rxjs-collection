@@ -1,4 +1,4 @@
-import { fromEvent, merge, of, map, shareReplay } from 'rxjs';
+import { fromEvent, merge, of, map, shareReplay, tap } from 'rxjs';
 
 export const connectionObservable = merge(
   of(null),
