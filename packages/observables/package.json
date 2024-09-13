@@ -12,23 +12,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "release": "npx semantic-release",
-    "test:dev": "npx npm-watch",
-    "test": "mocha ./src/**/*.test.js"
-  },
-  "watch": {
-    "test": {
-      "inherit": true,
-      "patterns": [
-        "src"
-      ],
-      "extensions": [
-        "js"
-      ],
-      "clearBuffer": true
-    }
+    "release": "npx semantic-release"
   },
   "dependencies": {
-    "sinon": "^18.0.1"
+    "rxjs": "^7.8.1"
   }
 }
