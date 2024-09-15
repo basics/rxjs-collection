@@ -1,5 +1,19 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.0-beta.4](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0-beta.3...@rxjs-collection/observables-v1.0.0-beta.4) (2024-09-15)
+
+
+### Bug Fixes
+
+* **dom/window:** fixed mockreset status ([cdc5dae](https://github.com/basics/rxjs-collection/commit/cdc5dae2fe8f386b2477a177febafba6a256f2b3))
+* **mocha:** added async event marble test ([f8e5bdb](https://github.com/basics/rxjs-collection/commit/f8e5bdbc5d7f0fd2498f9a16f851bdbda4ae7a79))
+* **mocha:** first test with mocked data ([e1344d9](https://github.com/basics/rxjs-collection/commit/e1344d9600a2e95281e7ac1a0ada6bc1de6c598b))
+* **mocha:** fixed async prob in first test ([a5ba14e](https://github.com/basics/rxjs-collection/commit/a5ba14eb69563ece06518a7ba4403e77d71200fa))
+* **mocha:** renamed mockFunctions ([f59866f](https://github.com/basics/rxjs-collection/commit/f59866f0427ce0f46bb588c2e69d85ec61dfc22c))
+* **mocha:** updated setup ([793c14f](https://github.com/basics/rxjs-collection/commit/793c14fe9a87e209894da30d5ccaeb7dfd0ffdc3))
+* **test:** switched from mocha to vitest ([52425e1](https://github.com/basics/rxjs-collection/commit/52425e1c7a73d066bdcd8fbfa44cb994bc93835c))
+* **vitest:** added test cases ([7c3a090](https://github.com/basics/rxjs-collection/commit/7c3a090f1e80b015bfbcdd7214334528d5701eb6))
+
 # [@rxjs-collection/observables-v1.0.0-beta.3](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0-beta.2...@rxjs-collection/observables-v1.0.0-beta.3) (2024-09-09)
 
 
