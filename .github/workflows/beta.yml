@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - beta
+  pull_request:
+    types:
+      - opened
+      - reopened
+    branches:
+      - 'beta'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
