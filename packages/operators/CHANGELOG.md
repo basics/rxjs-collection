@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.0-beta.5](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.0-beta.4...@rxjs-collection/operators-v1.0.0-beta.5) (2024-09-15)
+
+
+### Bug Fixes
+
+* **vitest:** workspace coverage ([e2ed1ec](https://github.com/basics/rxjs-collection/commit/e2ed1ec12aea8342f768b4f3fb17789ddf7a6208))
+
 # [@rxjs-collection/operators-v1.0.0-beta.4](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.0-beta.3...@rxjs-collection/operators-v1.0.0-beta.4) (2024-09-15)
 
 
