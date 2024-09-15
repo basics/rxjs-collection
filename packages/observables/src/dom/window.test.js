@@ -1,19 +1,21 @@
 import { tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { connectionObservable } from './window.js';
-import { mockOffline, mockOnline } from '../../../test-utils/network.js';
-import { beforeEach, test, expect, describe } from 'vitest';
+import { mockOffline, mockOnline, mockReset } from '../../../test-utils/network.js';
+import { beforeEach, test, expect, describe, afterEach, vi } from 'vitest';
 
 // HINT: https://betterprogramming.pub/rxjs-testing-write-unit-tests-for-observables-603af959e251
 describe('DOM/window: network', function () {
   let testScheduler;
 
-  beforeEach(function () {
-    mockOnline();
-
+  beforeEach(function (e) {
     testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).deep.equal(expected);
     });
+  });
+
+  afterEach(function () {
+    mockReset();
   });
 
   test('online/offline detection', function () {
@@ -37,7 +39,7 @@ describe('DOM/window: network', function () {
     });
   });
 
-  test('proof rerun online/offline detection', function () {
+  test('proof reset by rerun online/offline detection', function () {
     const expectedValues = {
       a: true,
       b: false,
@@ -46,7 +48,7 @@ describe('DOM/window: network', function () {
     };
 
     const triggerValues = {
-      a: () => mockOnline(),
+      // a: () => mockOnline(),
       b: () => mockOffline(),
       c: () => mockOnline(),
       d: () => mockOffline()
