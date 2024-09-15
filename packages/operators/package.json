@@ -12,8 +12,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "release": "npx semantic-release",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "release": "npx semantic-release"
   },
   "dependencies": {
     "rxjs": "7.8.1"
