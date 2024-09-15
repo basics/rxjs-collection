@@ -1,25 +1,36 @@
-// describe('request retry', function () {
-//   it('interrupted connection 1000ms', async function () {
-//     console.log('YEAH');
-//     //expect(true).to.be.true;
+import { beforeEach, describe, expect, test } from 'vitest';
+import { networkRetry } from './retry';
+import { TestScheduler } from 'rxjs/testing';
+import { map, of } from 'rxjs';
 
-//     const req = new URL('https://dummyjson.com/products');
-//     req.searchParams.append('limit', 10);
-//     req.searchParams.append('skip', 5);
-//     req.searchParams.append('select', 'key1,key2,key3');
-//     const resp = await fetch(req);
-//     console.log(await resp.json());
-//   });
+describe('request retry', function () {
+  let testScheduler;
 
-//   it('interrupted connection 10000ms', async function () {
-//     console.log('YEAH');
-//     //expect(true).to.be.true;
+  beforeEach(function () {
+    testScheduler = new TestScheduler((actual, expected) => {
+      expect(actual).deep.equal(expected);
+    });
+  });
 
-//     const req = new URL('https://dummyjson.com/products');
-//     req.searchParams.append('limit', 10);
-//     req.searchParams.append('skip', 5);
-//     req.searchParams.append('select', 'key1,key2,key3');
-//     const resp = await fetch(req);
-//     console.log(await resp.json());
-//   });
-// });
+  test('network retry', async function () {
+    let counter = 0;
+
+    const mockObservable = of(null)
+      .pipe(
+        map(() => {
+          counter++;
+          if (counter < 3) {
+            return { ok: false };
+          }
+          return { ok: true };
+        })
+      )
+      .pipe(networkRetry({ timeout: () => 1000 }));
+
+    testScheduler.run(({ expectObservable }) => {
+      expectObservable(mockObservable).toBe('2000ms (a|)', {
+        a: { ok: true }
+      });
+    });
+  });
+});
