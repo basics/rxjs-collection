@@ -2,13 +2,13 @@ import { tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { connectionObservable } from './window.js';
 import { mockOffline, mockOnline, mockReset } from '../../../test-utils/network.js';
-import { beforeEach, test, expect, describe, afterEach, vi } from 'vitest';
+import { beforeEach, test, expect, describe, afterEach } from 'vitest';
 
 // HINT: https://betterprogramming.pub/rxjs-testing-write-unit-tests-for-observables-603af959e251
 describe('DOM/window: network', function () {
   let testScheduler;
 
-  beforeEach(function (e) {
+  beforeEach(function () {
     testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).deep.equal(expected);
     });
