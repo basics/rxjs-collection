@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0...@rxjs-collection/observables-v1.0.1) (2024-09-16)
+
+
+### Bug Fixes
+
+* **observables:** removed two warnings ([52303ad](https://github.com/basics/rxjs-collection/commit/52303ad41290b6d06d74a2f172f42edb3176c8fa))
+
 # [@rxjs-collection/observables-v1.0.1-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0...@rxjs-collection/observables-v1.0.1-beta.1) (2024-09-16)
 
 
