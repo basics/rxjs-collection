@@ -4,14 +4,6 @@ on:
   push:
     branches:
       - beta
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - edited
-      - synchronize
-    branches:
-      - beta
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -58,36 +50,9 @@ jobs:
           name: vitest-code-coverage-report
           path: ./coverage/
 
-  sonarcloud:
-    name: SonarCloud
-    needs: install
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [20]
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Download vitest code coverage results
-        uses: actions/download-artifact@v4
-        with:
-          name: vitest-code-coverage-report
-          path: ./coverage/
-      - name: check
-        run: cd coverage && find .
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   semantic-version:
     name: Semantic Release
-    needs: sonarcloud
+    needs: install
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -114,3 +79,30 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm run release
+
+  sonarcloud:
+    name: SonarCloud
+    needs: semantic-version
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [20]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Download vitest code coverage results
+        uses: actions/download-artifact@v4
+        with:
+          name: vitest-code-coverage-report
+          path: ./coverage/
+      - name: check
+        run: cd coverage && find .
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
