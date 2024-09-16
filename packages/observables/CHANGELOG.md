@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.0-beta.5](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0-beta.4...@rxjs-collection/observables-v1.0.0-beta.5) (2024-09-16)
+
+
+### Bug Fixes
+
+* **security-hotspot:** cleanup ([#21](https://github.com/basics/rxjs-collection/issues/21)) ([d96c3dc](https://github.com/basics/rxjs-collection/commit/d96c3dc061e40210475f86c06a5c8a431aedf44e))
+
 # [@rxjs-collection/observables-v1.0.0-beta.4](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.0-beta.3...@rxjs-collection/observables-v1.0.0-beta.4) (2024-09-15)
 
 
