@@ -9,8 +9,9 @@ on:
       - opened
       - reopened
       - edited
+      - synchronize
     branches:
-      - 'beta'
+      - beta
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
