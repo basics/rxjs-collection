@@ -52,6 +52,7 @@ jobs:
 
   sonarcloud:
     name: SonarCloud
+    needs: install
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -71,7 +72,7 @@ jobs:
 
   semantic-version:
     name: Semantic Release
-    needs: install
+    needs: sonarcloud
     runs-on: ${{ matrix.os }}
 
     strategy:
