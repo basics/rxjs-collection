@@ -4,8 +4,8 @@ export default defineConfig({
   test: {
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json'],
-      reportsDirectory: './.coverage',
+      reporter: ['text', 'json', 'lcov'],
+      reportsDirectory: './coverage',
       exclude: [
         ...configDefaults.exclude,
         'commitlint.config.js',
