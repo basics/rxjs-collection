@@ -10,6 +10,34 @@
 [![Renovate - Status][renovate-status-src]][renovate-status-href]
 [![License][license-src]][license-href]
 
+---
+
+## ToDo
+- evaluation
+    - [ ] BranchNameLint alternative (https://www.npmjs.com/package/branch-name-lint)
+    - [ ] SonarLint (https://docs.sonarsource.com/sonarcloud/improving/sonarlint/)
+    - [ ] ...
+- observables + test
+    - [ ] default fetch
+    - [ ] window dom (resize, scroll)?
+    - [ ] ...
+- operators + test
+    - [ ] finalize network retry
+    - [ ] request paginator (full, lazy)
+    - [ ] ...
+- git actions
+    - [ ] implemented merge strategy
+        - only beta-branch can be merged into main
+        - only feature-branches can be merged into beta
+        - hotfixes can be merged directly into main, but beta will also be updated
+    - [ ] ...
+- sonarcloud
+    - [ ] finalized config
+    - [ ] ...
+- additional git action services
+    - [ ] evaluate pr agent
+    - [ ] ...
+
 
 [renovate-status-src]: <https://img.shields.io/badge/renovate-enabled-brightgreen>
 [renovate-status-href]: <https://renovate.whitesourcesoftware.com/>
