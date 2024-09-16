@@ -4,14 +4,6 @@ on:
   push:
     branches:
       - beta
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - edited
-      - synchronize
-    branches:
-      - beta
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

@@ -1,8 +1,14 @@
-name: Main
+name: PullRequest
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
     branches:
+      - beta
       - main
 
 concurrency:
@@ -52,6 +58,7 @@ jobs:
 
   sonarcloud:
     name: SonarCloud
+    needs: install
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -78,7 +85,7 @@ jobs:
 
   semantic-version:
     name: Semantic Release
-    needs: install
+    needs: sonarcloud
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -105,4 +112,3 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm run release
-
