@@ -47,7 +47,7 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test & Coverage
+      - name: Vitest - Test & Coverage
         run: npm run coverage
 
   sonarcloud:
