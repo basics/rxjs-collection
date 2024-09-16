@@ -24,8 +24,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+
       - name: Checkout Repo
         uses: actions/checkout@v4
+
       - name: cache node_modules
         uses: actions/cache@v4
         id: cache
@@ -64,14 +66,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+
       - name: Checkout Repo
         uses: actions/checkout@v4
+
       - name: cache node_modules
         uses: actions/cache@v4
         id: cache
         with:
           path: node_modules
           key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
+
       - name: Versioning
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -94,13 +99,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
       - name: Download vitest code coverage results
         uses: actions/download-artifact@v4
         with:
           name: vitest-code-coverage-report
           path: ./coverage/
-      - name: check
-        run: cd coverage && find .
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
