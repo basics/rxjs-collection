@@ -76,6 +76,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vitest-code-coverage-report
+        run: ls -l
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
