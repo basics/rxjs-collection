@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - beta
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+    branches:
+      - beta
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -41,12 +49,45 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test
-        run: npm run test
+      - name: Vitest - Test & Coverage
+        run: npm run coverage
+
+      - name: Archive vitest code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-code-coverage-report
+          path: ./coverage/
+
+  sonarcloud:
+    name: SonarCloud
+    needs: install
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [20]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Download vitest code coverage results
+        uses: actions/download-artifact@v4
+        with:
+          name: vitest-code-coverage-report
+          path: ./coverage/
+      - name: check
+        run: cd coverage && find .
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   semantic-version:
     name: Semantic Release
-    needs: install
+    needs: sonarcloud
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -72,4 +113,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npx -p @nuxt/module-builder -p semantic-release -p @semantic-release/git -p @semantic-release/changelog -p @semantic-release/exec -p @semantic-release/github semantic-release --provider=github --debug=true
+          npm run release

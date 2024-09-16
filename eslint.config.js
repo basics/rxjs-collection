@@ -2,13 +2,12 @@ import js from '@eslint/js';
 import globals from 'globals';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import eslintPluginSecurity from 'eslint-plugin-security';
-import eslintPluginMocha from 'eslint-plugin-mocha';
+import eslintPluginVitest from 'eslint-plugin-vitest';
 import eslintIgnores from './eslint.ignores.js';
 
 export default [
   eslintPluginSecurity.configs.recommended,
   eslintPluginPrettierRecommended,
-  eslintPluginMocha.configs.flat.recommended,
   js.configs.recommended,
   {
     files: ['**/*.js'],
@@ -16,8 +15,11 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        myCustomGlobal: 'readonly'
+        expect: 'readonly'
       }
+    },
+    plugins: {
+      eslintPluginVitest
     },
     rules: {
       'block-spacing': 'error',

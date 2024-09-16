@@ -1,47 +1,12 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "baseBranches": [
     "beta"
   ],
-  "rangeStrategy": "pin",
-  "lockFileMaintenance": {
-    "enabled": true,
-    "automerge": true
-  },
-  "packageRules": [
-    {
-      "packagePatterns": [
-        "snyk"
-      ],
-      "groupName": "snyk"
-    },
-    {
-      "packageNames": [
-        "node"
-      ],
-      "major": {
-        "enabled": true
-      },
-      "separateMultipleMajor": true,
-      "allowedVersions": "^19"
-    },
-    {
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "matchPackagePatterns": [
-        "lint",
-        "prettier"
-      ],
-      "automerge": true
-    },
-    {
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    }
-  ]
+  "configMigration": true,
+  "extends": [
+    "config:recommended",
+    "group:allNonMajor",
+    ":semanticCommits"
+  ],
+  "rangeStrategy": "pin"
 }

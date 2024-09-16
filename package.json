@@ -2,36 +2,53 @@
   "name": "rxjs-collection",
   "version": "0.0.0",
   "description": "collection of rxjs helpers",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Stephan Gerbeth",
+      "email": "stephan.gerbeth@gmail.com"
+    }
+  ],
   "type": "module",
-  "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/basics/rxjs-collection.git"
+  },
   "scripts": {
     "lint": "npm run lint:es",
     "lint:es": "eslint --fix .",
     "prepare": "husky",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "release": "npm run release --workspaces",
+    "release:proof": "npx dotenv-cli -- npm run release -- -- --dry-run",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
-  "license": "MIT",
   "workspaces": [
     "packages/operators",
     "packages/observables"
   ],
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.4.1",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.0",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^10.3.3",
-    "@semantic-release/npm": "^12.0.1",
-    "@semantic-release/release-notes-generator": "^14.0.1",
-    "commitlint": "^19.4.1",
-    "eslint": "^9.10.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-mocha": "^10.5.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-security": "^3.0.1",
-    "husky": "^9.1.5",
-    "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
-    "semantic-release-monorepo": "^8.0.2"
+    "@commitlint/config-conventional": "19.5.0",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/commit-analyzer": "13.0.0",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "10.3.4",
+    "@semantic-release/npm": "12.0.1",
+    "@semantic-release/release-notes-generator": "14.0.1",
+    "@vitest/coverage-v8": "2.1.1",
+    "commitlint": "19.5.0",
+    "eslint": "9.10.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-security": "3.0.1",
+    "eslint-plugin-vitest": "0.5.4",
+    "fetch-mock": "11.1.3",
+    "happy-dom": "15.7.4",
+    "husky": "9.1.6",
+    "lint-staged": "15.2.10",
+    "prettier": "3.3.3",
+    "semantic-release": "24.1.1",
+    "semantic-release-monorepo": "8.0.2",
+    "vitest": "2.1.1"
   }
 }
