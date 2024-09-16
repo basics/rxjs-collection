@@ -1,8 +1,14 @@
-name: Main
+name: PullRequest
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
     branches:
+      - beta
       - main
 
 concurrency:
@@ -52,6 +58,7 @@ jobs:
 
   sonarcloud:
     name: SonarCloud
+    needs: install
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -76,28 +83,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [20]
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   semantic-version:
     name: Semantic Release
-    needs: install
+    needs: sonarcloud
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -124,4 +112,3 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm run release
-
