@@ -1,4 +1,4 @@
-name: Beta
+name: PullRequest
 
 on:
   pull_request:
