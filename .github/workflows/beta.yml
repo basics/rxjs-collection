@@ -47,8 +47,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test
-        run: npm run test
+      - name: Test & Coverage
+        run: npm run coverage
 
   sonarcloud:
     name: SonarCloud
