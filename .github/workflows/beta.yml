@@ -76,6 +76,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vitest-code-coverage-report
+          path: ./coverage/
       - name: check
         run: ls -l
       - name: SonarCloud Scan
