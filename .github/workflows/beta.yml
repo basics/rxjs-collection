@@ -78,7 +78,7 @@ jobs:
           name: vitest-code-coverage-report
           path: ./coverage/
       - name: check
-        run: ls -l
+        run: cd coverage && find .
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
