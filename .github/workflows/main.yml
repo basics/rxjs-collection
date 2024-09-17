@@ -37,7 +37,7 @@ jobs:
             node_modules
           key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
 
-      - name: install dependencies
+      - name: install dependencies (no cache available)
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
@@ -78,6 +78,10 @@ jobs:
         with:
           path: node_modules
           key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
+
+      - name: install dependencies (no cache available)
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
 
       - name: release versioning
         env:
