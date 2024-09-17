@@ -118,3 +118,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy-ghpages:
+    name: Deploy (GH-Pages)
+    needs: semantic-version
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [20]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: download vitest code coverage results
+        uses: actions/download-artifact@v4
+        with:
+          name: vitest-code-coverage-report
+          path: ./coverage/
+      - name: deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: coverage
+          # cname:
