@@ -21,23 +21,33 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
-      - name: Install Dependencies
+      - name: cache node_modules
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: |
+            node_modules
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
+
+      - name: install dependencies (no cache available)
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Lint
+      - name: lint
         run: npm run lint
 
-      - name: Vitest - Test & Coverage
+      - name: vitest - test & coverage
         run: npm run coverage
 
-      - name: Archive vitest code coverage results
+      - name: archive vitest code coverage results
         uses: actions/upload-artifact@v4
         with:
           name: vitest-code-coverage-report
@@ -54,17 +64,18 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: checkout repo
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Download vitest code coverage results
+      - name: download vitest code coverage results
         uses: actions/download-artifact@v4
         with:
           name: vitest-code-coverage-report
           path: ./coverage/
 
-      - name: SonarCloud Scan
+      - name: SonarCloud scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any

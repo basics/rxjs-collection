@@ -10,34 +10,43 @@
 [![Renovate - Status][renovate-status-src]][renovate-status-href]
 [![License][license-src]][license-href]
 
+[![Coverage Report][vitest-coverage-src]][vitest-coverage-href]
+
 ---
 
 ## ToDo
 - evaluation
-    - [ ] BranchNameLint alternative (https://www.npmjs.com/package/branch-name-lint)
-    - [ ] SonarLint (https://docs.sonarsource.com/sonarcloud/improving/sonarlint/)
-    - [ ] ...
+  - [ ] BranchNameLint alternative (https://www.npmjs.com/package/branch-name-lint)
+  - [ ] SonarLint (https://docs.sonarsource.com/sonarcloud/improving/sonarlint/)
+  - [ ] ...
 - observables + test
-    - [ ] default fetch
-    - [ ] window dom (resize, scroll)?
-    - [ ] ...
+  - [ ] default fetch
+  - [ ] window dom (resize, scroll)?
+  - [ ] ...
 - operators + test
-    - [ ] finalize network retry
-    - [ ] request paginator (full, lazy)
-    - [ ] ...
-- git actions
-    - [ ] implemented merge strategy
-        - only beta-branch can be merged into main
-        - only feature-branches can be merged into beta
-        - hotfixes can be merged directly into main, but beta will also be updated
-    - [ ] ...
+  - [ ] finalize network retry
+  - [ ] request paginator (full, lazy)
+  - [ ] ...
+<!-- - git actions
+  - [ ] implemented merge strategy
+    - only beta-branch can be merged into main
+    - only feature-branches can be merged into beta
+    - hotfixes can be merged directly into main, but beta will also be updated
+  - [ ] ... -->
+- git rules
+  - [ ] main branch can be updated only by pull request from 
+    - [ ] beta branch
+    - [ ] hotfix branch
+  - [ ] beta branch can be updated only by pull request from 
+    - [ ] feature branch
+    - [ ] hotfix branch
 - sonarcloud
-    - [ ] finalized config
-    - [ ] ...
+  - [ ] finalized config
+  - [ ] ...
 - additional git action services
-    - [ ] evaluate pr agent
-    - [ ] ...
-    - [ ] ...
+  - [ ] evaluate pr agent
+  - [ ] ...
+  - [ ] ...
 
 
 [renovate-status-src]: <https://img.shields.io/badge/renovate-enabled-brightgreen>
@@ -59,3 +68,6 @@
 
 [npm-downloads-src]: https://img.shields.io/npm/dt/nuxt-booster.svg?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/nuxt-booster
+
+[vitest-coverage-src]: https://img.shields.io/badge/Coverage_Report-2ea44f?logo=vitest&logoColor=%23fff
+[vitest-coverage-href]: https://basics.github.io/rxjs-collection/
