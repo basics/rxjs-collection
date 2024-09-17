@@ -1,9 +1,9 @@
-name: Beta
+name: Feature
 
 on:
   push:
     branches:
-      - beta
+      - 'feature/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -52,42 +52,9 @@ jobs:
           name: vitest-code-coverage-report
           path: ./coverage/
 
-  semantic-version:
-    name: Semantic Release
-    needs: install
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [20]
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: cache node_modules
-        uses: actions/cache@v4
-        id: cache
-        with:
-          path: node_modules
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
-
-      - name: Versioning
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm run release
-
   sonarcloud:
     name: SonarCloud
-    needs: semantic-version
+    needs: install
     strategy:
       matrix:
         os: [ubuntu-latest]
