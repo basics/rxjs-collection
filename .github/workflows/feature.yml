@@ -53,7 +53,7 @@ jobs:
           path: ./coverage/
 
   sonarcloud:
-    name: SonarCloud
+    name: SonarCloud2
     needs: install
     strategy:
       matrix:
