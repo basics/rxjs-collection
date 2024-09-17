@@ -142,6 +142,7 @@ jobs:
           publish_dir: coverage
 
   merge-back-to-beta:
+    name: Update beta branch
     needs: semantic-version
     strategy:
       matrix:
@@ -162,7 +163,7 @@ jobs:
       - name: merge main back to beta
         run: |
             git fetch --unshallow
-            git checkout dev
+            git checkout beta
             git pull
             git merge --no-ff main -m "Auto-merge main back to beta"
             git push
