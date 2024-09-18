@@ -12,6 +12,7 @@
     "yzhang.markdown-all-in-one",
     "formulahendry.auto-close-tag",
     "formulahendry.auto-rename-tag",
-    "naumovs.color-highlight"
+    "naumovs.color-highlight",
+    "humao.rest-client"
   ]
 }
