@@ -1,5 +1,13 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.1...@rxjs-collection/observables-v1.0.2) (2024-09-18)
+
+
+### Bug Fixes
+
+* **eslint:** added sorted import and modified files ([6ecf940](https://github.com/basics/rxjs-collection/commit/6ecf940e5efd65a45de71c5011ed1ca6142c2c48))
+* **rest:** added http sample file ([78c40df](https://github.com/basics/rxjs-collection/commit/78c40df76fe410f833a8bbac31421c0bedf2e6e1))
+
 # [@rxjs-collection/observables-v1.0.2-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.1...@rxjs-collection/observables-v1.0.2-beta.1) (2024-09-18)
 
 
