@@ -1,6 +1,7 @@
-import { requestObservable } from './request.js';
 import fetchMock from 'fetch-mock';
 import { afterEach, test, describe, beforeEach, expect } from 'vitest';
+
+import { requestObservable } from './request.js';
 
 describe('request observable with default operators', function () {
   beforeEach(function () {

@@ -58,7 +58,8 @@
     - [x] implemented test samples
       - [x] mock browser events (with marble definitions)
       - [x] mock requests (with marble definition)
-      - [x] true async handling  
+      - [x] true async handling
+      - [x] implemented curl test (.http-file)
   - browserslist 
     - [x] embedded but currently not needed  
   - git

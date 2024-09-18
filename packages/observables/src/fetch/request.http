@@ -1,0 +1,9 @@
+
+# @name post
+GET https://dummyjson.com/posts/1 HTTP/1.1
+content-type: application/json
+
+###
+@userId = {{post.response.body.userId}}
+GET https://dummyjson.com/users/{{userId}} HTTP/1.1
+content-type: application/json
