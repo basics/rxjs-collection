@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.1-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.0...@rxjs-collection/operators-v1.0.1-beta.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* **eslint:** added sorted import and modified files ([6ecf940](https://github.com/basics/rxjs-collection/commit/6ecf940e5efd65a45de71c5011ed1ca6142c2c48))
+
 # @rxjs-collection/operators-v1.0.0 (2024-09-16)
 
 
