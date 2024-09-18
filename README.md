@@ -27,12 +27,6 @@
   - [ ] finalize network retry
   - [ ] request paginator (full, lazy)
   - [ ] ...
-<!-- - git actions
-  - [ ] implemented merge strategy
-    - only beta-branch can be merged into main
-    - only feature-branches can be merged into beta
-    - hotfixes can be merged directly into main, but beta will also be updated
-  - [ ] ... -->
 - git rules
   - [ ] main branch can be updated only by pull request from 
     - [ ] beta branch
@@ -40,6 +34,7 @@
   - [ ] beta branch can be updated only by pull request from 
     - [ ] feature branch
     - [ ] hotfix branch
+  - [ ] ...
 - sonarcloud
   - [ ] finalized config
   - [ ] ...
