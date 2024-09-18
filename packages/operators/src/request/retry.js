@@ -10,6 +10,7 @@ import {
   tap,
   throwError
 } from 'rxjs';
+
 import { connectionObservable } from '../../../observables/src/dom/window.js';
 
 const defaultTimeout = count => Math.min(60000, Math.pow(count, 2) * 1000);

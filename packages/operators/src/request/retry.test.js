@@ -1,7 +1,8 @@
-import { beforeEach, describe, expect, test } from 'vitest';
-import { networkRetry } from './retry';
-import { TestScheduler } from 'rxjs/testing';
 import { map, of } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
+import { beforeEach, describe, expect, test } from 'vitest';
+
+import { networkRetry } from './retry';
 
 describe('request retry', function () {
   let testScheduler;
