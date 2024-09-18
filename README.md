@@ -15,38 +15,100 @@
 ---
 
 ## ToDo
-- evaluation
-  - [ ] BranchNameLint alternative (https://www.npmjs.com/package/branch-name-lint)
-  - [ ] SonarLint (https://docs.sonarsource.com/sonarcloud/improving/sonarlint/)
-  - [ ] ...
-- observables + test
-  - [ ] default fetch
-  - [ ] window dom (resize, scroll)?
+
+
+- project config
+  - monorepo
+    - [x] create project structure
+    - [x] add package.json and correct package namings
+  - editor
+    - [x] consistent code styles (editorconfig)
+    - [x] normalize eof (gitattributes)
+    - [x] autofix syntax errors (eslint)
+    - [x] autofix code formatting (prettier)
+  - vscode
+    - [x] created workspace file with default settings
+    - [x] added launch configuration
+      - [x] run debugger mode for custom opened test file
+      - [ ] ...
+    - [x] added extension recommendation (will be installed, when project will be opened by workspace file) 
+    - [x] evaluate SonarLint (https://docs.sonarsource.com/sonarcloud/improving/sonarlint/)
+    - [ ] ...
+  - node
+    - [x] node version manager support (nvmrc)
+    - [x] defined current node version (20) 
+    - [x] package manager bot (renovate) 
+  - info
+    - [x] added code of conduct
+    - [x] added licence (MIT)
+  - versioning
+    - [x] monorepo support
+    - [x] pre(release) support
+    - [x] added commit-analyzer
+    - [x] added release notes generator
+    - [x] added changelog generator
+    - [x] added optional npm publishing process
+    - [x] added git update process to commit new version and notes
+    - [x] added github update process to publish new version and notes
+  - vitest
+    - [x] monorepo support
+    - [x] run tests with hot reload
+    - [x] run code coverage analysis
+    - [x] create reports (html, lcov, text)
+    - [x] implemented test samples
+      - [x] mock browser events (with marble definitions)
+      - [x] mock requests (with marble definition)
+      - [x] true async handling  
+  - browserslist 
+    - [x] embedded but currently not needed  
+  - git
+    - [x] lint commit messages (commitlint)
+    - [x] Run linters against staged git files (lint-stage)
+    - [x] ignore files/dirs for versioning (gitignore)
+    - [ ] evaluate BranchNameLint alternative (https://www.npmjs.com/package/branch-name-lint)
+  - github
+    - config
+      - [x] added to organization 
+      - [x] protected branch remove of main 
+      - [x] protected branch remove of beta 
+      - [ ] 
+    - actions
+      - pipelines
+        - [x] main
+        - [x] beta
+        - [x] feature
+        - [x] deploy coverage report of main branch to gh-pages
+        - [ ] ...
+      - tasks
+        - [x] versioning
+        - [x] test
+        - [x] code analysis 
+        - [ ] evaluate pr agent
+        - [ ] ...
+    - rules
+      - [ ] main branch can be updated only by pull request from 
+        - [ ] beta branch
+        - [ ] hotfix branch
+      - [ ] beta branch can be updated only by pull request from 
+        - [ ] feature branch
+        - [ ] hotfix branch
+      - [ ] ...
+  - SonarCloud
+    - [x] account created
+    - [x] embedded analysis call into each git-action as task
+    - [x] created sonarcloud properties in repo to publish on demand config
+    - [x] proof working code analysis for main
+    - [x] proof working code analysis for beta 
+- project code
+  - observables + test
+  - [ ] finalize default fetch
+  - [ ] create & finalize window dom (resize, scroll)?
   - [ ] ...
 - operators + test
   - [ ] finalize network retry
-  - [ ] request paginator (full, lazy)
+  - [ ] create & finalize request paginator (full, lazy)
   - [ ] ...
-<!-- - git actions
-  - [ ] implemented merge strategy
-    - only beta-branch can be merged into main
-    - only feature-branches can be merged into beta
-    - hotfixes can be merged directly into main, but beta will also be updated
-  - [ ] ... -->
-- git rules
-  - [ ] main branch can be updated only by pull request from 
-    - [ ] beta branch
-    - [ ] hotfix branch
-  - [ ] beta branch can be updated only by pull request from 
-    - [ ] feature branch
-    - [ ] hotfix branch
-- sonarcloud
-  - [ ] finalized config
-  - [ ] ...
-- additional git action services
-  - [ ] evaluate pr agent
-  - [ ] ...
-  - [ ] ...
+
 
 
 [renovate-status-src]: <https://img.shields.io/badge/renovate-enabled-brightgreen>
