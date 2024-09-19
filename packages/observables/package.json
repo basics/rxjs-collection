@@ -15,6 +15,7 @@
     "release": "npx semantic-release"
   },
   "dependencies": {
+    "@rxjs-collection/operators": "*",
     "rxjs": "7.8.1"
   }
 }
