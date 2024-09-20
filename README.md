@@ -32,7 +32,7 @@
       - [x] run debugger mode for custom opened test file
       - [ ] ...
     - [x] added extension recommendation (will be installed, when project will be opened by workspace file) 
-    - [x] evaluate SonarLint (https://docs.sonarsource.com/sonarcloud/improving/sonarlint/)
+    - [ ] evaluate SonarLint (https://docs.sonarsource.com/sonarcloud/improving/sonarlint/)
     - [ ] ...
   - node
     - [x] node version manager support (nvmrc)

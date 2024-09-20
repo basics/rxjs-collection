@@ -39,7 +39,15 @@
       }
     ],
     [
-      "@semantic-release/github"
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "./packages/observables/",
+            "label": "observables"
+          }
+        ]
+      }
     ]
   ],
   "extends": "semantic-release-monorepo"
