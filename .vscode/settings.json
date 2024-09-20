@@ -10,6 +10,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
+  "git.pruneOnFetch": true,
   "editor.formatOnSave": true,
   "eslint.validate": [
     "javascript",
