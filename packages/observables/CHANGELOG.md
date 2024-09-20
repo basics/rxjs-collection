@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.3-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.3-beta.1...@rxjs-collection/observables-v1.0.3-beta.2) (2024-09-20)
+
+
+### Bug Fixes
+
+* **release:** reduced artifact of each package ([b7b00cd](https://github.com/basics/rxjs-collection/commit/b7b00cd92b5f6d009a01fe00d8a9d72b9cb8d1be))
+
 # [@rxjs-collection/observables-v1.0.3-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.2...@rxjs-collection/observables-v1.0.3-beta.1) (2024-09-19)
 
 
