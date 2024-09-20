@@ -43,7 +43,7 @@
       {
         "assets": [
           {
-            "path": "./**/*",
+            "path": "./packages/observables/**/*",
             "label": "observables"
           }
         ]

@@ -39,15 +39,7 @@
       }
     ],
     [
-      "@semantic-release/github",
-      {
-        "assets": [
-          {
-            "path": "./**/*",
-            "label": "operators"
-          }
-        ]
-      }
+      "@semantic-release/github"
     ]
   ],
   "extends": "semantic-release-monorepo"
