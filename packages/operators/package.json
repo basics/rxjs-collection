@@ -11,6 +11,9 @@
   ],
   "type": "module",
   "main": "index.js",
+  "files": [
+    "./src/*"
+  ],
   "scripts": {
     "release": "npx semantic-release"
   },
