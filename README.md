@@ -10,6 +10,7 @@
 [![Renovate - Status][renovate-status-src]][renovate-status-href]
 [![License][license-src]][license-href]
 
+[![Open in StackBlitz][stackblitz-src]][stackblitz-href]
 [![Coverage Report][vitest-coverage-src]][vitest-coverage-href]
 
 ---
@@ -131,6 +132,9 @@
 
 [npm-downloads-src]: https://img.shields.io/npm/dt/nuxt-booster.svg?style=flat-square
 [npm-downloads-href]: https://npmjs.com/package/nuxt-booster
+
+[stackblitz-src]: https://developer.stackblitz.com/img/open_in_stackblitz.svg
+[stackblitz-href]: https://stackblitz.com/~/github.com/basics/rxjs-collection?workspace=vscode-remote%3A%2F%2Fwebcontainer%2Fhome%2Fbasics%2Frxjs-collection%2Frxjs-collection.code-workspace
 
 [vitest-coverage-src]: https://img.shields.io/badge/Coverage_Report-2ea44f?logo=vitest&logoColor=%23fff
 [vitest-coverage-href]: https://basics.github.io/rxjs-collection/
