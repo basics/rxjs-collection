@@ -44,7 +44,7 @@
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-security": "3.0.1",
     "eslint-plugin-vitest": "0.5.4",
-    "fetch-mock": "11.1.3",
+    "fetch-mock": "11.1.4",
     "happy-dom": "15.7.4",
     "husky": "9.1.6",
     "lint-staged": "15.2.10",
