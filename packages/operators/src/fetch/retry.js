@@ -34,7 +34,7 @@ export const networkRetry = ({ timeout = defaultTimeout, count } = {}) => {
             tap(valid => (counter = counter * valid)),
             filter(valid => valid),
             tap(() => {
-              console.log(timeout(counter++));
+              console.log(timeout(counter));
               console.log(
                 `retry: request - next: ${counter + 1} in ${timeout(counter + 1) || timeout}s`
               );

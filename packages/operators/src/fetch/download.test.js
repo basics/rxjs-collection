@@ -1,9 +1,10 @@
 import fetchMock from 'fetch-mock';
+import { of } from 'rxjs';
 import { afterEach, test, describe, beforeEach, expect } from 'vitest';
 
-import { requestObservable } from './request.js';
+import { download, downloadJSON } from './download.js';
 
-describe('request observable with default operators', function () {
+describe('download operator', function () {
   beforeEach(function () {
     fetchMock.get(
       'https://httpbin.org/my-url-fast',
@@ -23,12 +24,16 @@ describe('request observable with default operators', function () {
     fetchMock.restore();
   });
 
-  test('successfull request', () =>
+  test('successfull download', () =>
     new Promise(done => {
-      requestObservable('https://httpbin.org/my-url-fast').subscribe(async e => {
-        expect(e.ok).equal(true);
-        expect(await e.json()).deep.equal({ hello: 'fast world' });
-        done();
-      });
+      of('https://httpbin.org/my-url-fast')
+        .pipe(downloadJSON())
+        .subscribe({
+          next: data => {
+            expect(data).deep.equal({ hello: 'fast world' });
+            done();
+          },
+          complete: e => console.log('COMPLETE', e)
+        });
     }));
 });
