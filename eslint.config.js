@@ -23,7 +23,8 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        expect: 'readonly'
+        expect: 'readonly',
+        global: 'readonly'
       }
     },
     plugins: {

@@ -20,28 +20,20 @@ export const networkRetry = ({ timeout = defaultTimeout, count } = {}) => {
 
   return source => {
     return source.pipe(
-      concatMap(resp => {
-        if (!resp.ok) {
-          return throwError(() => new Error('invalid request'));
-        }
-        return of(resp);
-      }),
+      concatMap(resp => (!resp.ok && throwError(() => new Error('invalid request'))) || of(resp)),
       retry({
         count,
-        delay: () => {
-          return combineLatest([connectionObservable]).pipe(
+        delay: () =>
+          combineLatest([connectionObservable]).pipe(
+            // all defined observables have to be valid
             map(values => values.every(v => v === true)),
+            // reset counter if one observable is invalid
             tap(valid => (counter = counter * valid)),
+            // continue only if all observables are valid
             filter(valid => valid),
-            tap(() => {
-              console.log(timeout(counter++));
-              console.log(
-                `retry: request - next: ${counter + 1} in ${timeout(counter + 1) || timeout}s`
-              );
-            }),
+            tap(() => console.log(`retry: request - next: ${counter} in ${timeout(counter)}s`)),
             delay(timeout(counter++) || timeout)
-          );
-        }
+          )
       }),
       catchError(e => console.error(e))
     );

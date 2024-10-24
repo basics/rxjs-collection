@@ -1,5 +1,6 @@
 node_modules
-/.env
-/.DS_Store
+.env
+.DS_Store
+
 /coverage
 /.github_old

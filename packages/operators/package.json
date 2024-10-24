@@ -1,6 +1,6 @@
 {
   "name": "@rxjs-collection/operators",
-  "version": "1.0.2",
+  "version": "1.0.3-beta.2",
   "description": "rxjs operators",
   "license": "MIT",
   "contributors": [
@@ -19,6 +19,10 @@
   },
   "dependencies": {
     "@rxjs-collection/observables": "*",
+    "fast-equals": "5.0.1",
     "rxjs": "7.8.1"
+  },
+  "devDependencies": {
+    "node-fetch": "3.3.2"
   }
 }
