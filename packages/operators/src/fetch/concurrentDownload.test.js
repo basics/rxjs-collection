@@ -1,6 +1,7 @@
 import { concatAll, map, of } from 'rxjs';
 import { beforeEach, describe, expect, test } from 'vitest';
 
+import { log } from '../log';
 import { concurrentDownload } from './concurrentDownload';
 import { resolveJSON } from './resolve';
 
@@ -24,7 +25,9 @@ describe('multi fetch', function () {
       )
         .pipe(
           concurrentDownload(4),
+          log(false),
           resolveJSON(),
+          log(false),
           map(({ products }) => products),
           concatAll()
         )

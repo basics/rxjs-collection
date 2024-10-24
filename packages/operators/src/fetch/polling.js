@@ -1,6 +1,5 @@
 import { delay, expand, of } from 'rxjs';
 
-import { log } from '../log';
 import { download } from './download';
 import { distinctUntilResponseChanged } from './response';
 
