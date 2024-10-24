@@ -26,7 +26,7 @@ describe('download operator', function () {
     fetchMock.restore();
   });
 
-  test('successfull download', () =>
+  test('successfull download - indirect json resolve', () =>
     new Promise(done => {
       of('https://httpbin.org/my-url-fast')
         .pipe(download(), log(false), resolveJSON(), log(false))
@@ -35,6 +35,18 @@ describe('download operator', function () {
             expect(data).deep.equal({ hello: 'fast world' });
           },
           complete: e => done()
+        });
+    }));
+
+  test('successfull download - direct json resolve', () =>
+    new Promise(done => {
+      of('https://httpbin.org/my-url-fast')
+        .pipe(downloadJSON(), log(false))
+        .subscribe({
+          next: data => {
+            expect(data).deep.equal({ hello: 'fast world' });
+          },
+          complete: () => done()
         });
     }));
 });
