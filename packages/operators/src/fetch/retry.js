@@ -30,15 +30,13 @@ export const networkRetry = ({ timeout = defaultTimeout, count } = {}) => {
         count,
         delay: () => {
           return combineLatest([connectionObservable]).pipe(
+            // all defined observables have to be valid
             map(values => values.every(v => v === true)),
+            // reset counter if one observable is invalid
             tap(valid => (counter = counter * valid)),
+            // continue only if all observables are valid
             filter(valid => valid),
-            tap(() => {
-              console.log(timeout(counter));
-              console.log(
-                `retry: request - next: ${counter + 1} in ${timeout(counter + 1) || timeout}s`
-              );
-            }),
+            tap(() => console.log(`retry: request - next: ${counter} in ${timeout(counter)}s`)),
             delay(timeout(counter++) || timeout)
           );
         }

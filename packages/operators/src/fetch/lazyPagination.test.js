@@ -39,7 +39,7 @@ describe('lazy pagination operator', function () {
 
       pager.next({ value: 2 });
       pager.next({ value: 3 });
-      pager.next({ value: 4 });
+      pager.next({ value: 12 });
       pager.next({ value: 5 });
       pager.next({ value: 6 });
       pager.next({ value: 7 });

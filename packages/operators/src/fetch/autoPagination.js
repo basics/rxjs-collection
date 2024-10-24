@@ -9,7 +9,7 @@ export const autoPagination = ({ resolveRoute }) => {
         return from(resolveRoute(url)).pipe(
           download(),
           expand(resp => {
-            return from(resolveRoute(url, resp.clone())).pipe(
+            return from(resolveRoute(url, resp)).pipe(
               filter(url => !!url),
               download()
             );
