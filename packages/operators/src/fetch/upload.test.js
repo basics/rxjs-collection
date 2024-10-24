@@ -38,11 +38,13 @@ describe('request observable with default operators', function () {
     return new Promise(done => {
       of(req)
         .pipe(upload(), log(false), resolveJSON(), log(false))
-        .subscribe(e => {
-          expect(e)
-            .deep.includes({ originalname: 'test_image.jpg' })
-            .have.all.keys('filename', 'location');
-          done();
+        .subscribe({
+          next: e => {
+            expect(e)
+              .deep.includes({ originalname: 'test_image.jpg' })
+              .have.all.keys('filename', 'location');
+          },
+          complete: () => done()
         });
     });
   });

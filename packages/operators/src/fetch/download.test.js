@@ -2,6 +2,7 @@ import fetchMock from 'fetch-mock';
 import { of } from 'rxjs';
 import { afterEach, test, describe, beforeEach, expect } from 'vitest';
 
+import { log } from '../log.js';
 import { download, downloadJSON } from './download.js';
 
 describe('download operator', function () {
@@ -27,13 +28,12 @@ describe('download operator', function () {
   test('successfull download', () =>
     new Promise(done => {
       of('https://httpbin.org/my-url-fast')
-        .pipe(downloadJSON())
+        .pipe(downloadJSON(), log(false))
         .subscribe({
           next: data => {
             expect(data).deep.equal({ hello: 'fast world' });
-            done();
           },
-          complete: e => console.log('COMPLETE', e)
+          complete: e => done()
         });
     }));
 });

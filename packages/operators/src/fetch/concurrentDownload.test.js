@@ -30,10 +30,7 @@ describe('multi fetch', function () {
         )
         .subscribe({
           next: e => console.log(e),
-          complete: () => {
-            console.log('COMPLETE');
-            done();
-          }
+          complete: () => done()
         });
     });
   });

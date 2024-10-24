@@ -1,6 +1,7 @@
 import { concatAll, map, of } from 'rxjs';
 import { beforeEach, describe, expect, test } from 'vitest';
 
+import { log } from '../log';
 import { autoPagination } from './autoPagination';
 import { resolveJSON } from './resolve';
 
@@ -26,16 +27,15 @@ describe('auto pagination', function () {
               }
             }
           }),
+          log(false),
           resolveJSON(),
+          log(false),
           map(({ products }) => products),
           concatAll()
         )
         .subscribe({
           next: e => console.log(e),
-          complete: () => {
-            console.log('COMPLETE');
-            done();
-          }
+          complete: () => done()
         });
     });
   });

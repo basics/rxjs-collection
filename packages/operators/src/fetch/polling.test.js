@@ -9,21 +9,21 @@ describe('polling', function () {
   });
 
   test('auto polling', async function () {
-    of({ url: new URL('https://dummyjson.com/products') })
-      .pipe(
-        polling({
-          validateResult: data => {
-            return data.total > data.skip + data.limit;
-          }
-        })
-        // map(({ data: { products } }) => products),
-        // concatAll()
-      )
-      .subscribe({
-        next: e => console.log('aha'),
-        complete: () => console.log('COMPLETE')
-      });
-
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    return new Promise(done => {
+      of({ url: new URL('https://dummyjson.com/products') })
+        .pipe(
+          polling({
+            validateResult: data => {
+              return data.total > data.skip + data.limit;
+            }
+          })
+          // map(({ data: { products } }) => products),
+          // concatAll()
+        )
+        .subscribe({
+          next: e => console.log('aha'),
+          complete: () => done()
+        });
+    });
   });
 });

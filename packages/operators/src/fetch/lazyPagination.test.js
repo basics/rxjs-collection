@@ -1,6 +1,7 @@
 import { concatAll, map, of, Subject } from 'rxjs';
 import { beforeEach, describe, expect, test } from 'vitest';
 
+import { log } from '../log';
 import { lazyPagination } from './lazyPagination';
 import { resolveJSON } from './resolve';
 
@@ -16,7 +17,7 @@ describe('lazy pagination operator', function () {
       of({ url: new URL('https://dummyjson.com/products'), pager, concurrent: 4 })
         .pipe(
           lazyPagination({
-            createRoute: (url, { value, limit = 10 }) => {
+            resolveRoute: (url, { value, limit = 10 }) => {
               const newUrl = new URL(`${url}`);
               newUrl.searchParams.set('skip', value * limit);
               newUrl.searchParams.set('limit', limit);
@@ -24,16 +25,16 @@ describe('lazy pagination operator', function () {
               return newUrl;
             }
           }),
+          log(false),
           resolveJSON(),
+          log(false),
           map(({ products }) => products),
-          concatAll()
+          concatAll(),
+          log(false)
         )
         .subscribe({
           next: e => console.log(e),
-          complete: () => {
-            console.log('COMPLETE');
-            done();
-          }
+          complete: () => done()
         });
 
       pager.next({ value: 2 });
