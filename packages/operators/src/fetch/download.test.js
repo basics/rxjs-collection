@@ -4,6 +4,7 @@ import { afterEach, test, describe, beforeEach, expect } from 'vitest';
 
 import { log } from '../log.js';
 import { download, downloadJSON } from './download.js';
+import { resolveJSON } from './resolve.js';
 
 describe('download operator', function () {
   beforeEach(function () {
@@ -28,7 +29,7 @@ describe('download operator', function () {
   test('successfull download', () =>
     new Promise(done => {
       of('https://httpbin.org/my-url-fast')
-        .pipe(downloadJSON(), log(false))
+        .pipe(download(), log(false), resolveJSON(), log(false))
         .subscribe({
           next: data => {
             expect(data).deep.equal({ hello: 'fast world' });
