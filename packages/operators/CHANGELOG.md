@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.3-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.3-beta.1...@rxjs-collection/operators-v1.0.3-beta.2) (2024-10-24)
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([dfd1950](https://github.com/basics/rxjs-collection/commit/dfd1950821e2a1436bcd0dfde45b5b07c63dd2b8))
+
 # [@rxjs-collection/operators-v1.0.3-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.2...@rxjs-collection/operators-v1.0.3-beta.1) (2024-10-24)
 
 
