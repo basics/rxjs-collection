@@ -8,7 +8,7 @@ import { request } from './request.js';
 describe('request observable with default operators', function () {
   beforeEach(function () {
     let counter = 0;
-    fetchMock.get(
+    fetchMock.mockGlobal().get(
       'https://httpbin.org/my-url-fast',
       () => {
         return new Response(JSON.stringify({ hello: 'fast world' }), {
@@ -21,7 +21,7 @@ describe('request observable with default operators', function () {
   });
 
   afterEach(function () {
-    fetchMock.restore();
+    fetchMock.unmockGlobal();
   });
 
   test('successfull request', () =>
@@ -29,9 +29,7 @@ describe('request observable with default operators', function () {
       of('https://httpbin.org/my-url-fast')
         .pipe(request(), log(false))
         .subscribe({
-          next: resp => {
-            expect(resp).deep.includes({ ok: true });
-          },
+          next: resp => expect(resp).deep.includes({ ok: true }),
           complete: () => done()
         });
     }));

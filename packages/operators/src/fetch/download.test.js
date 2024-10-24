@@ -8,22 +8,20 @@ import { resolveJSON } from './resolve.js';
 
 describe('download operator', function () {
   beforeEach(function () {
-    fetchMock.get(
+    fetchMock.mockGlobal().get(
       'https://httpbin.org/my-url-fast',
-      new Response(JSON.stringify({ hello: 'fast world' }), {
-        status: 200,
-        headers: {
-          'Content-type': 'application/json'
-        }
-      }),
-      {
-        delay: 1000
-      }
+      () => {
+        return new Response(JSON.stringify({ hello: 'fast world' }), {
+          status: 200,
+          headers: { 'Content-type': 'application/json' }
+        });
+      },
+      { delay: 1000 }
     );
   });
 
   afterEach(function () {
-    fetchMock.restore();
+    fetchMock.unmockGlobal();
   });
 
   test('successfull download - indirect json resolve', () =>
@@ -31,10 +29,8 @@ describe('download operator', function () {
       of('https://httpbin.org/my-url-fast')
         .pipe(download(), log(false), resolveJSON(), log(false))
         .subscribe({
-          next: data => {
-            expect(data).deep.equal({ hello: 'fast world' });
-          },
-          complete: e => done()
+          next: data => expect(data).deep.equal({ hello: 'fast world' }),
+          complete: () => done()
         });
     }));
 
@@ -43,9 +39,7 @@ describe('download operator', function () {
       of('https://httpbin.org/my-url-fast')
         .pipe(downloadJSON(), log(false))
         .subscribe({
-          next: data => {
-            expect(data).deep.equal({ hello: 'fast world' });
-          },
+          next: data => expect(data).deep.equal({ hello: 'fast world' }),
           complete: () => done()
         });
     }));

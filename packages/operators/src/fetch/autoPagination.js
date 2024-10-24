@@ -8,12 +8,12 @@ export const autoPagination = ({ resolveRoute }) => {
       concatMap(({ url }) => {
         return from(resolveRoute(url)).pipe(
           download(),
-          expand(resp => {
-            return from(resolveRoute(url, resp)).pipe(
+          expand(resp =>
+            from(resolveRoute(url, resp)).pipe(
               filter(url => !!url),
               download()
-            );
-          })
+            )
+          )
         );
       }),
       map(resp => resp.clone())
