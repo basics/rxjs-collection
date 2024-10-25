@@ -1,5 +1,13 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.4](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.3...@rxjs-collection/operators-v1.0.4) (2024-10-25)
+
+
+### Bug Fixes
+
+* **fetch:** missed optimized code segmentation ([36d7543](https://github.com/basics/rxjs-collection/commit/36d7543e17508c27d4925f3854391e3f65eb6b47))
+* **fetch:** optimized code segmentation ([9bcd2f3](https://github.com/basics/rxjs-collection/commit/9bcd2f317b8ee540f0a01e1b21733095a3c836e1))
+
 # [@rxjs-collection/operators-v1.0.4-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.3...@rxjs-collection/operators-v1.0.4-beta.1) (2024-10-25)
 
 

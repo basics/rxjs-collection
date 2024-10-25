@@ -17,7 +17,7 @@ describe('request retry', function () {
     let counter = 0;
 
     const mockObservable = of(null).pipe(
-      map(() => ({ ok: !(++counter < 3) })),
+      map(() => ({ ok: ++counter >= 3 })),
       networkRetry({ timeout: () => 1000 })
     );
 
