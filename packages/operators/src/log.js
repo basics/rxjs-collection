@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 
 export const log = (active = true) => {
-  return source => {
-    if (active) {
+  if (active) {
+    return source => {
       return new Observable(observer => {
         return source.subscribe(
           val => {
@@ -19,8 +19,8 @@ export const log = (active = true) => {
           }
         );
       });
-    } else {
-      return source;
-    }
-  };
+    };
+  } else {
+    return source => source;
+  }
 };
