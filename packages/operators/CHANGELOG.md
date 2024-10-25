@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.5](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.4...@rxjs-collection/operators-v1.0.5) (2024-10-25)
+
+
+### Bug Fixes
+
+* **fetch:** implemented sonar optimizations ([9063f6e](https://github.com/basics/rxjs-collection/commit/9063f6e9fc85f5d544af4e6d92d1d60e32cccf94))
+
 # [@rxjs-collection/operators-v1.0.5-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.4...@rxjs-collection/operators-v1.0.5-beta.1) (2024-10-25)
 
 
