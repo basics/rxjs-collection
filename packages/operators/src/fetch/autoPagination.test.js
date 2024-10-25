@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, test } from 'vitest';
 
 import { log } from '../log';
 import { autoPagination } from './autoPagination';
-import { resolveJSON } from './resolve';
+import { resolveJSON } from './response';
 
 describe('auto pagination', function () {
   beforeEach(function () {

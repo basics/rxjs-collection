@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 import { log } from '../log';
 import { polling } from './polling';
-import { resolveJSON } from './resolve';
+import { resolveJSON } from './response';
 
 describe('polling', function () {
   beforeEach(function () {

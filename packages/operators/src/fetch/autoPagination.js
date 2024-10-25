@@ -1,17 +1,17 @@
 import { concatMap, expand, filter, from, map } from 'rxjs';
 
-import { download } from './download';
+import { request } from './request';
 
 export const autoPagination = ({ resolveRoute }) => {
   return source =>
     source.pipe(
       concatMap(({ url }) => {
         return from(resolveRoute(url)).pipe(
-          download(),
+          request(),
           expand(resp =>
             from(resolveRoute(url, resp)).pipe(
               filter(url => !!url),
-              download()
+              request()
             )
           )
         );
