@@ -141,29 +141,29 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: coverage
 
-  merge-back-to-beta:
-    name: Update beta branch
-    needs: semantic-version
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [20]
+  # merge-back-to-beta:
+  #   name: Update beta branch
+  #   needs: semantic-version
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       node: [20]
 
-    runs-on: ${{ matrix.os }}
+  #   runs-on: ${{ matrix.os }}
 
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: checkout repo
+  #       uses: actions/checkout@v4
 
-      - name: set git config
-        run: |
-            git config --local user.email "actions@github.com"
-            git config --local user.name "Github Actions"
+  #     - name: set git config
+  #       run: |
+  #           git config --local user.email "actions@github.com"
+  #           git config --local user.name "Github Actions"
 
-      - name: merge main back to beta
-        run: |
-            git fetch --unshallow
-            git checkout beta
-            git pull
-            git merge --no-ff main -m "Auto-merge main back to beta"
-            git push
+  #     - name: merge main back to beta
+  #       run: |
+  #           git fetch --unshallow
+  #           git checkout beta
+  #           git pull
+  #           git merge --no-ff main -m "Auto-merge main back to beta"
+  #           git push
