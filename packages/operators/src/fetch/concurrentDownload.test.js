@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, test } from 'vitest';
 
 import { log } from '../log';
 import { concurrentDownload } from './concurrentDownload';
-import { resolveJSON } from './resolve';
+import { resolveJSON } from './response';
 
 describe('multi fetch', function () {
   beforeEach(function () {

@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.4](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.3...@rxjs-collection/observables-v1.0.4) (2024-10-24)
+
+
+### Bug Fixes
+
+* **fetch:** added fetch operators ([e248db8](https://github.com/basics/rxjs-collection/commit/e248db81cd681366c0654f30a2b0f664e1e30a5c))
+
 # [@rxjs-collection/observables-v1.0.4-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.3...@rxjs-collection/observables-v1.0.4-beta.1) (2024-10-24)
 
 
