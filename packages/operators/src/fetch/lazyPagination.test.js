@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, test } from 'vitest';
 
 import { log } from '../log';
 import { lazyPagination } from './lazyPagination';
-import { resolveJSON } from './resolve';
+import { resolveJSON } from './response';
 
 describe('lazy pagination operator', function () {
   beforeEach(function () {
