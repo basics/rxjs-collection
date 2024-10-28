@@ -1,5 +1,6 @@
 import { concatMap } from 'rxjs';
 
+import { cache } from './cache';
 import { resolveBlob, resolveJSON, resolveText } from './response';
 import { networkRetry } from './retry';
 
