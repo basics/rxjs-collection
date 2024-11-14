@@ -1,16 +1,21 @@
-import { of } from 'rxjs';
-import { afterEach, test, describe, beforeEach, expect } from 'vitest';
+import { map, of, tap } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
+import { afterEach, test, describe, beforeEach, expect, vi } from 'vitest';
 
 import { log } from '../log';
 import { distinctUntilResponseChanged, resolveJSON, resolveText } from './response';
 
 describe('response', function () {
+  const testScheduler = new TestScheduler((actual, expected) => {
+    expect(actual).to.eql(expected);
+  });
+
   beforeEach(function () {
     //
   });
 
   afterEach(function () {
-    //
+    vi.restoreAllMocks();
   });
 
   test('resolve json', () => {
@@ -57,4 +62,50 @@ describe('response', function () {
         });
     });
   });
+
+  test('marble testing', async () => {
+    const triggerValues = {
+      a: createResponse('a', 'a'),
+      b: createResponse('b', 'a'),
+      c: createResponse('c', 'b'),
+      d: createResponse('d', 'b'),
+      e: createResponse('e', 'c'),
+      f: createResponse('f', 'a'),
+      g: createResponse('g', 'a'),
+      h: createResponse('h', 'b')
+    };
+
+    const expectedValues = Object.fromEntries(
+      await Promise.all(
+        Object.entries(triggerValues).map(async ([key, resp]) => {
+          return [`/${key}`, await resp.clone().arrayBuffer()];
+        })
+      )
+    );
+
+    vi.spyOn(Response.prototype, 'arrayBuffer').mockImplementation(function (e) {
+      return [expectedValues[this.url]];
+    });
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(
+        cold('-a-b-c-d-e-f-g-h-', triggerValues).pipe(
+          distinctUntilResponseChanged(),
+          map(resp => resp.arrayBuffer())
+        )
+      ).toBe('-a---c---e-f---h-', {
+        a: triggerValues.a.arrayBuffer(),
+        c: triggerValues.c.arrayBuffer(),
+        e: triggerValues.e.arrayBuffer(),
+        f: triggerValues.f.arrayBuffer(),
+        h: triggerValues.h.arrayBuffer()
+      });
+    });
+  });
 });
+
+const createResponse = (key, value) => {
+  const resp = new Response(value);
+  Object.defineProperty(resp, 'url', { value: `/${key}` });
+  return resp;
+};

@@ -1,11 +1,11 @@
-import { concatMap, map } from 'rxjs';
+import { concatMap, map, tap } from 'rxjs';
 
 import { concurrentRequest } from './concurrentRequest';
 
-export const lazyPagination = ({ resolveRoute }) => {
+export const lazyPagination = ({ pager, concurrent, resolveRoute }) => {
   return source =>
     source.pipe(
-      concatMap(({ url, pager, concurrent }) => {
+      concatMap(({ url }) => {
         return pager.pipe(
           map(options => resolveRoute(url, options)),
           concurrentRequest(concurrent)

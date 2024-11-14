@@ -5,7 +5,7 @@ import { request } from './request';
 export const autoPagination = ({ resolveRoute }) => {
   return source =>
     source.pipe(
-      concatMap(({ url }) => from(resolveRoute(url)).pipe(request(), getNext(resolveRoute, url))),
+      concatMap(url => from(resolveRoute(url)).pipe(request(), getNext(resolveRoute, url))),
       map(resp => resp.clone())
     );
 };

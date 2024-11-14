@@ -1,4 +1,4 @@
-import { mergeMap, of, tap } from 'rxjs';
+import { mergeMap, of } from 'rxjs';
 
 import { request } from './request';
 

@@ -1,30 +1,40 @@
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { beforeEach, describe, expect, test } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 import { networkRetry } from './retry';
 
 describe('request retry', function () {
-  let testScheduler;
-
-  beforeEach(function () {
-    testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).deep.equal(expected);
-    });
+  const testScheduler = new TestScheduler((actual, expected) => {
+    expect(actual).deep.equal(expected);
   });
 
-  test('network retry', async function () {
-    let counter = 0;
+  beforeEach(() => {
+    //
+  });
 
-    const mockObservable = of(null).pipe(
-      map(() => ({ ok: ++counter >= 3 })),
-      networkRetry({ timeout: () => 1000 })
-    );
+  afterEach(() => {
+    //
+  });
 
-    testScheduler.run(({ expectObservable }) => {
-      expectObservable(mockObservable).toBe('2000ms (a|)', {
-        a: { ok: true }
-      });
+  test('classic testing', () => {
+    //
+  });
+
+  test('marble testing', () => {
+    const error = new Response('', { status: 500 });
+    const success = new Response('a', { status: 200 });
+    const orderedResponses = [error, error, success];
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(
+        cold('-a------', {
+          a: () => orderedResponses.shift()
+        }).pipe(
+          map(fn => fn()),
+          networkRetry({ timeout: () => 5 })
+        )
+      ).toBe('-------------a', { a: success }, new Error());
     });
   });
 });
