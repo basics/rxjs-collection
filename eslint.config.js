@@ -8,7 +8,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 // https://github.com/eslint-community/eslint-plugin-security
 import eslintPluginSecurity from 'eslint-plugin-security';
 // https://github.com/vitest-dev/eslint-plugin-vitest
-import vitest from 'eslint-plugin-vitest';
+import vitest from '@vitest/eslint-plugin';
 import globals from 'globals';
 
 import eslintIgnores from './eslint.ignores.js';
