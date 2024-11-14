@@ -10,14 +10,6 @@ describe('concurrent request - mocked', function () {
     expect(actual).to.eql(expected);
   });
 
-  const getTriggerValues = () => ({
-    a: { t: 2, v: 'a' },
-    b: { t: 5, v: 'b' },
-    c: { t: 1, v: 'c' },
-    d: { t: 3, v: 'd' },
-    e: { t: 4, v: 'e' }
-  });
-
   beforeEach(function () {
     vi.doMock('./request', importOriginal => ({
       request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
@@ -31,7 +23,13 @@ describe('concurrent request - mocked', function () {
   test('classic testing', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
-    const triggerVal = Object.values(getTriggerValues());
+    const triggerVal = [
+      { t: 20, v: 'a' },
+      { t: 50, v: 'b' },
+      { t: 10, v: 'c' },
+      { t: 30, v: 'd' },
+      { t: 40, v: 'e' }
+    ];
     const sortedVal = [...triggerVal].sort((a, b) => a.t - b.t).map(({ v }) => v);
 
     await new Promise((done, error) => {
@@ -48,7 +46,13 @@ describe('concurrent request - mocked', function () {
   test('marble testing', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
-    const triggerVal = getTriggerValues();
+    const triggerVal = {
+      a: { t: 2, v: 'a' },
+      b: { t: 5, v: 'b' },
+      c: { t: 1, v: 'c' },
+      d: { t: 3, v: 'd' },
+      e: { t: 4, v: 'e' }
+    };
     const expectedVal = Object.fromEntries(Object.entries(triggerVal).map(([k, { v }]) => [k, v]));
 
     testScheduler.run(({ cold, expectObservable }) => {

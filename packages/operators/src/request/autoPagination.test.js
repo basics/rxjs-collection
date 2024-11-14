@@ -28,17 +28,16 @@ describe('auto pagination - mocked', function () {
   test('classic testing', async () => {
     const { autoPagination } = await import('./autoPagination');
 
-    const triggerValues = {
-      a: { t: 2, v: { value: 'a', next: 1 } },
-      b: { t: 5, v: { value: 'b', next: 2 } },
-      c: { t: 3, v: { value: 'c', next: 3 } },
-      d: { t: 1, v: { value: 'd', next: 4 } },
-      e: { t: 4, v: { value: 'e', next: null } }
-    };
+    const triggerVal = [
+      { t: 2, v: { value: 'a', next: 1 } },
+      { t: 5, v: { value: 'b', next: 2 } },
+      { t: 3, v: { value: 'c', next: 3 } },
+      { t: 1, v: { value: 'd', next: 4 } },
+      { t: 4, v: { value: 'e', next: null } }
+    ];
 
-    const expectedVal = Array.from(Object.entries(triggerValues)).map(([k, { v }]) => v);
+    const expectedVal = triggerVal.map(({ v }) => v);
 
-    const triggerVal = Object.values(triggerValues);
     await new Promise((done, error) => {
       of(triggerVal[0])
         .pipe(
@@ -56,7 +55,7 @@ describe('auto pagination - mocked', function () {
     });
   });
 
-  test.skip('marble testing', async () => {
+  test('marble testing', async () => {
     const { autoPagination } = await import('./autoPagination');
 
     const triggerVal = {
