@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 import { networkRetry } from './retry';
 
-describe('request retry', function () {
+describe('request retry', () => {
   const testScheduler = new TestScheduler((actual, expected) => {
     expect(actual).deep.equal(expected);
   });
@@ -27,14 +27,17 @@ describe('request retry', function () {
     const orderedResponses = [error, error, success];
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(
-        cold('-a------', {
-          a: () => orderedResponses.shift()
-        }).pipe(
-          map(fn => fn()),
-          networkRetry({ timeout: () => 5 })
-        )
-      ).toBe('-------------a', { a: success }, new Error());
+      // retry is repeating the sequence
+      // if you define a delay, you have to add the delay to the subscribe multiple times (num retries)
+      const stream = cold('a----------', {
+        a: () => orderedResponses.shift()
+      }).pipe(
+        map(fn => fn()),
+        networkRetry({ timeout: () => 5 })
+      );
+
+      const unsubA = '^----------!';
+      expectObservable(stream, unsubA).toBe('----------a', { a: success }, new Error());
     });
   });
 });

@@ -1,16 +1,16 @@
 import { concatAll, concatMap, delay, from, map, of, toArray } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { log } from '../log';
+import { log, logOutput, logResult } from '../log';
 import { resolveJSON } from './response';
 
-describe('auto pagination - mocked', function () {
+describe('auto pagination - mocked', () => {
   const testScheduler = new TestScheduler((actual, expected) => {
     expect(actual).to.eql(expected);
   });
 
-  beforeEach(function () {
+  beforeEach(() => {
     vi.doMock('./request', importOriginal => ({
       request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
     }));
@@ -23,6 +23,10 @@ describe('auto pagination - mocked', function () {
 
   afterEach(() => {
     vi.doUnmock('./request');
+  });
+
+  afterAll(() => {
+    vi.resetModules();
   });
 
   test('classic testing', async () => {
@@ -76,47 +80,41 @@ describe('auto pagination - mocked', function () {
           autoPagination({
             resolveRoute: (conf, resp) =>
               ((!resp || resp.next) && [triggerVal[resp?.next || 'a']]) || []
-          })
+          }),
+          log('marble:result')
         )
       ).toBe('---a----b--cd---e----', expectedVal);
     });
   });
 });
 
-describe.skip('auto pagination - demo', function () {
-  beforeEach(function () {
-    vi.resetModules();
-  });
-
-  test('sample testing', async function () {
+describe('auto pagination - demo', () => {
+  test('sample testing', async () => {
     const { autoPagination } = await import('./autoPagination');
 
-    return new Promise(done => {
-      return of(new URL('https://dummyjson.com/products'))
-        .pipe(
-          autoPagination({
-            resolveRoute: async (url, resp) => {
-              const data = (await resp?.json()) || { skip: -10, limit: 10 };
+    await logResult(
+      'demo',
+      of(new URL('https://dummyjson.com/products')).pipe(
+        autoPagination({
+          resolveRoute: async (url, resp) => {
+            const data = (await resp?.json()) || { skip: -10, limit: 10 };
 
-              if (!data.total || data.total > data.skip + data.limit) {
-                const newUrl = new URL(`${url}`);
-                newUrl.searchParams.set('skip', data.skip + data.limit);
-                newUrl.searchParams.set('limit', data.limit);
-                newUrl.searchParams.set('select', 'title,price');
-                return newUrl;
-              }
+            if (!data.total || data.total > data.skip + data.limit) {
+              const newUrl = new URL(`${url}`);
+              newUrl.searchParams.set('skip', data.skip + data.limit);
+              newUrl.searchParams.set('limit', data.limit);
+              newUrl.searchParams.set('select', 'title,price');
+              return newUrl;
             }
-          }),
-          log(false),
-          resolveJSON(),
-          log(false),
-          map(({ products }) => products),
-          concatAll()
-        )
-        .subscribe({
-          next: e => console.log(e),
-          complete: () => done()
-        });
-    });
+          }
+        }),
+        log('demo:response'),
+        resolveJSON(),
+        log('demo:response:json'),
+        map(({ products }) => products),
+        log('demo:response:result'),
+        concatAll()
+      )
+    );
   });
 });

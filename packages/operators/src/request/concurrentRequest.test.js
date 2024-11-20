@@ -1,16 +1,16 @@
 import { concatAll, concatMap, delay, from, map, of, tap, toArray } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { log } from '../log';
+import { log, logResult } from '../log';
 import { resolveJSON } from './response';
 
-describe('concurrent request - mocked', function () {
+describe('concurrent request - mocked', () => {
   const testScheduler = new TestScheduler((actual, expected) => {
     expect(actual).to.eql(expected);
   });
 
-  beforeEach(function () {
+  beforeEach(() => {
     vi.doMock('./request', importOriginal => ({
       request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
     }));
@@ -18,6 +18,10 @@ describe('concurrent request - mocked', function () {
 
   afterEach(() => {
     vi.doUnmock('./request');
+  });
+
+  afterAll(function () {
+    vi.resetModules();
   });
 
   test('classic testing', async () => {
@@ -63,15 +67,12 @@ describe('concurrent request - mocked', function () {
   });
 });
 
-describe.skip('concurrent request - demo', function () {
-  beforeAll(function () {
-    vi.resetModules();
-  });
-
+describe('concurrent request - demo', () => {
   test('sample testing', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
-    await new Promise(done => {
+    await logResult(
+      'demo',
       of(
         new URL('https://dummyjson.com/products?limit=10&skip=0&select=title,price'),
         new URL('https://dummyjson.com/products?limit=10&skip=10&select=title,price'),
@@ -82,19 +83,15 @@ describe.skip('concurrent request - demo', function () {
         new URL('https://dummyjson.com/products?limit=10&skip=60&select=title,price'),
         new URL('https://dummyjson.com/products?limit=10&skip=70&select=title,price'),
         new URL('https://dummyjson.com/products?limit=10&skip=80&select=title,price')
+      ).pipe(
+        concurrentRequest(4),
+        log('demo:response'),
+        resolveJSON(),
+        log('demo:response:json'),
+        map(({ products }) => products),
+        log('demo:response:result'),
+        concatAll()
       )
-        .pipe(
-          concurrentRequest(4),
-          log(false),
-          resolveJSON(),
-          log(false),
-          map(({ products }) => products),
-          concatAll()
-        )
-        .subscribe({
-          next: e => console.log(e),
-          complete: () => done()
-        });
-    });
+    );
   });
 });

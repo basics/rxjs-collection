@@ -1,15 +1,15 @@
 import { concatAll, concatMap, delay, map, of, Subject, tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { log } from '../log';
+import { log, logResult } from '../log';
 
-describe('lazy pagination - mocked', function () {
+describe('lazy pagination - mocked', () => {
   const testScheduler = new TestScheduler((actual, expected) => {
     expect(actual).to.eql(expected);
   });
 
-  beforeEach(function () {
+  beforeEach(() => {
     vi.doMock('./request', importOriginal => ({
       request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
     }));
@@ -17,6 +17,10 @@ describe('lazy pagination - mocked', function () {
 
   afterEach(() => {
     vi.doUnmock('./request');
+  });
+
+  afterAll(() => {
+    vi.resetModules();
   });
 
   test('classic testing', () => {
@@ -63,51 +67,46 @@ describe('lazy pagination - mocked', function () {
   });
 });
 
-describe.skip('lazy pagination - demo', function () {
-  beforeAll(function () {
-    vi.resetModules();
-  });
-
-  test('sample testing', async function () {
+describe('lazy pagination - demo', () => {
+  test('sample testing', async () => {
     const { lazyPagination } = await import('./lazyPagination');
     const { resolveJSON } = await import('./response');
+
     const pager = new Subject();
 
-    return new Promise(done => {
-      of({ url: new URL('https://dummyjson.com/products') })
-        .pipe(
-          lazyPagination({
-            pager,
-            concurrent: 4,
-            resolveRoute: (url, { value, limit = 10 }) => {
-              const newUrl = new URL(`${url}`);
-              newUrl.searchParams.set('skip', value * limit);
-              newUrl.searchParams.set('limit', limit);
-              newUrl.searchParams.set('select', 'title,price');
-              return newUrl;
-            }
-          }),
-          log(false),
-          resolveJSON(),
-          log(false),
-          map(({ products }) => products),
-          concatAll(),
-          log(false)
-        )
-        .subscribe({
-          next: e => console.log(e),
-          complete: () => done()
-        });
+    const result = logResult(
+      'demo',
+      of({ url: new URL('https://dummyjson.com/products') }).pipe(
+        lazyPagination({
+          pager,
+          concurrent: 4,
+          resolveRoute: (url, { value, limit = 10 }) => {
+            const newUrl = new URL(`${url}`);
+            newUrl.searchParams.set('skip', value * limit);
+            newUrl.searchParams.set('limit', limit);
+            newUrl.searchParams.set('select', 'title,price');
+            return newUrl;
+          }
+        }),
+        log('demo:response'),
+        resolveJSON(),
+        log('demo:response:json'),
+        map(({ products }) => products),
+        log('demo:response:result'),
+        concatAll()
+      )
+    );
 
-      pager.next({ value: 2 });
-      pager.next({ value: 3 });
-      pager.next({ value: 12 });
-      pager.next({ value: 5 });
-      pager.next({ value: 6 });
-      pager.next({ value: 7 });
-      pager.next({ value: 8 });
-      pager.next({ value: 9 });
-      pager.complete();
-    });
+    pager.next({ value: 2 });
+    pager.next({ value: 3 });
+    pager.next({ value: 12 });
+    pager.next({ value: 5 });
+    pager.next({ value: 6 });
+    pager.next({ value: 7 });
+    pager.next({ value: 8 });
+    pager.next({ value: 9 });
+    pager.complete();
+
+    await result;
   });
 });

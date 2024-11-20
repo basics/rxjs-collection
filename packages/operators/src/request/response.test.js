@@ -2,19 +2,20 @@ import { map, of, tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterEach, test, describe, beforeEach, expect, vi } from 'vitest';
 
+import { createResponse } from '../../../test-utils/response';
 import { log } from '../log';
 import { distinctUntilResponseChanged, resolveJSON, resolveText } from './response';
 
-describe('response', function () {
+describe('response', () => {
   const testScheduler = new TestScheduler((actual, expected) => {
     expect(actual).to.eql(expected);
   });
 
-  beforeEach(function () {
+  beforeEach(() => {
     //
   });
 
-  afterEach(function () {
+  afterEach(() => {
     vi.restoreAllMocks();
   });
 
@@ -65,14 +66,14 @@ describe('response', function () {
 
   test('marble testing', async () => {
     const triggerValues = {
-      a: createResponse('a', 'a'),
-      b: createResponse('b', 'a'),
-      c: createResponse('c', 'b'),
-      d: createResponse('d', 'b'),
-      e: createResponse('e', 'c'),
-      f: createResponse('f', 'a'),
-      g: createResponse('g', 'a'),
-      h: createResponse('h', 'b')
+      a: createResponse('/a', 'a'),
+      b: createResponse('/b', 'a'),
+      c: createResponse('/c', 'b'),
+      d: createResponse('/d', 'b'),
+      e: createResponse('/e', 'c'),
+      f: createResponse('/f', 'a'),
+      g: createResponse('/g', 'a'),
+      h: createResponse('/h', 'b')
     };
 
     const expectedValues = Object.fromEntries(
@@ -104,8 +105,8 @@ describe('response', function () {
   });
 });
 
-const createResponse = (key, value) => {
-  const resp = new Response(value);
-  Object.defineProperty(resp, 'url', { value: `/${key}` });
-  return resp;
-};
+const pick = (obj, arr) =>
+  arr.reduce(
+    (acc, record) => (record in obj && (acc[String(record)] = obj[String(record)]), acc),
+    {}
+  );

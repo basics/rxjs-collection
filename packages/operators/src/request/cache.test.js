@@ -1,21 +1,49 @@
 import fetchMock from 'fetch-mock';
-import { defer, delay, from, interval, map, mapTo, of, tap, throttleTime } from 'rxjs';
+import { defer, delay, map, of, tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 import { cache } from './cache';
 import { requestText } from './request';
 
-describe('cache - mocked', function () {
-  beforeEach(function () {
+describe('cache - mocked', () => {
+  const testScheduler = new TestScheduler((actual, expected) => {
+    expect(actual).deep.equal(expected);
+  });
+
+  beforeEach(() => {
     //
   });
 
-  afterEach(function () {
+  afterEach(() => {
     //
   });
 
-  test.skip('cache resetted after 100ms', async function () {
+  test('marble testing', () => {
+    const initial = new Response('initial', { status: 200 });
+    const updated = new Response('updated', { status: 200 });
+    const orderedResponses = [initial, updated];
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a-----------', {
+        a: () => orderedResponses.shift()
+      }).pipe(
+        map(fn => fn()),
+        cache(2)
+      );
+
+      const unsubA = '-^!';
+      expectObservable(stream, unsubA).toBe('-a', { a: initial }, new Error());
+
+      const unsubB = '----^!';
+      expectObservable(stream, unsubB).toBe('----a', { a: initial }, new Error());
+
+      const unsubC = '---------^--!';
+      expectObservable(stream, unsubC).toBe('---------a', { a: updated }, new Error());
+    });
+  });
+
+  test('cache resetted after 100ms', async () => {
     let counter = 0;
     const a = of(counter).pipe(
       tap(e => console.log('U', e)),
@@ -39,8 +67,8 @@ describe('cache - mocked', function () {
   });
 });
 
-describe('cache', function () {
-  beforeEach(function () {
+describe('cache', () => {
+  beforeEach(() => {
     let counter = 0;
     fetchMock.mockGlobal().get(
       'https://httpbin.org/my-url-fast',
@@ -53,11 +81,11 @@ describe('cache', function () {
     );
   });
 
-  afterEach(function () {
+  afterEach(() => {
     fetchMock.unmockGlobal();
   });
 
-  test('cache resetted after 100ms', async function () {
+  test('cache resetted after 100ms', async () => {
     const a = of('https://httpbin.org/my-url-fast').pipe(
       requestText(),
       tap(() => console.log('CHECK')),

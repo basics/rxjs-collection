@@ -7,7 +7,7 @@ import { log } from '../log.js';
 import { request, requestJSON } from './request.js';
 import { resolveJSON } from './response.js';
 
-describe('request observable with default ', function () {
+describe('request observable with default ', () => {
   test('successfull upload', async () => {
     const formData = new FormData();
     formData.set(
@@ -42,8 +42,8 @@ describe('request observable with default ', function () {
   });
 });
 
-describe('request observable with default operators', function () {
-  beforeEach(function () {
+describe('request observable with default operators', () => {
+  beforeEach(() => {
     let counter = 0;
     fetchMock.mockGlobal().get(
       'https://httpbin.org/my-url-fast',
@@ -68,7 +68,7 @@ describe('request observable with default operators', function () {
     );
   });
 
-  afterEach(function () {
+  afterEach(() => {
     fetchMock.unmockGlobal();
   });
 
