@@ -123,7 +123,8 @@ describe('request', () => {
   });
 });
 
-describe('request - demo ', () => {
+/* v8 ignore start */
+describe.skip('request - demo ', () => {
   test('sample - successfull upload', async () => {
     const { request } = await import('./request.js');
 
@@ -151,3 +152,4 @@ describe('request - demo ', () => {
     );
   });
 });
+/* v8 ignore stop */

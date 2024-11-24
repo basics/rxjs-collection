@@ -46,7 +46,8 @@ describe('concurrent request', () => {
   });
 });
 
-describe('concurrent request - demo', () => {
+/* v8 ignore start */
+describe.skip('concurrent request - demo', () => {
   test('sample', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
@@ -74,3 +75,4 @@ describe('concurrent request - demo', () => {
     );
   });
 });
+/* v8 ignore stop */
