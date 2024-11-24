@@ -12,26 +12,27 @@ describe('cache', () => {
   });
 
   test('default', () => {
-    const initial = new Response('initial', { status: 200 });
-    const updated = new Response('updated', { status: 200 });
-    const orderedResponses = [initial, updated];
+    const expectedVal = {
+      a: new Response('initial', { status: 200 }),
+      b: new Response('updated', { status: 200 })
+    };
+
+    const triggerVal = [expectedVal.a, expectedVal.b];
 
     testScheduler.run(({ cold, expectObservable }) => {
-      const stream = cold('a', {
-        a: () => orderedResponses.shift()
-      }).pipe(
+      const stream = cold('a', { a: () => triggerVal.shift() }).pipe(
         map(fn => fn()),
         cache(2)
       );
 
       const unsubA = '-^!';
-      expectObservable(stream, unsubA).toBe('-a', { a: initial }, new Error());
+      expectObservable(stream, unsubA).toBe('-a', expectedVal, new Error());
 
       const unsubB = '----^!';
-      expectObservable(stream, unsubB).toBe('----a', { a: initial }, new Error());
+      expectObservable(stream, unsubB).toBe('----a', expectedVal, new Error());
 
       const unsubC = '---------^--!';
-      expectObservable(stream, unsubC).toBe('---------a', { a: updated }, new Error());
+      expectObservable(stream, unsubC).toBe('---------b', expectedVal, new Error());
     });
   });
 });
