@@ -1,77 +1,57 @@
-import { concatAll, concatMap, delay, from, map, of, tap, toArray } from 'rxjs';
+import { concatAll, delay, map, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { log } from '../log';
-import { resolveJSON } from './response';
+import { mockAsync } from '../../../mock/async';
+import { mockResponse } from '../../../mock/response';
+import { log, logResult } from '../log';
+import { resolveJSON, resolveText } from './response';
 
-describe('concurrent request - mocked', function () {
-  const testScheduler = new TestScheduler((actual, expected) => {
-    expect(actual).to.eql(expected);
+describe('concurrent request', () => {
+  let testScheduler;
+
+  beforeAll(() => {
+    vi.spyOn(global, 'fetch').mockImplementation(({ v, t }) => mockAsync(v).pipe(delay(t)));
+
+    global.Response = mockResponse();
   });
 
-  beforeEach(function () {
-    vi.doMock('./request', importOriginal => ({
-      request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
-    }));
+  beforeEach(() => {
+    testScheduler = new TestScheduler((actual, expected) => expect(actual).to.eql(expected));
   });
 
-  afterEach(() => {
-    vi.doUnmock('./request');
+  afterAll(function () {
+    vi.restoreAllMocks();
   });
 
-  test('classic testing', async () => {
-    const { concurrentRequest } = await import('./concurrentRequest');
-
-    const triggerVal = [
-      { t: 20, v: 'a' },
-      { t: 50, v: 'b' },
-      { t: 10, v: 'c' },
-      { t: 30, v: 'd' },
-      { t: 40, v: 'e' }
-    ];
-    const sortedVal = [...triggerVal].sort((a, b) => a.t - b.t).map(({ v }) => v);
-
-    await new Promise((done, error) => {
-      from(triggerVal)
-        .pipe(concurrentRequest(triggerVal.length), toArray())
-        .subscribe({
-          next: e => expect(e).toStrictEqual(sortedVal),
-          complete: () => done(),
-          error: e => error(e)
-        });
-    });
-  });
-
-  test('marble testing', async () => {
+  test('default', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
     const triggerVal = {
-      a: { t: 2, v: 'a' },
-      b: { t: 5, v: 'b' },
-      c: { t: 1, v: 'c' },
-      d: { t: 3, v: 'd' },
-      e: { t: 4, v: 'e' }
+      a: { t: 2, v: new Response('a') },
+      b: { t: 5, v: new Response('b') },
+      c: { t: 1, v: new Response('c') },
+      d: { t: 3, v: new Response('d') },
+      e: { t: 4, v: new Response('e') }
     };
-    const expectedVal = Object.fromEntries(Object.entries(triggerVal).map(([k, { v }]) => [k, v]));
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
-        cold('-a-b-(cd)-e----', triggerVal).pipe(concurrentRequest(Object.keys(triggerVal).length))
-      ).toBe('---a--c-(bd)--e', expectedVal);
+        cold('-a-b-(cd)-e----', triggerVal).pipe(
+          concurrentRequest(Object.keys(triggerVal).length),
+          resolveText()
+        )
+      ).toBe('---a--c-(bd)--e');
     });
   });
 });
 
-describe.skip('concurrent request - demo', function () {
-  beforeAll(function () {
-    vi.resetModules();
-  });
-
-  test('sample testing', async () => {
+describe('concurrent request - demo', () => {
+  test('sample', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
-    await new Promise(done => {
+    await logResult(
+      'demo',
       of(
         new URL('https://dummyjson.com/products?limit=10&skip=0&select=title,price'),
         new URL('https://dummyjson.com/products?limit=10&skip=10&select=title,price'),
@@ -82,19 +62,15 @@ describe.skip('concurrent request - demo', function () {
         new URL('https://dummyjson.com/products?limit=10&skip=60&select=title,price'),
         new URL('https://dummyjson.com/products?limit=10&skip=70&select=title,price'),
         new URL('https://dummyjson.com/products?limit=10&skip=80&select=title,price')
+      ).pipe(
+        concurrentRequest(4),
+        log('demo:response'),
+        resolveJSON(),
+        log('demo:response:json'),
+        map(({ products }) => products),
+        log('demo:response:result'),
+        concatAll()
       )
-        .pipe(
-          concurrentRequest(4),
-          log(false),
-          resolveJSON(),
-          log(false),
-          map(({ products }) => products),
-          concatAll()
-        )
-        .subscribe({
-          next: e => console.log(e),
-          complete: () => done()
-        });
-    });
+    );
   });
 });

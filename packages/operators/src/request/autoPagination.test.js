@@ -1,122 +1,96 @@
-import { concatAll, concatMap, delay, from, map, of, toArray } from 'rxjs';
+import { concatAll, delay, from, map, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { log } from '../log';
+import { mockAsync } from '../../../mock/async';
+import { mockResponse } from '../../../mock/response';
+import { log, logResult } from '../log';
 import { resolveJSON } from './response';
 
-describe('auto pagination - mocked', function () {
-  const testScheduler = new TestScheduler((actual, expected) => {
-    expect(actual).to.eql(expected);
+describe('auto pagination', () => {
+  let testScheduler;
+
+  beforeAll(() => {
+    vi.spyOn(global, 'fetch').mockImplementation(({ v, t }) => mockAsync(v).pipe(delay(t)));
+
+    global.Response = mockResponse();
   });
 
-  beforeEach(function () {
-    vi.doMock('./request', importOriginal => ({
-      request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
-    }));
-
-    Object.prototype.clone = vi.fn();
-    vi.spyOn(Object.prototype, 'clone').mockImplementation(function (e) {
-      return { ...JSON.parse(JSON.stringify(this)) };
-    });
+  beforeEach(() => {
+    testScheduler = new TestScheduler((actual, expected) => expect(actual).to.eql(expected));
   });
 
-  afterEach(() => {
-    vi.doUnmock('./request');
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
 
-  test('classic testing', async () => {
+  test('default', async () => {
     const { autoPagination } = await import('./autoPagination');
 
-    const triggerVal = [
-      { t: 2, v: { value: 'a', next: 1 } },
-      { t: 5, v: { value: 'b', next: 2 } },
-      { t: 3, v: { value: 'c', next: 3 } },
-      { t: 1, v: { value: 'd', next: 4 } },
-      { t: 4, v: { value: 'e', next: null } }
-    ];
-
-    const expectedVal = triggerVal.map(({ v }) => v);
-
-    await new Promise((done, error) => {
-      of(triggerVal[0])
-        .pipe(
-          autoPagination({
-            resolveRoute: (conf, resp) =>
-              ((!resp || resp.next) && [triggerVal[resp?.next || 0]]) || []
-          }),
-          toArray()
-        )
-        .subscribe({
-          next: e => expect(e).toStrictEqual(expectedVal),
-          complete: () => done(),
-          error: () => error()
-        });
-    });
-  });
-
-  test('marble testing', async () => {
-    const { autoPagination } = await import('./autoPagination');
-
-    const triggerVal = {
-      a: { t: 2, v: { value: 'a', next: 'b' } },
-      b: { t: 5, v: { value: 'b', next: 'c' } },
-      c: { t: 3, v: { value: 'c', next: 'd' } },
-      d: { t: 1, v: { value: 'd', next: 'e' } },
-      e: { t: 4, v: { value: 'e', next: null } }
+    const expectedVal = {
+      a: { value: 'a', next: 'b' },
+      b: { value: 'b', next: 'c' },
+      c: { value: 'c', next: 'd' },
+      d: { value: 'd', next: 'e' },
+      e: { value: 'e', next: null }
     };
 
-    const expectedVal = Object.fromEntries(
-      Array.from(Object.entries(triggerVal)).map(([k, { v }]) => [k, v])
-    );
+    const triggerVal = {
+      a: { t: 2, v: new Response(expectedVal.a) },
+      b: { t: 5, v: new Response(expectedVal.b) },
+      c: { t: 3, v: new Response(expectedVal.c) },
+      d: { t: 1, v: new Response(expectedVal.d) },
+      e: { t: 4, v: new Response(expectedVal.e) }
+    };
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
-        cold('-a-------------------', triggerVal).pipe(
+        cold('-a-------------------', { a: 'a' }).pipe(
           autoPagination({
-            resolveRoute: (conf, resp) =>
-              ((!resp || resp.next) && [triggerVal[resp?.next || 'a']]) || []
-          })
+            resolveRoute: (url, resp) => {
+              if (resp) {
+                return from(resp.json()).pipe(map(({ next }) => triggerVal[String(next)]));
+              }
+              return of(triggerVal[String(url)]);
+            }
+          }),
+          resolveJSON(),
+          log('marble:result')
         )
       ).toBe('---a----b--cd---e----', expectedVal);
     });
   });
 });
 
-describe.skip('auto pagination - demo', function () {
-  beforeEach(function () {
-    vi.resetModules();
-  });
-
-  test('sample testing', async function () {
+describe('auto pagination - demo', () => {
+  test('sample', async () => {
     const { autoPagination } = await import('./autoPagination');
 
-    return new Promise(done => {
-      return of(new URL('https://dummyjson.com/products'))
-        .pipe(
-          autoPagination({
-            resolveRoute: async (url, resp) => {
-              const data = (await resp?.json()) || { skip: -10, limit: 10 };
-
-              if (!data.total || data.total > data.skip + data.limit) {
-                const newUrl = new URL(`${url}`);
-                newUrl.searchParams.set('skip', data.skip + data.limit);
-                newUrl.searchParams.set('limit', data.limit);
-                newUrl.searchParams.set('select', 'title,price');
-                return newUrl;
-              }
-            }
-          }),
-          log(false),
-          resolveJSON(),
-          log(false),
-          map(({ products }) => products),
-          concatAll()
-        )
-        .subscribe({
-          next: e => console.log(e),
-          complete: () => done()
-        });
-    });
+    await logResult(
+      'demo',
+      of(new URL('https://dummyjson.com/products')).pipe(
+        autoPagination({
+          resolveRoute: (url, resp) => {
+            return from(resp?.json() || of({ skip: -10, limit: 10 })).pipe(
+              map(data => {
+                if (!data.total || data.total > data.skip + data.limit) {
+                  const newUrl = new URL(`${url}`);
+                  newUrl.searchParams.set('skip', data.skip + data.limit);
+                  newUrl.searchParams.set('limit', data.limit);
+                  newUrl.searchParams.set('select', 'title,price');
+                  return newUrl;
+                }
+              })
+            );
+          }
+        }),
+        log('demo:response'),
+        resolveJSON(),
+        log('demo:response:json'),
+        map(({ products }) => products),
+        log('demo:response:result'),
+        concatAll()
+      )
+    );
   });
 });

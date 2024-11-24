@@ -2,7 +2,7 @@ import { shallowEqual } from 'fast-equals';
 import { combineLatest, concatMap, distinctUntilChanged, from, map, of } from 'rxjs';
 
 export const resolve = (type = 'json') => {
-  return source => source.pipe(concatMap(e => e[String(type)]()));
+  return source => source.pipe(concatMap(e => from(e[String(type)]())));
 };
 
 export const resolveJSON = () => {

@@ -1,111 +1,85 @@
-import { map, of, tap } from 'rxjs';
+import { concatMap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterEach, test, describe, beforeEach, expect, vi } from 'vitest';
+import { afterEach, test, describe, beforeEach, expect, vi, beforeAll } from 'vitest';
 
+import { mockResponse } from '../../../mock/response';
 import { log } from '../log';
 import { distinctUntilResponseChanged, resolveJSON, resolveText } from './response';
 
-describe('response', function () {
-  const testScheduler = new TestScheduler((actual, expected) => {
-    expect(actual).to.eql(expected);
+describe('response', () => {
+  let testScheduler;
+
+  beforeAll(() => {
+    global.Response = mockResponse();
   });
 
-  beforeEach(function () {
-    //
+  beforeEach(() => {
+    testScheduler = new TestScheduler((actual, expected) => expect(actual).to.eql(expected));
   });
 
-  afterEach(function () {
+  afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  test('resolve json', () => {
-    return new Promise(done => {
-      of(new Response(JSON.stringify({ hello: 'world' })))
-        .pipe(resolveJSON(), log(false))
-        .subscribe({
-          next: e => expect(e).includes({ hello: 'world' }),
-          complete: () => done()
-        });
-    });
-  });
-
-  test('resolve text', () => {
-    return new Promise(done => {
-      of(new Response('hello world'))
-        .pipe(resolveText(), log(false))
-        .subscribe({
-          next: e => expect(e).toBe('hello world'),
-          complete: () => done()
-        });
-    });
-  });
-
-  test('emit only changed responses', () => {
-    const triggerValues = [
-      new Response('a'),
-      new Response('a'),
-      new Response('b'),
-      new Response('b'),
-      new Response('c'),
-      new Response('a'),
-      new Response('a'),
-      new Response('b')
-    ];
-    const expectedValues = ['a', 'b', 'c', 'a', 'b'];
-
-    return new Promise(done => {
-      of(...triggerValues)
-        .pipe(distinctUntilResponseChanged(), log(false), resolveText(), log(false))
-        .subscribe({
-          next: e => expect(e).toBe(expectedValues.shift()),
-          complete: () => done()
-        });
-    });
-  });
-
-  test('marble testing', async () => {
-    const triggerValues = {
-      a: createResponse('a', 'a'),
-      b: createResponse('b', 'a'),
-      c: createResponse('c', 'b'),
-      d: createResponse('d', 'b'),
-      e: createResponse('e', 'c'),
-      f: createResponse('f', 'a'),
-      g: createResponse('g', 'a'),
-      h: createResponse('h', 'b')
+  test('resolveJSON', () => {
+    const expectedVal = {
+      a: { hello: 'world' }
+    };
+    const triggerVal = {
+      a: new Response(expectedVal.a)
     };
 
-    const expectedValues = Object.fromEntries(
-      await Promise.all(
-        Object.entries(triggerValues).map(async ([key, resp]) => {
-          return [`/${key}`, await resp.clone().arrayBuffer()];
-        })
-      )
-    );
-
-    vi.spyOn(Response.prototype, 'arrayBuffer').mockImplementation(function (e) {
-      return [expectedValues[this.url]];
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', triggerVal).pipe(resolveJSON());
+      expectObservable(stream).toBe('a|', expectedVal);
     });
+  });
+
+  test('resolveText', () => {
+    const expectedVal = {
+      a: 'hello world'
+    };
+    const triggerVal = {
+      a: new Response(expectedVal.a)
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', triggerVal).pipe(resolveText());
+      expectObservable(stream).toBe('a|', expectedVal);
+    });
+  });
+
+  test('filtered by response change', async () => {
+    const expectedVal = {
+      a: await new Blob(['a']).arrayBuffer(),
+      b: await new Blob(['a']).arrayBuffer(),
+      c: await new Blob(['b']).arrayBuffer(),
+      d: await new Blob(['b']).arrayBuffer(),
+      e: await new Blob(['c']).arrayBuffer(),
+      f: await new Blob(['a']).arrayBuffer(),
+      g: await new Blob(['a']).arrayBuffer(),
+      h: await new Blob(['b']).arrayBuffer()
+    };
+
+    const triggerValues = {
+      a: new Response(expectedVal.a, '/a'),
+      b: new Response(expectedVal.b, '/b'),
+      c: new Response(expectedVal.c, '/c'),
+      d: new Response(expectedVal.d, '/d'),
+      e: new Response(expectedVal.e, '/e'),
+      f: new Response(expectedVal.f, '/f'),
+      g: new Response(expectedVal.g, '/g'),
+      h: new Response(expectedVal.h, '/h')
+    };
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
-        cold('-a-b-c-d-e-f-g-h-', triggerValues).pipe(
+        cold('-a-b-c-d-e-f-g-h-|', triggerValues).pipe(
           distinctUntilResponseChanged(),
-          map(resp => resp.arrayBuffer())
+          concatMap(resp => resp.arrayBuffer()),
+          log('marble:result')
         )
-      ).toBe('-a---c---e-f---h-', {
-        a: triggerValues.a.arrayBuffer(),
-        c: triggerValues.c.arrayBuffer(),
-        e: triggerValues.e.arrayBuffer(),
-        f: triggerValues.f.arrayBuffer(),
-        h: triggerValues.h.arrayBuffer()
-      });
+      ).toBe('-a---c---e-f---h-|', expectedVal);
     });
   });
 });
-
-const createResponse = (key, value) => {
-  const resp = new Response(value);
-  Object.defineProperty(resp, 'url', { value: `/${key}` });
-  return resp;
-};

@@ -1,42 +1,58 @@
-import fetchMock from 'fetch-mock';
-import { of, take } from 'rxjs';
-import { afterEach, beforeEach, describe, expect, test } from 'vitest';
+import { concatMap } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { log } from '../log';
-import { polling } from './polling';
-import { resolveJSON } from './response';
+import { mockAsync } from '../../../mock/async';
+import { mockResponse } from '../../../mock/response';
 
-describe('polling', function () {
-  beforeEach(function () {
-    let counter = 0;
-    fetchMock.mockGlobal().get('https://httpbin.org/my-url-fast', () => {
-      if (counter++ < 2) {
-        return new Response(JSON.stringify({ hello: 'fast world' }), {
-          status: 200,
-          headers: { 'Content-type': 'application/json' }
-        });
-      }
-      return new Response(JSON.stringify({ hello: 'faster world' }), {
-        status: 200,
-        headers: { 'Content-type': 'application/json' }
-      });
-    });
+describe('polling', () => {
+  let testScheduler;
+
+  beforeAll(async () => {
+    global.Response = mockResponse();
   });
 
-  afterEach(function () {
-    fetchMock.unmockGlobal();
+  beforeEach(() => {
+    testScheduler = new TestScheduler((actual, expected) => expect(actual).to.eql(expected));
   });
 
-  test('auto polling', async function () {
-    const expected = [{ hello: 'fast world' }, { hello: 'faster world' }];
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
 
-    return new Promise(done => {
-      of(new URL('https://httpbin.org/my-url-fast'))
-        .pipe(polling(), log(false), resolveJSON(), log(false), take(2))
-        .subscribe({
-          next: e => expect(e).deep.include(expected.shift()),
-          complete: () => done()
-        });
+  test('default', async () => {
+    const { polling } = await import('./polling');
+
+    const expectedVal = {
+      a: await new Blob(['a']).arrayBuffer(),
+      b: await new Blob(['a']).arrayBuffer(),
+      c: await new Blob(['a']).arrayBuffer(),
+      d: await new Blob(['b']).arrayBuffer(),
+      e: await new Blob(['b']).arrayBuffer(),
+      f: await new Blob(['c']).arrayBuffer(),
+      g: await new Blob(['c']).arrayBuffer()
+    };
+
+    const triggerVal = [
+      new Response(expectedVal.a),
+      new Response(expectedVal.b),
+      new Response(expectedVal.c),
+      new Response(expectedVal.d),
+      new Response(expectedVal.e),
+      new Response(expectedVal.f),
+      new Response(expectedVal.g)
+    ];
+
+    vi.spyOn(global, 'fetch').mockImplementation(() => mockAsync(triggerVal.shift()));
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a------------', { a: 'a' }).pipe(
+        polling(2),
+        concatMap(e => e.arrayBuffer())
+      );
+
+      const unsubA = '^------------!';
+      expectObservable(stream, unsubA).toBe('a-----d---f--', expectedVal);
     });
   });
 });
