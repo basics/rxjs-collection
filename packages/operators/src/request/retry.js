@@ -1,11 +1,12 @@
 import {
-  catchError,
   combineLatest,
   concatMap,
   delay,
   filter,
   map,
+  merge,
   of,
+  partition,
   retry,
   tap,
   throwError
@@ -20,7 +21,13 @@ export const networkRetry = ({ timeout = defaultTimeout, count } = {}) => {
 
   return source => {
     return source.pipe(
-      concatMap(resp => (!resp.ok && throwError(() => new Error('invalid request'))) || of(resp)),
+      concatMap(resp => {
+        const [success, error] = partition(of(resp), resp => resp.ok);
+        return merge(
+          success,
+          error.pipe(concatMap(() => throwError(() => new Error('invalid request'))))
+        );
+      }),
       retry({
         count,
         delay: () => determineDelayWhenOnline(timeout, ++counter)
@@ -38,6 +45,6 @@ const determineDelayWhenOnline = (timeout, counter) => {
     // continue only if all observables are valid
     filter(valid => valid),
     tap(() => console.log(`retry: request - next: ${counter} in ${timeout(counter)}ms`)),
-    delay(timeout(counter) || timeout)
+    delay(timeout(counter))
   );
 };

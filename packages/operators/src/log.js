@@ -14,20 +14,20 @@ export const log = tag => {
   if (debug.enabled(tag)) {
     return source => {
       return new Observable(observer => {
-        return source.subscribe(
-          val => {
+        return source.subscribe({
+          next: val => {
             logger(val);
             observer.next(val);
           },
-          err => {
+          error: err => {
             error(err);
             observer.error(err);
           },
-          () => {
+          complete: () => {
             logger(bgGreen.bold('Complete!'));
             observer.complete();
           }
-        );
+        });
       });
     };
   } else {

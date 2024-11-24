@@ -1,74 +1,53 @@
-import { concatAll, concatMap, delay, from, map, of, tap, toArray } from 'rxjs';
+import { concatAll, delay, map, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { mockAsync } from '../../../mock/async';
+import { mockResponse } from '../../../mock/response';
 import { log, logResult } from '../log';
-import { resolveJSON } from './response';
+import { resolveJSON, resolveText } from './response';
 
-describe('concurrent request - mocked', () => {
-  const testScheduler = new TestScheduler((actual, expected) => {
-    expect(actual).to.eql(expected);
+describe('concurrent request', () => {
+  let testScheduler;
+
+  beforeAll(() => {
+    vi.spyOn(global, 'fetch').mockImplementation(({ v, t }) => mockAsync(v).pipe(delay(t)));
+
+    global.Response = mockResponse();
   });
 
   beforeEach(() => {
-    vi.doMock('./request', importOriginal => ({
-      request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
-    }));
-  });
-
-  afterEach(() => {
-    vi.doUnmock('./request');
+    testScheduler = new TestScheduler((actual, expected) => expect(actual).to.eql(expected));
   });
 
   afterAll(function () {
-    vi.resetModules();
+    vi.restoreAllMocks();
   });
 
-  test('classic testing', async () => {
-    const { concurrentRequest } = await import('./concurrentRequest');
-
-    const triggerVal = [
-      { t: 20, v: 'a' },
-      { t: 50, v: 'b' },
-      { t: 10, v: 'c' },
-      { t: 30, v: 'd' },
-      { t: 40, v: 'e' }
-    ];
-    const sortedVal = [...triggerVal].sort((a, b) => a.t - b.t).map(({ v }) => v);
-
-    await new Promise((done, error) => {
-      from(triggerVal)
-        .pipe(concurrentRequest(triggerVal.length), toArray())
-        .subscribe({
-          next: e => expect(e).toStrictEqual(sortedVal),
-          complete: () => done(),
-          error: e => error(e)
-        });
-    });
-  });
-
-  test('marble testing', async () => {
+  test('default', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
     const triggerVal = {
-      a: { t: 2, v: 'a' },
-      b: { t: 5, v: 'b' },
-      c: { t: 1, v: 'c' },
-      d: { t: 3, v: 'd' },
-      e: { t: 4, v: 'e' }
+      a: { t: 2, v: new Response('a') },
+      b: { t: 5, v: new Response('b') },
+      c: { t: 1, v: new Response('c') },
+      d: { t: 3, v: new Response('d') },
+      e: { t: 4, v: new Response('e') }
     };
-    const expectedVal = Object.fromEntries(Object.entries(triggerVal).map(([k, { v }]) => [k, v]));
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
-        cold('-a-b-(cd)-e----', triggerVal).pipe(concurrentRequest(Object.keys(triggerVal).length))
-      ).toBe('---a--c-(bd)--e', expectedVal);
+        cold('-a-b-(cd)-e----', triggerVal).pipe(
+          concurrentRequest(Object.keys(triggerVal).length),
+          resolveText()
+        )
+      ).toBe('---a--c-(bd)--e');
     });
   });
 });
 
 describe('concurrent request - demo', () => {
-  test('sample testing', async () => {
+  test('sample', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
     await logResult(

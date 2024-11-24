@@ -1,4 +1,4 @@
-import { ReplaySubject, share, tap, timer } from 'rxjs';
+import { ReplaySubject, share, timer } from 'rxjs';
 
 export const cache = ttl => {
   return source =>

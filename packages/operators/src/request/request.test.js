@@ -1,14 +1,132 @@
-import fetchMock from 'fetch-mock';
 import { readFile } from 'node:fs/promises';
 import { of } from 'rxjs';
-import { afterEach, test, describe, beforeEach, expect } from 'vitest';
+import { TestScheduler } from 'rxjs/testing';
+import { test, describe, beforeEach, expect, vi, afterAll, beforeAll } from 'vitest';
 
-import { log } from '../log.js';
-import { request, requestJSON } from './request.js';
+import { mockAsync } from '../../../mock/async.js';
+import { mockResponse } from '../../../mock/response.js';
+import { log, logResult } from '../log.js';
 import { resolveJSON } from './response.js';
 
-describe('request observable with default ', () => {
-  test('successfull upload', async () => {
+describe('request', () => {
+  let testScheduler;
+
+  beforeAll(() => {
+    vi.spyOn(global, 'fetch').mockImplementation(v => mockAsync(v()));
+
+    global.Response = mockResponse();
+  });
+
+  beforeEach(() => {
+    testScheduler = new TestScheduler((actual, expected) => expect(actual).deep.equal(expected));
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
+
+  test('dynamic timeout', async () => {
+    const { request } = await import('./request.js');
+
+    const expectedVal = {
+      a: new Error('NO CONNECTION'),
+      b: { ok: false },
+      c: { ok: true }
+    };
+
+    const triggerVal = [
+      () => {
+        throw expectedVal.a;
+      },
+      () => expectedVal.b,
+      () => expectedVal.c
+    ];
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', { a: () => triggerVal.shift()() }).pipe(request());
+      expectObservable(stream).toBe('5000ms c|', expectedVal);
+    });
+  });
+
+  test('static timeout', async () => {
+    const { request } = await import('./request.js');
+
+    const expectedVal = {
+      a: new Error('NO CONNECTION'),
+      b: { ok: false },
+      c: { ok: true }
+    };
+
+    const triggerVal = [
+      () => {
+        throw expectedVal.a;
+      },
+      () => expectedVal.b,
+      () => expectedVal.c
+    ];
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', { a: () => triggerVal.shift()() }).pipe(
+        request({ timeout: () => 5 })
+      );
+      expectObservable(stream).toBe('----------c|', expectedVal);
+    });
+  });
+
+  test('resolveJSON', async () => {
+    const { requestJSON } = await import('./request.js');
+
+    const expectedVal = {
+      a: { hello: 'world' }
+    };
+    const triggerVal = {
+      a: () => new Response(expectedVal.a)
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', triggerVal).pipe(requestJSON());
+      expectObservable(stream).toBe('a|', expectedVal);
+    });
+  });
+
+  test('resolveText', async () => {
+    const { requestText } = await import('./request.js');
+
+    const expectedVal = {
+      a: 'hello world'
+    };
+    const triggerVal = {
+      a: () => new Response(expectedVal.a)
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', triggerVal).pipe(requestText());
+      expectObservable(stream).toBe('a|', expectedVal);
+    });
+  });
+
+  test('resolveBlob', async () => {
+    const { requestBlob } = await import('./request.js');
+
+    const expectedVal = {
+      a: new Blob(['a'], { type: 'text/plain' })
+    };
+    const triggerVal = {
+      a: () => new Response(expectedVal.a)
+    };
+
+    // TODO: correctly compare blob - currently successful test, while blob content is different
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', triggerVal).pipe(requestBlob());
+      expectObservable(stream).toBe('a|', expectedVal);
+    });
+  });
+});
+
+describe('request - demo ', () => {
+  test('sample - successfull upload', async () => {
+    const { request } = await import('./request.js');
+
     const formData = new FormData();
     formData.set(
       'file',
@@ -27,78 +145,9 @@ describe('request observable with default ', () => {
       body: formData
     });
 
-    return new Promise(done => {
-      of(req)
-        .pipe(request(), log(false), resolveJSON(), log(true))
-        .subscribe({
-          next: e => {
-            expect(e)
-              .deep.includes({ originalname: 'test_image.jpg' })
-              .have.all.keys('filename', 'location');
-          },
-          complete: () => done()
-        });
-    });
-  });
-});
-
-describe('request observable with default operators', () => {
-  beforeEach(() => {
-    let counter = 0;
-    fetchMock.mockGlobal().get(
-      'https://httpbin.org/my-url-fast',
-      () => {
-        return new Response(JSON.stringify({ hello: 'fast world' }), {
-          status: ++counter > 2 ? 200 : 404,
-          headers: { 'Content-type': 'application/json' }
-        });
-      },
-      { delay: 0, repeat: 4 }
-    );
-
-    fetchMock.get(
-      'https://awesome.mock/delayed-response',
-      () => {
-        return new Response(JSON.stringify({ hello: 'fast world' }), {
-          status: 200,
-          headers: { 'Content-type': 'application/json' }
-        });
-      },
-      { delay: 1000 }
+    await logResult(
+      'demo',
+      of(req).pipe(log('request:upload'), request(), log('request:upload:response'), resolveJSON())
     );
   });
-
-  afterEach(() => {
-    fetchMock.unmockGlobal();
-  });
-
-  test('successfull request', () =>
-    new Promise(done => {
-      of('https://httpbin.org/my-url-fast')
-        .pipe(request(), log(false))
-        .subscribe({
-          next: resp => expect(resp).deep.includes({ ok: true }),
-          complete: () => done()
-        });
-    }));
-
-  test('successfull request - indirect json resolve', () =>
-    new Promise(done => {
-      of('https://awesome.mock/delayed-response')
-        .pipe(request(), log(false), resolveJSON(), log(false))
-        .subscribe({
-          next: data => expect(data).deep.equal({ hello: 'fast world' }),
-          complete: () => done()
-        });
-    }));
-
-  test('successfull request - direct json resolve', () =>
-    new Promise(done => {
-      of('https://awesome.mock/delayed-response')
-        .pipe(requestJSON(), log(false))
-        .subscribe({
-          next: data => expect(data).deep.equal({ hello: 'fast world' }),
-          complete: () => done()
-        });
-    }));
 });

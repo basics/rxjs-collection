@@ -1,30 +1,30 @@
-import { concatMap, throwError } from 'rxjs';
+import { concatMap, from, throwError } from 'rxjs';
 
 import { resolveBlob, resolveJSON, resolveText } from './response';
 import { networkRetry } from './retry';
 
-export const request = () => {
+export const request = options => {
   return source =>
     source.pipe(
       concatMap(req => {
         try {
-          return fetch(req);
+          return from(fetch(req));
         } catch {
           return throwError(() => new Error('Failed to fetch: resource not valid'));
         }
       }),
-      networkRetry()
+      networkRetry(options)
     );
 };
 
-export const requestJSON = () => {
-  return source => source.pipe(request(), resolveJSON());
+export const requestJSON = options => {
+  return source => source.pipe(request(options), resolveJSON());
 };
 
-export const requestText = () => {
-  return source => source.pipe(request(), resolveText());
+export const requestText = options => {
+  return source => source.pipe(request(options), resolveText());
 };
 
-export const requestBlob = () => {
-  return source => source.pipe(request(), resolveBlob());
+export const requestBlob = options => {
+  return source => source.pipe(request(options), resolveBlob());
 };

@@ -1,38 +1,35 @@
-import { concatAll, concatMap, delay, map, of, Subject, tap } from 'rxjs';
+import { concatAll, delay, map, of, Subject, tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { mockAsync } from '../../../mock/async';
+import { mockResponse } from '../../../mock/response';
 import { log, logResult } from '../log';
+import { resolveJSON } from './response';
 
-describe('lazy pagination - mocked', () => {
-  const testScheduler = new TestScheduler((actual, expected) => {
-    expect(actual).to.eql(expected);
+describe('lazy pagination', () => {
+  let testScheduler;
+
+  beforeAll(() => {
+    vi.spyOn(global, 'fetch').mockImplementation(({ v, t }) => mockAsync(v).pipe(delay(t)));
+
+    global.Response = mockResponse();
   });
 
   beforeEach(() => {
-    vi.doMock('./request', importOriginal => ({
-      request: () => source => source.pipe(concatMap(({ v, t }) => of(v).pipe(delay(t))))
-    }));
-  });
-
-  afterEach(() => {
-    vi.doUnmock('./request');
+    testScheduler = new TestScheduler((actual, expected) => expect(actual).to.eql(expected));
   });
 
   afterAll(() => {
-    vi.resetModules();
+    vi.restoreAllMocks();
   });
 
-  test('classic testing', () => {
-    //
-  });
-
-  test('marble testing', async () => {
+  test('default', async () => {
     const { lazyPagination } = await import('./lazyPagination');
 
     const pager = new Subject();
 
-    const triggerValues = {
+    const triggerVal = {
       a: () => pager.next({ value: 'a' }),
       b: () => pager.next({ value: 'b' }),
       c: () => pager.next({ value: 'c' }),
@@ -40,43 +37,47 @@ describe('lazy pagination - mocked', () => {
       e: () => pager.next({ value: 'e' })
     };
 
-    const responseValues = {
-      a: { t: 2, v: { value: 'a' } },
-      b: { t: 5, v: { value: 'b' } },
-      c: { t: 3, v: { value: 'c' } },
-      d: { t: 1, v: { value: 'd' } },
-      e: { t: 4, v: { value: 'e' } }
+    const expectedVal = {
+      a: { value: '1' },
+      b: { value: '2' },
+      c: { value: '3' },
+      d: { value: '4' },
+      e: { value: '5' }
     };
 
-    const expectedValues = Object.fromEntries(
-      Object.entries(responseValues).map(([key, v]) => [key, v.v])
-    );
+    const responseVal = {
+      a: { t: 2, v: new Response(expectedVal.a) },
+      b: { t: 5, v: new Response(expectedVal.b) },
+      c: { t: 3, v: new Response(expectedVal.c) },
+      d: { t: 1, v: new Response(expectedVal.d) },
+      e: { t: 4, v: new Response(expectedVal.e) }
+    };
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
-        of({ url: 'https://example.com' }).pipe(
+        of('https://example.com').pipe(
           lazyPagination({
             pager,
             concurrent: 5,
-            resolveRoute: (url, { value }) => responseValues[String(value)]
-          })
+            resolveRoute: (url, { value }) => responseVal[String(value)]
+          }),
+          resolveJSON()
         )
-      ).toBe('--daceb--------', expectedValues);
-      expectObservable(cold('-(abcde)--------', triggerValues).pipe(tap(fn => fn())));
+      ).toBe('--daceb--------', expectedVal);
+      expectObservable(cold('-(abcde)--------', triggerVal).pipe(tap(fn => fn())));
     });
   });
 });
 
 describe('lazy pagination - demo', () => {
-  test('sample testing', async () => {
+  test('sample', async () => {
     const { lazyPagination } = await import('./lazyPagination');
-    const { resolveJSON } = await import('./response');
 
     const pager = new Subject();
 
     const result = logResult(
       'demo',
-      of({ url: new URL('https://dummyjson.com/products') }).pipe(
+      of(new URL('https://dummyjson.com/products')).pipe(
         lazyPagination({
           pager,
           concurrent: 4,
