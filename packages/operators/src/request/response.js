@@ -1,8 +1,8 @@
 import { shallowEqual } from 'fast-equals';
-import { concatMap, distinctUntilChanged, map } from 'rxjs';
+import { combineLatest, concatMap, distinctUntilChanged, from, map, of } from 'rxjs';
 
 export const resolve = (type = 'json') => {
-  return source => source.pipe(concatMap(e => e[String(type)]()));
+  return source => source.pipe(concatMap(e => from(e[String(type)]())));
 };
 
 export const resolveJSON = () => {
@@ -20,7 +20,7 @@ export const resolveBlob = () => {
 export const distinctUntilResponseChanged = () => {
   return source =>
     source.pipe(
-      concatMap(async resp => [resp, await resp.clone().arrayBuffer()]),
+      concatMap(resp => combineLatest([of(resp), from(resp.clone().arrayBuffer())])),
       distinctUntilChanged(([, a], [, b]) => shallowEqual(new Uint8Array(a), new Uint8Array(b))),
       map(([resp]) => resp.clone())
     );

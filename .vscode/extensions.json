@@ -13,6 +13,7 @@
     "formulahendry.auto-close-tag",
     "formulahendry.auto-rename-tag",
     "naumovs.color-highlight",
-    "humao.rest-client"
+    "humao.rest-client",
+    "techer.open-in-browser"
   ]
 }

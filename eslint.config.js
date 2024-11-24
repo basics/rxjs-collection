@@ -1,4 +1,6 @@
 import js from '@eslint/js';
+// https://github.com/vitest-dev/eslint-plugin-vitest
+import vitest from '@vitest/eslint-plugin';
 // https://github.com/nickdeis/eslint-plugin-no-secrets
 import noSecrets from 'eslint-plugin-no-secrets';
 // https://github.com/azat-io/eslint-plugin-perfectionist
@@ -7,8 +9,6 @@ import perfectionist from 'eslint-plugin-perfectionist';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 // https://github.com/eslint-community/eslint-plugin-security
 import eslintPluginSecurity from 'eslint-plugin-security';
-// https://github.com/vitest-dev/eslint-plugin-vitest
-import vitest from 'eslint-plugin-vitest';
 import globals from 'globals';
 
 import eslintIgnores from './eslint.ignores.js';
@@ -48,7 +48,7 @@ export default [
           type: 'alphabetical',
           order: 'asc',
           ignoreCase: true,
-          internalPattern: ['~/**'],
+          internalPattern: ['^~/.*'],
           newlinesBetween: 'always',
           maxLineLength: undefined,
           groups: [

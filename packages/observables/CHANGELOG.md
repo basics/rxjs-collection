@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.5-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.4...@rxjs-collection/observables-v1.0.5-beta.1) (2024-11-24)
+
+
+### Bug Fixes
+
+* **operators:** cleanup and standardize tests ([aabbbd8](https://github.com/basics/rxjs-collection/commit/aabbbd89bd76ca57cfd20b747890fcc74ee01227))
+
 # [@rxjs-collection/observables-v1.0.4](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.3...@rxjs-collection/observables-v1.0.4) (2024-10-24)
 
 

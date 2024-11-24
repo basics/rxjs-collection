@@ -1,5 +1,29 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.6-beta.3](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.6-beta.2...@rxjs-collection/operators-v1.0.6-beta.3) (2024-11-24)
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([fbaaf8a](https://github.com/basics/rxjs-collection/commit/fbaaf8ae9723e6960782b5cd96c2be5ce38a170c))
+
+# [@rxjs-collection/operators-v1.0.6-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.6-beta.1...@rxjs-collection/operators-v1.0.6-beta.2) (2024-11-24)
+
+
+### Bug Fixes
+
+* **operators:** cleanup and standardize tests ([aabbbd8](https://github.com/basics/rxjs-collection/commit/aabbbd89bd76ca57cfd20b747890fcc74ee01227))
+* **operators:** marble testing ([2b5f78b](https://github.com/basics/rxjs-collection/commit/2b5f78bacbbae30ab02f62d1e603816cadba03ee))
+
+# [@rxjs-collection/operators-v1.0.6-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.5...@rxjs-collection/operators-v1.0.6-beta.1) (2024-11-14)
+
+
+### Bug Fixes
+
+* **fetch:** additional stuff ([4ab3e81](https://github.com/basics/rxjs-collection/commit/4ab3e8164d2fb347191b35e87c3ac33a2d1922f5))
+* **operators:** added fetch tests ([84b2614](https://github.com/basics/rxjs-collection/commit/84b26147bae6a8ee2a6010a0f52884900d63761e))
+* **operators:** optimized tests ([bd3c5ef](https://github.com/basics/rxjs-collection/commit/bd3c5ef521b87be36fde61e292f81e92297b16d6))
+
 # [@rxjs-collection/operators-v1.0.5](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.4...@rxjs-collection/operators-v1.0.5) (2024-10-25)
 
 
