@@ -3,7 +3,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { log } from '../log';
-import { networkRetry } from './retry';
+import { retryWhenError } from './retry';
 
 describe('request retry', () => {
   let testScheduler;
@@ -26,7 +26,7 @@ describe('request retry', () => {
       // if you define a delay, you have to add the delay to the subscribe multiple times (num retries)
       const stream = cold('a|', { a: () => triggerVal.shift() }).pipe(
         map(fn => fn()),
-        networkRetry({ timeout: () => 5 }),
+        retryWhenError({ timeout: () => 5 }),
         log('marble:result')
       );
 

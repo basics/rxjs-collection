@@ -1,10 +1,10 @@
 import { concatMap, from, throwError } from 'rxjs';
 
-import { cache as caching } from './cache';
+import { cache } from './cache';
 import { resolveBlob, resolveJSON, resolveText } from './response';
-import { networkRetry } from './retry';
+import { retryWhenError } from './retry';
 
-export const request = ({ retry, cache } = {}) => {
+export const request = ({ retry, cache: cacheOptions } = {}) => {
   return source =>
     source.pipe(
       concatMap(req => {
@@ -14,8 +14,8 @@ export const request = ({ retry, cache } = {}) => {
           return throwError(() => new Error('Failed to fetch: resource not valid'));
         }
       }),
-      networkRetry(retry),
-      caching(cache)
+      retryWhenError(retry),
+      cache(cacheOptions)
     );
 };
 
