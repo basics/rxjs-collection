@@ -1,5 +1,13 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.6-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.6-beta.1...@rxjs-collection/operators-v1.0.6-beta.2) (2024-11-24)
+
+
+### Bug Fixes
+
+* **operators:** cleanup and standardize tests ([aabbbd8](https://github.com/basics/rxjs-collection/commit/aabbbd89bd76ca57cfd20b747890fcc74ee01227))
+* **operators:** marble testing ([2b5f78b](https://github.com/basics/rxjs-collection/commit/2b5f78bacbbae30ab02f62d1e603816cadba03ee))
+
 # [@rxjs-collection/operators-v1.0.6-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.5...@rxjs-collection/operators-v1.0.6-beta.1) (2024-11-14)
 
 
