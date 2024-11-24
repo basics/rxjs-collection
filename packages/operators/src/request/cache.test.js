@@ -22,7 +22,7 @@ describe('cache', () => {
     testScheduler.run(({ cold, expectObservable }) => {
       const stream = cold('a', { a: () => triggerVal.shift() }).pipe(
         map(fn => fn()),
-        cache(2)
+        cache({ ttl: 2 })
       );
 
       const unsubA = '-^!';

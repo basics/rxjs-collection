@@ -16,7 +16,7 @@ import { connectionObservable } from '../../../observables/src/dom/window.js';
 
 const defaultTimeout = count => Math.min(60000, Math.pow(count, 2) * 1000);
 
-export const networkRetry = ({ timeout = defaultTimeout, count } = {}) => {
+export const retryWhenError = ({ timeout = defaultTimeout, count } = {}) => {
   let counter = 0;
 
   return source => {
