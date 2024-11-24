@@ -67,7 +67,7 @@ describe('request', () => {
 
     testScheduler.run(({ cold, expectObservable }) => {
       const stream = cold('a|', { a: () => triggerVal.shift()() }).pipe(
-        request({ timeout: () => 5 })
+        request({ retry: { timeout: () => 5 } })
       );
       expectObservable(stream).toBe('----------c|', expectedVal);
     });
