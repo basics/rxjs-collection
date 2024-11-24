@@ -1,5 +1,13 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.8](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.7...@rxjs-collection/operators-v1.0.8) (2024-11-24)
+
+
+### Bug Fixes
+
+* **operators:** optimized option declaration and added cache to request ([e1a0d3e](https://github.com/basics/rxjs-collection/commit/e1a0d3ed84e3d2c44cbdc939dfac48b330138b23))
+* **operators:** retry cleanup ([c46cbbe](https://github.com/basics/rxjs-collection/commit/c46cbbe1f06e9ab16ea551789fd3e8a3e85c7d1b))
+
 # [@rxjs-collection/operators-v1.0.8-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.8-beta.1...@rxjs-collection/operators-v1.0.8-beta.2) (2024-11-24)
 
 

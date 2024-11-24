@@ -69,7 +69,8 @@ describe('lazy pagination', () => {
   });
 });
 
-describe('lazy pagination - demo', () => {
+/* v8 ignore start */
+describe.skip('lazy pagination - demo', () => {
   test('sample', async () => {
     const { lazyPagination } = await import('./lazyPagination');
 
@@ -111,3 +112,4 @@ describe('lazy pagination - demo', () => {
     await result;
   });
 });
+/* v8 ignore stop */

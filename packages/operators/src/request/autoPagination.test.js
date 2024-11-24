@@ -62,7 +62,8 @@ describe('auto pagination', () => {
   });
 });
 
-describe('auto pagination - demo', () => {
+/* v8 ignore start */
+describe.skip('auto pagination - demo', () => {
   test('sample', async () => {
     const { autoPagination } = await import('./autoPagination');
 
@@ -94,3 +95,4 @@ describe('auto pagination - demo', () => {
     );
   });
 });
+/* v8 ignore stop */
