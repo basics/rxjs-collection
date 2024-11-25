@@ -1,10 +1,10 @@
+import { mockAsync } from '#mocks/async.js';
+import { mockResponse } from '#mocks/response.js';
 import { readFile } from 'node:fs/promises';
 import { of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { test, describe, beforeEach, expect, vi, afterAll, beforeAll } from 'vitest';
 
-import { mockAsync } from '../../../mock/async.js';
-import { mockResponse } from '../../../mock/response.js';
 import { log, logResult } from '../log.js';
 import { resolveJSON } from './response.js';
 

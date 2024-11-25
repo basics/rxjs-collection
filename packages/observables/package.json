@@ -1,6 +1,6 @@
 {
   "name": "@rxjs-collection/observables",
-  "version": "1.0.5",
+  "version": "1.0.6-beta.1",
   "description": "rxjs observables",
   "license": "MIT",
   "contributors": [
@@ -16,6 +16,9 @@
   ],
   "scripts": {
     "release": "npx semantic-release"
+  },
+  "imports": {
+    "#mocks/*": "../mocks/*"
   },
   "dependencies": {
     "@rxjs-collection/operators": "*",
