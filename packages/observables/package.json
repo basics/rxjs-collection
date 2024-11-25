@@ -17,6 +17,9 @@
   "scripts": {
     "release": "npx semantic-release"
   },
+  "imports": {
+    "#mocks/*": "../mocks/*"
+  },
   "dependencies": {
     "@rxjs-collection/operators": "*",
     "rxjs": "7.8.1"

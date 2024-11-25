@@ -17,6 +17,10 @@
   "scripts": {
     "release": "npx semantic-release"
   },
+  "imports": {
+    "#observables/*": "../observables/src/*",
+    "#mocks/*": "../mocks/*"
+  },
   "dependencies": {
     "@rxjs-collection/observables": "*",
     "ansi-colors": "4.1.3",
