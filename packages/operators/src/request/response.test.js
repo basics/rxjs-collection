@@ -1,8 +1,8 @@
+import { mockResponse } from '#mocks/response';
 import { concatMap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterEach, test, describe, beforeEach, expect, vi, beforeAll } from 'vitest';
 
-import { mockResponse } from '../../../mock/response';
 import { log } from '../log';
 import { distinctUntilResponseChanged, resolveJSON, resolveText } from './response';
 

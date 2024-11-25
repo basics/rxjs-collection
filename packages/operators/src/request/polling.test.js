@@ -1,9 +1,8 @@
+import { mockAsync } from '#mocks/async';
+import { mockResponse } from '#mocks/response';
 import { concatMap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
-
-import { mockAsync } from '../../../mock/async';
-import { mockResponse } from '../../../mock/response';
 
 describe('polling', () => {
   let testScheduler;
