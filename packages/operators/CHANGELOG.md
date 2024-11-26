@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.12](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.11...@rxjs-collection/operators-v1.0.12) (2024-11-26)
+
+
+### Bug Fixes
+
+* **operators:** sonarcloud optim ([9aa6ee7](https://github.com/basics/rxjs-collection/commit/9aa6ee7776f8b3a192f6579146c192685c021501))
+
 # [@rxjs-collection/operators-v1.0.12-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.11...@rxjs-collection/operators-v1.0.12-beta.1) (2024-11-26)
 
 
