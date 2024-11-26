@@ -3,6 +3,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { cache } from './cache';
+import { log } from './log';
 
 describe('cache', () => {
   let testScheduler;
@@ -22,7 +23,9 @@ describe('cache', () => {
     testScheduler.run(({ cold, expectObservable }) => {
       const stream = cold('a', { a: () => triggerVal.shift() }).pipe(
         map(fn => fn()),
-        cache({ ttl: 2 })
+        log('operators:cache:default:input'),
+        cache({ ttl: 2 }),
+        log('operators:cache:default:output')
       );
 
       const unsubA = '-^!';

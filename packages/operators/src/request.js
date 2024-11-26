@@ -2,7 +2,7 @@ import { concatMap, from, throwError } from 'rxjs';
 
 import { cache } from './cache';
 import { resolveBlob, resolveJSON, resolveText } from './response';
-import { retryWhenError } from './retry';
+import { retryWhenRequestError } from './retry';
 
 export const request = ({ retry, cache: cacheOptions } = {}) => {
   return source =>
@@ -14,7 +14,7 @@ export const request = ({ retry, cache: cacheOptions } = {}) => {
           return throwError(() => new Error('Failed to fetch: resource not valid'));
         }
       }),
-      retryWhenError(retry),
+      retryWhenRequestError(retry),
       cache(cacheOptions)
     );
 };

@@ -5,7 +5,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { log, logResult } from '../log';
-import { resolveJSON } from './response';
+import { resolveJSON } from '../response';
 
 describe('lazy pagination', () => {
   let testScheduler;
@@ -56,12 +56,14 @@ describe('lazy pagination', () => {
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
         of('https://example.com').pipe(
+          log('operators:request:lazyPagination:input'),
           lazyPagination({
             pager,
             concurrent: 5,
             resolveRoute: (url, { value }) => responseVal[String(value)]
           }),
-          resolveJSON()
+          resolveJSON(),
+          log('operators:request:lazyPagination:output')
         )
       ).toBe('--daceb--------', expectedVal);
       expectObservable(cold('-(abcde)--------', triggerVal).pipe(tap(fn => fn())));

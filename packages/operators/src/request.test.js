@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { test, describe, beforeEach, expect, vi, afterAll, beforeAll } from 'vitest';
 
-import { log, logResult } from '../log.js';
+import { log, logResult } from './log.js';
 import { resolveJSON } from './response.js';
 
 describe('request', () => {
@@ -30,31 +30,8 @@ describe('request', () => {
 
     const expectedVal = {
       a: new Error('NO CONNECTION'),
-      b: { ok: false },
-      c: { ok: true }
-    };
-
-    const triggerVal = [
-      () => {
-        throw expectedVal.a;
-      },
-      () => expectedVal.b,
-      () => expectedVal.c
-    ];
-
-    testScheduler.run(({ cold, expectObservable }) => {
-      const stream = cold('a|', { a: () => triggerVal.shift()() }).pipe(request());
-      expectObservable(stream).toBe('5000ms c|', expectedVal);
-    });
-  });
-
-  test('static timeout', async () => {
-    const { request } = await import('./request.js');
-
-    const expectedVal = {
-      a: new Error('NO CONNECTION'),
-      b: { ok: false },
-      c: { ok: true }
+      b: { status: 500, ok: false },
+      c: { status: 200, ok: true }
     };
 
     const triggerVal = [
@@ -67,7 +44,36 @@ describe('request', () => {
 
     testScheduler.run(({ cold, expectObservable }) => {
       const stream = cold('a|', { a: () => triggerVal.shift()() }).pipe(
-        request({ retry: { timeout: () => 5 } })
+        log('operators:request:dynamicTimeout:request'),
+        request(),
+        log('operators:request:dynamicTimeout:response')
+      );
+      expectObservable(stream).toBe('5000ms c|', expectedVal);
+    });
+  });
+
+  test('static timeout', async () => {
+    const { request } = await import('./request.js');
+
+    const expectedVal = {
+      a: new Error('NO CONNECTION'),
+      b: { status: 500, ok: false },
+      c: { status: 200, ok: true }
+    };
+
+    const triggerVal = [
+      () => {
+        throw expectedVal.a;
+      },
+      () => expectedVal.b,
+      () => expectedVal.c
+    ];
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      const stream = cold('a|', { a: () => triggerVal.shift()() }).pipe(
+        log('operators:request:staticTimeout:request'),
+        request({ retryableStatuses: [500], retry: { timeout: () => 5 } }),
+        log('operators:request:staticTimeout:response')
       );
       expectObservable(stream).toBe('----------c|', expectedVal);
     });
@@ -84,7 +90,11 @@ describe('request', () => {
     };
 
     testScheduler.run(({ cold, expectObservable }) => {
-      const stream = cold('a|', triggerVal).pipe(requestJSON());
+      const stream = cold('a|', triggerVal).pipe(
+        log('operators:request:resolveJSON:request'),
+        requestJSON(),
+        log('operators:request:resolveJSON:response')
+      );
       expectObservable(stream).toBe('a|', expectedVal);
     });
   });
@@ -100,7 +110,11 @@ describe('request', () => {
     };
 
     testScheduler.run(({ cold, expectObservable }) => {
-      const stream = cold('a|', triggerVal).pipe(requestText());
+      const stream = cold('a|', triggerVal).pipe(
+        log('operators:request:resolveText:request'),
+        requestText(),
+        log('operators:request:resolveText:response')
+      );
       expectObservable(stream).toBe('a|', expectedVal);
     });
   });
@@ -117,7 +131,11 @@ describe('request', () => {
 
     // TODO: correctly compare blob - currently successful test, while blob content is different
     testScheduler.run(({ cold, expectObservable }) => {
-      const stream = cold('a|', triggerVal).pipe(requestBlob());
+      const stream = cold('a|', triggerVal).pipe(
+        log('operators:request:resolveBlob:request'),
+        requestBlob(),
+        log('operators:request:resolveBlob:response')
+      );
       expectObservable(stream).toBe('a|', expectedVal);
     });
   });
@@ -148,7 +166,12 @@ describe.skip('request - demo ', () => {
 
     await logResult(
       'demo',
-      of(req).pipe(log('request:upload'), request(), log('request:upload:response'), resolveJSON())
+      of(req).pipe(
+        log('operators:request:upload'),
+        request(),
+        log('operators:request:upload:response'),
+        resolveJSON()
+      )
     );
   });
 });
