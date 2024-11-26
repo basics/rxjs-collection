@@ -29,16 +29,16 @@ describe('request', () => {
     const { request } = await import('./request.js');
 
     const expectedVal = {
-      a: new Error('NO CONNECTION'),
-      b: { status: 500, ok: false },
+      a: { status: 500, ok: false },
+      b: new Error('NO CONNECTION'),
       c: { status: 200, ok: true }
     };
 
     const triggerVal = [
+      () => expectedVal.a,
       () => {
-        throw expectedVal.a;
+        throw expectedVal.b;
       },
-      () => expectedVal.b,
       () => expectedVal.c
     ];
 
