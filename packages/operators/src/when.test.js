@@ -32,7 +32,7 @@ describe('when', () => {
         log('operators:when:pipe:input'),
         pipeWhen(
           v => !(v % 2),
-          s => s.pipe(map(v => v * v))
+          map(v => v * v)
         ),
         log('operators:when:pipe:output')
       );

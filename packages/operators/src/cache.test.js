@@ -24,8 +24,8 @@ describe('cache', () => {
       const stream = cold('a', { a: () => triggerVal.shift() }).pipe(
         map(fn => fn()),
         log('operators:cache:default:input'),
-        cache({ ttl: 2 }),
-        log('operators:cache:default:output')
+        cache({ ttl: 2 })
+        // log('operators:cache:default:output')
       );
 
       const unsubA = '-^!';

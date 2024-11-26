@@ -1,6 +1,6 @@
 import { bgGreen } from 'ansi-colors';
 import debug from 'debug';
-import { connectable, finalize, Subject, tap } from 'rxjs';
+import { connectable, finalize, Observable, Subject, tap } from 'rxjs';
 
 import { pipeWhen } from './when';
 
@@ -17,17 +17,14 @@ export const log = tag => {
     source.pipe(
       pipeWhen(
         () => debug.enabled(tag),
-        source =>
-          source.pipe(
-            tap({
-              subscribe: () => logger('subscribed'),
-              unsubscribe: () => logger('unsubscribed'),
-              finalize: () => logger('finalize'),
-              next: val => logger(val),
-              error: err => error(err),
-              complete: () => logger(bgGreen.bold('complete!'))
-            })
-          )
+        tap({
+          subscribe: () => logger('subscribed'),
+          unsubscribe: () => logger('unsubscribed'),
+          finalize: () => logger('finalize'),
+          next: val => logger(val),
+          error: err => error(err),
+          complete: () => logger(bgGreen.bold('complete!'))
+        })
       )
     );
 };
