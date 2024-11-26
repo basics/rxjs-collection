@@ -1,6 +1,6 @@
 import { bgGreen } from 'ansi-colors';
 import debug from 'debug';
-import { connectable, finalize, Observable, Subject, tap } from 'rxjs';
+import { connectable, finalize, Subject, tap } from 'rxjs';
 
 import { pipeWhen } from './when';
 
@@ -9,9 +9,9 @@ export const enableLog = tag => {
 };
 
 export const log = tag => {
-  var logger = debug(tag);
+  const logger = debug(tag);
   logger.log = global.console.log.bind(console);
-  var error = debug(`${tag}:error`);
+  const error = debug(`${tag}:error`);
 
   return source =>
     source.pipe(

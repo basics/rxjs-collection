@@ -16,7 +16,7 @@ export const retryWhenRequestError = ({
   return source => {
     return source.pipe(
       pipeWhen(
-        resp => (retryableStatuses && retryableStatuses.includes(resp.status)) || !resp.ok,
+        resp => retryableStatuses?.includes(resp.status) || !resp.ok,
         concatMap(() => throwError(() => new Error('invalid request')))
       ),
       retry({ count, delay: () => determineDelayWhenOnline(timeout, ++counter) })
