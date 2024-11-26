@@ -3,7 +3,7 @@ import { concatMap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterEach, test, describe, beforeEach, expect, vi, beforeAll } from 'vitest';
 
-import { log } from '../log';
+import { log } from './log';
 import { distinctUntilResponseChanged, resolveJSON, resolveText } from './response';
 
 describe('response', () => {
@@ -30,7 +30,11 @@ describe('response', () => {
     };
 
     testScheduler.run(({ cold, expectObservable }) => {
-      const stream = cold('a|', triggerVal).pipe(resolveJSON());
+      const stream = cold('a|', triggerVal).pipe(
+        log('operators:response:resolveJSON:input'),
+        resolveJSON(),
+        log('operators:response:resolveJSON:output')
+      );
       expectObservable(stream).toBe('a|', expectedVal);
     });
   });
@@ -44,7 +48,11 @@ describe('response', () => {
     };
 
     testScheduler.run(({ cold, expectObservable }) => {
-      const stream = cold('a|', triggerVal).pipe(resolveText());
+      const stream = cold('a|', triggerVal).pipe(
+        log('operators:response:resolveText:input'),
+        resolveText(),
+        log('operators:response:resolveText:output')
+      );
       expectObservable(stream).toBe('a|', expectedVal);
     });
   });
@@ -75,9 +83,10 @@ describe('response', () => {
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
         cold('-a-b-c-d-e-f-g-h-|', triggerValues).pipe(
+          log('operators:response:change:input'),
           distinctUntilResponseChanged(),
           concatMap(resp => resp.arrayBuffer()),
-          log('marble:result')
+          log('operators:response:change:output')
         )
       ).toBe('-a---c---e-f---h-|', expectedVal);
     });

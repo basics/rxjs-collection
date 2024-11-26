@@ -1,7 +1,7 @@
 import { delay, expand, of } from 'rxjs';
 
-import { request } from './request';
-import { distinctUntilResponseChanged } from './response';
+import { request } from '../request';
+import { distinctUntilResponseChanged } from '../response';
 
 export const polling = (timeout = 1000) => {
   return source =>

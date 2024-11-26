@@ -5,7 +5,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { log, logResult } from '../log';
-import { resolveJSON } from './response';
+import { resolveJSON } from '../response';
 
 describe('auto pagination', () => {
   let testScheduler;
@@ -45,7 +45,8 @@ describe('auto pagination', () => {
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
-        cold('-a-------------------', { a: 'a' }).pipe(
+        cold('-a|', { a: 'a' }).pipe(
+          log('operators:request:autoPagination:input'),
           autoPagination({
             resolveRoute: (url, resp) => {
               if (resp) {
@@ -55,9 +56,9 @@ describe('auto pagination', () => {
             }
           }),
           resolveJSON(),
-          log('marble:result')
+          log('operators:request:autoPagination:output')
         )
-      ).toBe('---a----b--cd---e----', expectedVal);
+      ).toBe('---a----b--cd---(e|)', expectedVal);
     });
   });
 });

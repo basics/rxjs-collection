@@ -11,4 +11,4 @@ export {
   resolveBlob,
   distinctUntilResponseChanged
 } from './request/response';
-export { retryWhenError } from './request/retry';
+export { retryWhenRequestError } from './retry';

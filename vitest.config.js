@@ -10,7 +10,9 @@ export default defineConfig({
         ...configDefaults.exclude,
         'commitlint.config.js',
         'eslint.ignores.js',
-        'vitest.workspace.js'
+        'vitest.workspace.js',
+        './packages/observables/src/index.js',
+        './packages/operators/src/index.js'
       ]
     },
     include: ['**/packages/**/*.test.js']

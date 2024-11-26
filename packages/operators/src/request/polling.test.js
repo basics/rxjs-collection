@@ -4,6 +4,8 @@ import { concatMap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { log } from '../log';
+
 describe('polling', () => {
   let testScheduler;
 
@@ -46,8 +48,10 @@ describe('polling', () => {
 
     testScheduler.run(({ cold, expectObservable }) => {
       const stream = cold('a------------', { a: 'a' }).pipe(
+        log('operators:request:polling:input'),
         polling(2),
-        concatMap(e => e.arrayBuffer())
+        concatMap(e => e.arrayBuffer()),
+        log('operators:request:polling:output')
       );
 
       const unsubA = '^------------!';

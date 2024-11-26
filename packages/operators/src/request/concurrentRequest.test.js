@@ -5,7 +5,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { log, logResult } from '../log';
-import { resolveJSON, resolveText } from './response';
+import { resolveJSON, resolveText } from '../response';
 
 describe('concurrent request', () => {
   let testScheduler;
@@ -37,11 +37,13 @@ describe('concurrent request', () => {
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(
-        cold('-a-b-(cd)-e----', triggerVal).pipe(
+        cold('-a-b-(cd)-e|', triggerVal).pipe(
+          log('operators:request:concurrent:input'),
           concurrentRequest(Object.keys(triggerVal).length),
-          resolveText()
+          resolveText(),
+          log('operators:request:concurrent:output')
         )
-      ).toBe('---a--c-(bd)--e');
+      ).toBe('---a--c-(bd)--(e|)');
     });
   });
 });
