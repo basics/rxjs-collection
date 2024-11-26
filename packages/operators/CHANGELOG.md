@@ -1,5 +1,14 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.11](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.10...@rxjs-collection/operators-v1.0.11) (2024-11-26)
+
+
+### Bug Fixes
+
+* **operators:** cleanup & optimization ([200b476](https://github.com/basics/rxjs-collection/commit/200b476d02deb96764bb43e4e7573855e2af5c92))
+* **operators:** fix cache log ([c551158](https://github.com/basics/rxjs-collection/commit/c5511580b60c5ce1b595dd7541edcc32aa97a445))
+* **operators:** solved duplication ([eae508b](https://github.com/basics/rxjs-collection/commit/eae508b7fe2a43879d1ba46df9d17d9e632f8778))
+
 # [@rxjs-collection/operators-v1.0.11-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.10...@rxjs-collection/operators-v1.0.11-beta.1) (2024-11-26)
 
 
