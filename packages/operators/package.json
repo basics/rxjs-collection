@@ -1,6 +1,6 @@
 {
   "name": "@rxjs-collection/operators",
-  "version": "1.0.10-beta.1",
+  "version": "1.0.10",
   "description": "rxjs operators",
   "license": "MIT",
   "contributors": [
@@ -10,7 +10,7 @@
     }
   ],
   "type": "module",
-  "main": "index.js",
+  "main": "src/index.js",
   "files": [
     "./src/*"
   ],

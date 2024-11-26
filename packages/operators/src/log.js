@@ -1,6 +1,8 @@
 import { bgGreen } from 'ansi-colors';
 import debug from 'debug';
-import { connectable, finalize, Observable, Subject } from 'rxjs';
+import { connectable, finalize, Observable, Subject, tap } from 'rxjs';
+
+import { pipeWhen } from './when';
 
 export const enableLog = tag => {
   debug.enable(tag);
@@ -8,31 +10,23 @@ export const enableLog = tag => {
 
 export const log = tag => {
   var logger = debug(tag);
-  logger.log = console.log.bind(console);
+  logger.log = global.console.log.bind(console);
   var error = debug(`${tag}:error`);
 
-  if (debug.enabled(tag)) {
-    return source => {
-      return new Observable(observer => {
-        return source.subscribe({
-          next: val => {
-            logger(val);
-            observer.next(val);
-          },
-          error: err => {
-            error(err);
-            observer.error(err);
-          },
-          complete: () => {
-            logger(bgGreen.bold('Complete!'));
-            observer.complete();
-          }
-        });
-      });
-    };
-  } else {
-    return source => source;
-  }
+  return source =>
+    source.pipe(
+      pipeWhen(
+        () => debug.enabled(tag),
+        tap({
+          subscribe: () => logger('subscribed'),
+          unsubscribe: () => logger('unsubscribed'),
+          finalize: () => logger('finalize'),
+          next: val => logger(val),
+          error: err => error(err),
+          complete: () => logger(bgGreen.bold('complete!'))
+        })
+      )
+    );
 };
 
 export const logResult = (tag, observable) => {
@@ -46,3 +40,33 @@ export const logResult = (tag, observable) => {
     ).connect();
   });
 };
+
+// export const log = tag => {
+//   var logger = debug(tag);
+//   logger.log = global.console.log.bind(console);
+//   var error = debug(`${tag}:error`);
+
+//   if (debug.enabled(tag)) {
+//     return source =>
+//       new Observable(observer => {
+//         source.subscribe({
+//           subscribe: () => logger('subscribed'),
+//           unsubscribe: () => logger('unsubscribed'),
+//           finalize: () => logger('finalize'),
+//           next: val => {
+//             logger(val);
+//             observer.next(val);
+//           },
+//           error: err => {
+//             error(err);
+//             observer.error(err);
+//           },
+//           complete: () => {
+//             logger(bgGreen.bold('complete!'));
+//             observer.complete();
+//           }
+//         });
+//       });
+//   }
+//   return source => source;
+// };

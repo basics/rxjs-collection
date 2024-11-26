@@ -1,6 +1,6 @@
 import { concatMap, expand, filter, from, map } from 'rxjs';
 
-import { request } from './request';
+import { request } from '../request';
 
 export const autoPagination = ({ resolveRoute }) => {
   return source =>
