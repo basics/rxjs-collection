@@ -38,11 +38,11 @@ describe('lazy pagination', () => {
     };
 
     const expectedVal = {
-      a: { value: '1' },
-      b: { value: '2' },
-      c: { value: '3' },
-      d: { value: '4' },
-      e: { value: '5' }
+      a: { value: 'content a' },
+      b: { value: 'content b' },
+      c: { value: 'content c' },
+      d: { value: 'content d' },
+      e: { value: 'content e' }
     };
 
     const responseVal = {
