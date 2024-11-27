@@ -39,7 +39,7 @@ describe('log', () => {
 
     const actual = [];
     vi.spyOn(console, 'log').mockImplementation(v => {
-      actual.push(stripAnsiCodes(v));
+      actual.push(replaceDateTimeISOString(stripAnsiCodes(v)));
       return v;
     });
 
@@ -58,7 +58,7 @@ describe('log', () => {
   test('logResult', async () => {
     const actual = [];
     vi.spyOn(console, 'log').mockImplementation(v => {
-      actual.push(stripAnsiCodes(v));
+      actual.push(replaceDateTimeISOString(stripAnsiCodes(v)));
       return v;
     });
 
@@ -82,5 +82,12 @@ const stripAnsiCodes = str => {
     // eslint-disable-next-line security/detect-unsafe-regex, no-control-regex
     /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
     ''
+  );
+};
+
+const replaceDateTimeISOString = str => {
+  return str.replace(
+    /^[0-9]{4}-((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01])|(0[469]|11)-(0[1-9]|[12][0-9]|30)|(02)-(0[1-9]|[12][0-9]))T(0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9])\.[0-9]{3}Z/,
+    ' '
   );
 };
