@@ -1,4 +1,4 @@
-import { from, toArray } from 'rxjs';
+import { from } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
