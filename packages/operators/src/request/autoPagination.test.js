@@ -28,11 +28,11 @@ describe('auto pagination', () => {
     const { autoPagination } = await import('./autoPagination');
 
     const expectedVal = {
-      a: { value: 'a', next: 'b' },
-      b: { value: 'b', next: 'c' },
-      c: { value: 'c', next: 'd' },
-      d: { value: 'd', next: 'e' },
-      e: { value: 'e', next: null }
+      a: { value: 'content a', next: 'b' },
+      b: { value: 'content b', next: 'c' },
+      c: { value: 'content c', next: 'd' },
+      d: { value: 'content d', next: 'e' },
+      e: { value: 'content e', next: null }
     };
 
     const triggerVal = {

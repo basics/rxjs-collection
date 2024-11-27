@@ -1,6 +1,6 @@
 import { map } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { beforeEach, describe, expect, test } from 'vitest';
+import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { log } from './log';
 import { pipeWhen } from './when';
@@ -10,6 +10,10 @@ describe('when', () => {
 
   beforeEach(() => {
     testScheduler = new TestScheduler((actual, expected) => expect(actual).deep.equal(expected));
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
 
   test('default', () => {
