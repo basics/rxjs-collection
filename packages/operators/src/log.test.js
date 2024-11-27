@@ -1,8 +1,8 @@
-import { from } from 'rxjs';
+import { from, map } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { log, logResult } from './log';
+import { enableLog, log, logResult } from './log';
 
 describe('log', () => {
   let testScheduler;
@@ -23,16 +23,18 @@ describe('log', () => {
     };
 
     const triggerVal = {
-      a: expectedVal.a,
-      b: expectedVal.b,
-      c: expectedVal.c
+      a: () => expectedVal.a,
+      b: () => expectedVal.b,
+      c: () => expectedVal.c,
+      d: () => {
+        throw new Error('custom error');
+      }
     };
 
     const expected = [
       '  operators:log:default content a',
       '  operators:log:default content b',
-      '  operators:log:default content c',
-      '  operators:log:default complete!'
+      '  operators:log:default content c'
     ];
 
     const actual = [];
@@ -41,9 +43,13 @@ describe('log', () => {
       return v;
     });
 
+    enableLog('operators:log:default');
     testScheduler.run(({ cold, expectObservable, flush }) => {
-      const stream = cold('a-b-c|', triggerVal).pipe(log('operators:log:default'));
-      expectObservable(stream).toBe('a-b-c|', expectedVal);
+      const stream = cold('a-b-c-d|', triggerVal).pipe(
+        map(v => v()),
+        log('operators:log:default')
+      );
+      expectObservable(stream).toBe('a-b-c-#', expectedVal, new Error('custom error'));
       flush();
       expect(actual).deep.equal(expected);
     });
@@ -65,6 +71,7 @@ describe('log', () => {
 
     const triggerVal = ['content a', 'content b', 'content c'];
 
+    enableLog('operators:log:result');
     await logResult('operators:log:result', from(triggerVal));
     expect(actual).deep.equal(expectedVal);
   });
