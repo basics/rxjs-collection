@@ -27,12 +27,20 @@ describe('concurrent request', () => {
   test('default', async () => {
     const { concurrentRequest } = await import('./concurrentRequest');
 
+    const expectedVal = {
+      a: 'content a',
+      b: 'content b',
+      c: 'content c',
+      d: 'content d',
+      e: 'content e'
+    };
+
     const triggerVal = {
-      a: { t: 2, v: new Response('a') },
-      b: { t: 5, v: new Response('b') },
-      c: { t: 1, v: new Response('c') },
-      d: { t: 3, v: new Response('d') },
-      e: { t: 4, v: new Response('e') }
+      a: { t: 2, v: new Response(expectedVal.a) },
+      b: { t: 5, v: new Response(expectedVal.b) },
+      c: { t: 1, v: new Response(expectedVal.c) },
+      d: { t: 3, v: new Response(expectedVal.d) },
+      e: { t: 4, v: new Response(expectedVal.e) }
     };
 
     testScheduler.run(({ cold, expectObservable }) => {
@@ -43,7 +51,7 @@ describe('concurrent request', () => {
           resolveText(),
           log('operators:request:concurrent:output')
         )
-      ).toBe('---a--c-(bd)--(e|)');
+      ).toBe('---a--c-(bd)--(e|)', expectedVal);
     });
   });
 });
