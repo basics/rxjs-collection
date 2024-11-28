@@ -21,11 +21,15 @@
     "release": "npm run release --workspaces",
     "release:proof": "npx dotenv-cli -- npm run release -- -- --dry-run",
     "test": "vitest",
+    "test:observables": "vitest --project packages/observables",
+    "test:operators": "vitest --project packages/operators",
+    "test:playground": "vitest --project packages/playground",
     "coverage": "vitest run --coverage"
   },
   "workspaces": [
     "packages/operators",
-    "packages/observables"
+    "packages/observables",
+    "packages/playground"
   ],
   "devDependencies": {
     "@commitlint/config-conventional": "19.6.0",
