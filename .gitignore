@@ -4,3 +4,4 @@ node_modules
 
 /coverage
 /.github_old
+/.cache

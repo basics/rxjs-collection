@@ -1,11 +1,20 @@
 # Project Changelog
 
-# [@rxjs-collection/operators-v1.1.0](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.13...@rxjs-collection/operators-v1.1.0) (2024-11-28)
+# [@rxjs-collection/operators-v1.1.1-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.1.0...@rxjs-collection/operators-v1.1.1-beta.1) (2024-11-28)
 
 
-### Features
+### Bug Fixes
 
-* **playground:** added playground ([d2a84ff](https://github.com/basics/rxjs-collection/commit/d2a84ffd4685a354a073ce1b888869ba13adb505))
+* **vitest:** better config ([7df804a](https://github.com/basics/rxjs-collection/commit/7df804acd9df3b0013dcc5b92a285dcf352a843a))
+* **vitest:** updated config - project separated test calls ([9b69b72](https://github.com/basics/rxjs-collection/commit/9b69b72393dd8d61e6f435c7294086132ca64afe))
+
+# [@rxjs-collection/operators-v1.1.0-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.1.0-beta.1...@rxjs-collection/operators-v1.1.0-beta.2) (2024-11-28)
+
+
+### Bug Fixes
+
+* **vitest:** better config ([7df804a](https://github.com/basics/rxjs-collection/commit/7df804acd9df3b0013dcc5b92a285dcf352a843a))
+* **vitest:** updated config - project separated test calls ([9b69b72](https://github.com/basics/rxjs-collection/commit/9b69b72393dd8d61e6f435c7294086132ca64afe))
 
 # [@rxjs-collection/operators-v1.1.0-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.13...@rxjs-collection/operators-v1.1.0-beta.1) (2024-11-28)
 
