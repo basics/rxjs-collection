@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.1.0](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.13...@rxjs-collection/operators-v1.1.0) (2024-11-28)
+
+
+### Features
+
+* **playground:** added playground ([d2a84ff](https://github.com/basics/rxjs-collection/commit/d2a84ffd4685a354a073ce1b888869ba13adb505))
+
 # [@rxjs-collection/operators-v1.1.0-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.13...@rxjs-collection/operators-v1.1.0-beta.1) (2024-11-28)
 
 
