@@ -1,5 +1,11 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.8-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.7...@rxjs-collection/observables-v1.0.8-beta.1) (2024-11-28)
+
+
+### Bug Fixes
+
+* **vitest:** updated config - project separated test calls ([9b69b72](https://github.com/basics/rxjs-collection/commit/9b69b72393dd8d61e6f435c7294086132ca64afe))
 
 # [@rxjs-collection/observables-v1.0.7](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.6...@rxjs-collection/observables-v1.0.7) (2024-11-26)
 
