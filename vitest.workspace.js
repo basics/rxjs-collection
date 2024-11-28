@@ -1,5 +1,3 @@
-// export default ['packages/**/vitest.config.js'];
-
 import { readFileSync } from 'node:fs';
 import { defineWorkspace } from 'vitest/config';
 
