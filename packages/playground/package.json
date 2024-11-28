@@ -1,0 +1,30 @@
+{
+  "name": "@rxjs-collection/playground",
+  "version": "1.0.12",
+  "description": "rxjs playground",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Stephan Gerbeth",
+      "email": "stephan.gerbeth@gmail.com"
+    }
+  ],
+  "type": "module",
+  "main": "src/index.js",
+  "files": [
+    "./src/*"
+  ],
+  "scripts": {
+    "release": "npx semantic-release"
+  },
+  "imports": {
+    "#observables/*": "../observables/src/*",
+    "#operators/*": "../operators/src/*",
+    "#mocks/*": "../mocks/*"
+  },
+  "dependencies": {
+    "@rxjs-collection/observables": "*",
+    "@rxjs-collection/operators": "*",
+    "rxjs": "7.8.1"
+  }
+}
