@@ -14,6 +14,7 @@
     "formulahendry.auto-rename-tag",
     "naumovs.color-highlight",
     "humao.rest-client",
-    "techer.open-in-browser"
+    "techer.open-in-browser",
+    "vitest.explorer"
   ]
 }
