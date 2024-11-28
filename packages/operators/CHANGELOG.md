@@ -1,5 +1,17 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.0.13](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.12...@rxjs-collection/operators-v1.0.13) (2024-11-27)
+
+
+### Bug Fixes
+
+* **operators:** added error test case ([8495596](https://github.com/basics/rxjs-collection/commit/84955962d3f6bc50a6fe7e47bafaf0bcc686c231))
+* **operators:** cleanup ([236fb2e](https://github.com/basics/rxjs-collection/commit/236fb2e6119c4e6911cf4ec7deed9afffe6cbb04))
+* **operators:** log test ([14bcad4](https://github.com/basics/rxjs-collection/commit/14bcad4549391af15ec8486ecd4c6303d2ac372c))
+* **operators:** more readable test data ([5edeb7c](https://github.com/basics/rxjs-collection/commit/5edeb7c73d542401c92f9f30f16ac3ebe3de7088))
+* **operators:** refactored log ([345487e](https://github.com/basics/rxjs-collection/commit/345487e7f8aa0072c728d726a7a8517fae154330))
+* **operators:** strip datetimeisostring from log output ([d26ab18](https://github.com/basics/rxjs-collection/commit/d26ab186cfbc91c3e1afc7237198475192049822))
+
 # [@rxjs-collection/operators-v1.0.13-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.0.12...@rxjs-collection/operators-v1.0.13-beta.1) (2024-11-27)
 
 
