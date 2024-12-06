@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.1.2-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.1.1...@rxjs-collection/operators-v1.1.2-beta.1) (2024-12-06)
+
+
+### Bug Fixes
+
+* **operators:** log test completed ([df028a7](https://github.com/basics/rxjs-collection/commit/df028a70547be7095e3cab9663dd9b45d29304e9))
+
 # [@rxjs-collection/operators-v1.1.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.1.0...@rxjs-collection/operators-v1.1.1) (2024-11-28)
 
 
