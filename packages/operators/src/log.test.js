@@ -1,8 +1,9 @@
 import { from, map } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
+import stripAnsi from 'strip-ansi';
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { enableLog, log, logResult } from './log';
+import { defaultLogger, enableLog, log, logResult } from './log';
 
 describe('log', () => {
   let testScheduler;
@@ -39,7 +40,7 @@ describe('log', () => {
 
     const actual = [];
     vi.spyOn(console, 'log').mockImplementation(v => {
-      actual.push(replaceDateTimeISOString(stripAnsiCodes(v)));
+      actual.push(replaceDateTimeISOString(stripAnsi(v)));
       return v;
     });
 
@@ -55,35 +56,46 @@ describe('log', () => {
     });
   });
 
-  test('logResult', async () => {
+  test('logResult - defaultLogger', async () => {
     const actual = [];
+
     vi.spyOn(console, 'log').mockImplementation(v => {
-      actual.push(replaceDateTimeISOString(stripAnsiCodes(v)));
+      actual.push(replaceDateTimeISOString(stripAnsi(v)));
       return v;
     });
 
     const expectedVal = [
-      '  operators:log:result content a',
-      '  operators:log:result content b',
-      '  operators:log:result content c',
+      "  operators:log:result [ 'content a', 'content b', 'content c' ]",
       '  operators:log:result complete!'
     ];
 
     const triggerVal = ['content a', 'content b', 'content c'];
 
     enableLog('operators:log:result');
+    await logResult('operators:log:result', from(triggerVal), defaultLogger);
+    expect(actual).deep.equal(expectedVal);
+  });
+
+  test('logResult - tableLogger', async () => {
+    const actual = [];
+
+    vi.spyOn(console, 'log').mockImplementation(v => {
+      actual.push(replaceDateTimeISOString(stripAnsi(v)));
+      return v;
+    });
+
+    const expectedVal = [
+      `  operators:log:result +-------+-------------+\n| index |    text     |\n+-------+-------------+\n|     0 | 'content a' |\n|     1 | 'content b' |\n|     2 | 'content c' |\n+-------+-------------+\n`,
+      '  operators:log:result complete!'
+    ];
+
+    const triggerVal = [{ text: 'content a' }, { text: 'content b' }, { text: 'content c' }];
+
+    enableLog('operators:log:result');
     await logResult('operators:log:result', from(triggerVal));
     expect(actual).deep.equal(expectedVal);
   });
 });
-
-const stripAnsiCodes = str => {
-  return str.replace(
-    // eslint-disable-next-line security/detect-unsafe-regex, no-control-regex
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-    ''
-  );
-};
 
 const replaceDateTimeISOString = str => {
   return str.replace(
