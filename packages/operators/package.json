@@ -24,8 +24,8 @@
   "dependencies": {
     "@rxjs-collection/observables": "*",
     "ansi-colors": "4.1.3",
-    "ascii-table3": "^0.9.0",
-    "debug": "^4.3.7",
+    "ascii-table3": "0.9.0",
+    "debug": "4.3.7",
     "fast-equals": "5.0.1",
     "rxjs": "7.8.1"
   },
