@@ -46,7 +46,7 @@ const interceptStream = (reworkers, chunkSize) => {
                 if (done) {
                   return onStreamEnd(controller, reworkers);
                 }
-                await onStreamPull(controller, reworkers, value, total, Date.now() - this.time);
+                await onStreamPull(controller, reworkers, value, total, this.time);
               } catch (err) {
                 onStreamError(err);
                 throw err;

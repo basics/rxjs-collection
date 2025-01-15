@@ -7,9 +7,9 @@ export default {
     return new Subject().pipe(
       calcReceivedStats(),
       calcEstimatedTime(),
+      convertEstimedTimeTo(timeUnit),
       concatWith(of(0)),
-      distinctUntilChanged(),
-      convertEstimedTimeTo(timeUnit)
+      distinctUntilChanged()
     );
   }
 };

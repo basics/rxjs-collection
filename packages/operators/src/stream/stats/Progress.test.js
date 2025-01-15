@@ -39,8 +39,8 @@ describe('Progress', () => {
     const progress = Progress.create();
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(progress).toBe('a-b-c-d-e-f-g-h-i', expectedVal);
-      expectObservable(cold('a-b-c-d-e-f-g-h-i', triggerVal).pipe(tap(val => progress.next(val))));
+      expectObservable(progress).toBe('a-b-c-d-e-f-g-h-i|', expectedVal);
+      expectObservable(cold('a-b-c-d-e-f-g-h-i|', triggerVal).pipe(tap(progress)));
     });
   });
 });

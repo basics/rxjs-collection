@@ -16,7 +16,11 @@ export const calcReceivedStats = () => {
   return source =>
     source.pipe(
       scan(
-        (acc, { value, total, period }) => ({ value: acc.value + value.byteLength, total, period }),
+        (acc, { value, total, period }) => ({
+          value: acc.value + value.byteLength,
+          total,
+          period: Date.now() - period
+        }),
         { value: 0, total: 0, period: 0 }
       )
     );

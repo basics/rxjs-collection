@@ -9,6 +9,7 @@ import { test, describe, beforeEach, expect, vi, afterAll, beforeAll } from 'vit
 
 import { log, logResult } from './log.js';
 import { resolveBlob, resolveJSON } from './response.js';
+import ElapsedTime from './stream/stats/ElapsedTime.js';
 import EstimateTime from './stream/stats/EstimateTime.js';
 import Progress from './stream/stats/Progress.js';
 import TransferRate from './stream/stats/TransferRate.js';
@@ -214,6 +215,9 @@ describe('test', () => {
     const estimateTime = EstimateTime.create(SECOND);
     estimateTime.subscribe({ next: e => console.log('ESTIMATE', e) });
 
+    const elapsedTime = ElapsedTime.create(SECOND);
+    elapsedTime.subscribe({ next: e => console.log('ELAPSED', e) });
+
     const fileMap = {
       VIDEO_170MB:
         'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
@@ -229,7 +233,7 @@ describe('test', () => {
 
     const value = await lastValueFrom(
       of(req).pipe(
-        request({ stats: { download: [progress, byteRate, estimateTime] } }),
+        request({ stats: { download: [progress, byteRate, estimateTime, elapsedTime] } }),
         resolveBlob()
         //
       )
