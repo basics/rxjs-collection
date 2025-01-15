@@ -2,10 +2,10 @@ import { tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import EstimateTime from './EstimateTime';
+import TimeEstimate from './TimeEstimate';
 import { SECOND } from './utils';
 
-describe('EstimateTime', () => {
+describe('TimeEstimate', () => {
   let testScheduler;
 
   beforeEach(() => {
@@ -37,11 +37,11 @@ describe('EstimateTime', () => {
       e: 0
     };
 
-    const estimateTime = EstimateTime.create();
+    const timeEstimate = TimeEstimate.create();
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(estimateTime).toBe('--a-b-c-d-e|', expectedVal);
-      expectObservable(cold('--a-b-c-d-e|', triggerVal).pipe(tap(estimateTime)));
+      expectObservable(timeEstimate).toBe('--a-b-c-d-e|', expectedVal);
+      expectObservable(cold('--a-b-c-d-e|', triggerVal).pipe(tap(timeEstimate)));
     });
   });
 
@@ -64,11 +64,11 @@ describe('EstimateTime', () => {
       e: 0
     };
 
-    const estimateTimeSecond = EstimateTime.create(SECOND);
+    const timeEstimateSecond = TimeEstimate.create(SECOND);
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(estimateTimeSecond).toBe('--a-b-c-d-e|', expectedVal);
-      expectObservable(cold('--a-b-c-d-e|', triggerVal).pipe(tap(estimateTimeSecond)));
+      expectObservable(timeEstimateSecond).toBe('--a-b-c-d-e|', expectedVal);
+      expectObservable(cold('--a-b-c-d-e|', triggerVal).pipe(tap(timeEstimateSecond)));
     });
   });
 });

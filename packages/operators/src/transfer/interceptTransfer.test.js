@@ -5,9 +5,9 @@ import { of, Subject } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { bypassStream } from './bypassStream';
+import { interceptTransfer } from './interceptTransfer';
 
-describe('bypass stream', () => {
+describe('intercept transfer', () => {
   let testScheduler;
 
   beforeAll(() => {
@@ -19,13 +19,13 @@ describe('bypass stream', () => {
     testScheduler = new TestScheduler((actual, expected) => expect(actual).deep.equal(expected));
   });
 
-  test('bypass response stream', async () => {
+  test('intercept response', async () => {
     const blob = new Blob(
       [fs.readFileSync(`${__dirname}/../../fixtures/videos/demo.mp4`)],
       'video/mp4'
     );
 
-    const bypass = new Subject();
+    const intercept = new Subject();
 
     const triggerVal = {
       a: new Response(blob, { status: 200 })
@@ -33,7 +33,7 @@ describe('bypass stream', () => {
 
     // testScheduler.run(({ cold, expectObservable }) => {
     //   expectObservable(bypass).toBe('a');
-    //   expectObservable(cold('a|', triggerVal).pipe(bypassStream([bypass])));
+    //   expectObservable(cold('a|', triggerVal).pipe(interceptTransfer([bypass])));
     // });
   });
 });

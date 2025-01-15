@@ -2,10 +2,10 @@ import { tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import TransferRate from './TransferRate';
+import Bandwidth from './Bandwidth';
 import { KBIT } from './utils';
 
-describe('TransferRate', () => {
+describe('Bandwidth', () => {
   let testScheduler;
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('TransferRate', () => {
     vi.restoreAllMocks();
   });
 
-  test('calc transfer rate', async () => {
+  test('calc bandwidth', async () => {
     const time = Date.now();
 
     const triggerVal = {
@@ -37,11 +37,11 @@ describe('TransferRate', () => {
       e: 15.625
     };
 
-    const transferRate = TransferRate.create(KBIT);
+    const bandwidth = Bandwidth.create(KBIT);
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(transferRate).toBe('--a-b-c-d-e|', expectedVal);
-      expectObservable(cold('--a-b-c-d-e|', triggerVal).pipe(tap(transferRate)));
+      expectObservable(bandwidth).toBe('--a-b-c-d-e|', expectedVal);
+      expectObservable(cold('--a-b-c-d-e|', triggerVal).pipe(tap(bandwidth)));
     });
   });
 });

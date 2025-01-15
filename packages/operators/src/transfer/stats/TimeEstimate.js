@@ -7,7 +7,7 @@ export default {
     return new Subject().pipe(
       calcReceivedStats(),
       calcEstimatedTime(),
-      convertEstimedTimeTo(timeUnit),
+      convertEstimatedTimeTo(timeUnit),
       concatWith(of(0)),
       distinctUntilChanged()
     );
@@ -19,6 +19,6 @@ const calcEstimatedTime = () => {
     source.pipe(map(({ value, total, period }) => Math.ceil((total - value) * (period / value))));
 };
 
-const convertEstimedTimeTo = timeRatio => {
+const convertEstimatedTimeTo = timeRatio => {
   return source => source.pipe(map(value => value / timeRatio));
 };

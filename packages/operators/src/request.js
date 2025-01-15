@@ -3,15 +3,15 @@ import { concatMap, from, throwError } from 'rxjs';
 import { cache } from './cache';
 import { resolveBlob, resolveJSON, resolveText } from './response';
 import { retryWhenRequestError } from './retry';
-import { bypassStream } from './stream/bypassStream';
+import { interceptTransfer } from './transfer/interceptTransfer';
 
 export const request = ({ retry, cache: cacheOptions, stats } = {}) => {
   return source =>
     source.pipe(
-      bypassStream(stats?.upload),
+      interceptTransfer(stats?.upload),
       tryRequest(),
       retryWhenRequestError(retry),
-      bypassStream(stats?.download),
+      interceptTransfer(stats?.download),
       cache(cacheOptions)
       //
     );

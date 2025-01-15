@@ -2,15 +2,15 @@ import { concatMap, from, map, of } from 'rxjs';
 
 import { readBytes } from './utils';
 
-export const bypassStream = (reworkers = [], chunkSize = 60 * 1024) => {
+export const interceptTransfer = (reworkers = [], chunkSize = 60 * 1024) => {
   return source =>
     source.pipe(
       concatMap(requestResponse => {
         if (reworkers.length) {
           return of(requestResponse).pipe(
-            objectToStream(),
+            sourceToStream(),
             interceptStream(reworkers, chunkSize),
-            streamToObject(requestResponse)
+            streamToSource(requestResponse)
           );
         }
         return of(requestResponse);
@@ -18,12 +18,12 @@ export const bypassStream = (reworkers = [], chunkSize = 60 * 1024) => {
     );
 };
 
-const objectToStream = () => {
+const sourceToStream = () => {
   return source =>
     source.pipe(concatMap(reqResp => objectToStreamMap.get(reqResp.constructor)(reqResp)));
 };
 
-const streamToObject = reqResp => {
+const streamToSource = reqResp => {
   return source =>
     source.pipe(concatMap(stream => streamToObjectMap.get(reqResp.constructor)(stream, reqResp)));
 };

@@ -9,11 +9,11 @@ import { test, describe, beforeEach, expect, vi, afterAll, beforeAll } from 'vit
 
 import { log, logResult } from './log.js';
 import { resolveBlob, resolveJSON } from './response.js';
-import ElapsedTime from './stream/stats/ElapsedTime.js';
-import EstimateTime from './stream/stats/EstimateTime.js';
-import Progress from './stream/stats/Progress.js';
-import TransferRate from './stream/stats/TransferRate.js';
-import { MBYTE, SECOND } from './stream/stats/utils.js';
+import Bandwidth from './transfer/stats/Bandwidth.js';
+import ElapsedTime from './transfer/stats/ElapsedTime.js';
+import Progress from './transfer/stats/Progress.js';
+import TimeEstimate from './transfer/stats/TimeEstimate.js';
+import { MBYTE, SECOND } from './transfer/stats/utils.js';
 
 describe.skip('request', () => {
   let testScheduler;
@@ -209,11 +209,11 @@ describe('test', () => {
     const progress = Progress.create();
     progress.subscribe({ next: e => console.log('DOWNLOAD', e) });
 
-    const byteRate = TransferRate.create(MBYTE, SECOND);
-    byteRate.subscribe({ next: e => console.log('RATE', e) });
+    const bandwidth = Bandwidth.create(MBYTE, SECOND);
+    bandwidth.subscribe({ next: e => console.log('RATE', e) });
 
-    const estimateTime = EstimateTime.create(SECOND);
-    estimateTime.subscribe({ next: e => console.log('ESTIMATE', e) });
+    const timeEstimate = TimeEstimate.create(SECOND);
+    timeEstimate.subscribe({ next: e => console.log('ESTIMATE', e) });
 
     const elapsedTime = ElapsedTime.create(SECOND);
     elapsedTime.subscribe({ next: e => console.log('ELAPSED', e) });
@@ -233,7 +233,7 @@ describe('test', () => {
 
     const value = await lastValueFrom(
       of(req).pipe(
-        request({ stats: { download: [progress, byteRate, estimateTime, elapsedTime] } }),
+        request({ stats: { download: [progress, bandwidth, timeEstimate, elapsedTime] } }),
         resolveBlob()
         //
       )
