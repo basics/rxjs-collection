@@ -48,8 +48,8 @@ describe('ElapsedTime', () => {
     const elapsedTime = ElapsedTime.create();
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(elapsedTime).toBe('a-b-c-d-e-f-g-h-i|', expectedVal);
       expectObservable(cold('a-b-c-d-e-f-g-h-i|', triggerVal).pipe(tap(elapsedTime)));
+      expectObservable(elapsedTime).toBe('a-b-c-d-e-f-g-h-i|', expectedVal);
     });
   });
 
@@ -83,8 +83,8 @@ describe('ElapsedTime', () => {
     const elapsedTimeSecond = ElapsedTime.create(SECOND);
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(elapsedTimeSecond).toBe('a-b-c-d-e-f-g-h-i|', expectedVal);
       expectObservable(cold('a-b-c-d-e-f-g-h-i|', triggerVal).pipe(tap(elapsedTimeSecond)));
+      expectObservable(elapsedTimeSecond).toBe('a-b-c-d-e-f-g-h-i|', expectedVal);
     });
   });
 });

@@ -1,24 +1,40 @@
-import { concatWith, distinctUntilChanged, map, of, Subject } from 'rxjs';
+import {
+  concat,
+  concatWith,
+  delay,
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  of,
+  Subject,
+  switchMap
+} from 'rxjs';
 
 import { calcReceivedStats, MSECOND } from './utils';
 
 export default {
-  create: (timeUnit = MSECOND) => {
+  create: (timeRatio = MSECOND) => {
     return new Subject().pipe(
       calcReceivedStats(),
-      calcEstimatedTime(),
-      convertEstimatedTimeTo(timeUnit),
+      calcTimeEstimate(timeRatio),
       concatWith(of(0)),
       distinctUntilChanged()
     );
   }
 };
 
-const calcEstimatedTime = () => {
+const calcTimeEstimate = timeRatio => {
   return source =>
-    source.pipe(map(({ value, total, period }) => Math.ceil((total - value) * (period / value))));
+    source.pipe(
+      switchMap(stats => {
+        let noEstimation = stats.value === stats.total ? EMPTY : of(Infinity).pipe(delay(500));
+        return concat(calcEstimation(stats, timeRatio), noEstimation);
+      })
+    );
 };
 
-const convertEstimatedTimeTo = timeRatio => {
-  return source => source.pipe(map(value => value / timeRatio));
+const calcEstimation = (stats, timeRatio) => {
+  return of(stats).pipe(
+    map(({ value, total, period }) => Math.ceil((total - value) * (period / value)) / timeRatio)
+  );
 };

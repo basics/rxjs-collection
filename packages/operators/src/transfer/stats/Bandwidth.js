@@ -1,21 +1,27 @@
-import { map, Subject } from 'rxjs';
+import { concat, delay, EMPTY, map, of, Subject, switchMap } from 'rxjs';
 
 import { calcReceivedStats, MBIT, SECOND } from './utils';
 
 export default {
-  create: (byteUnit = MBIT, timeUnit = SECOND) => {
+  create: (byteRatio = MBIT, timeRatio = SECOND) => {
     return new Subject().pipe(
       calcReceivedStats(),
-      calcAverageByteLengthPerTimeUnit(timeUnit),
-      calcTransferRate(byteUnit)
+      calcBandwidth(byteRatio, timeRatio)
+      //
     );
   }
 };
 
-const calcAverageByteLengthPerTimeUnit = timeRatio => {
-  return source => source.pipe(map(({ value, period }) => (value / period) * timeRatio));
+const calcBandwidth = (byteRatio, timeRatio) => {
+  return source =>
+    source.pipe(
+      switchMap(stats => {
+        let noBandwidth = stats.value === stats.total ? EMPTY : of(0).pipe(delay(500));
+        return concat(calcTransmittableBytes(stats, byteRatio, timeRatio), noBandwidth);
+      })
+    );
 };
 
-const calcTransferRate = byteRatio => {
-  return source => source.pipe(map(bytes => bytes * byteRatio));
+const calcTransmittableBytes = (stats, byteRatio, timeRatio) => {
+  return of(stats).pipe(map(({ value, period }) => (value / period) * byteRatio * timeRatio));
 };
