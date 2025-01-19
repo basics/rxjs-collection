@@ -22,15 +22,15 @@ describe('ElapsedTime', () => {
     const time = Date.now();
 
     const triggerVal = {
-      a: { value: new TextEncoder().encode('abc'), total: 26, period: time },
-      b: { value: new TextEncoder().encode('def'), total: 26, period: time },
-      c: { value: new TextEncoder().encode('ghi'), total: 26, period: time },
-      d: { value: new TextEncoder().encode('jkl'), total: 26, period: time },
-      e: { value: new TextEncoder().encode('mno'), total: 26, period: time },
-      f: { value: new TextEncoder().encode('pqr'), total: 26, period: time },
-      g: { value: new TextEncoder().encode('stu'), total: 26, period: time },
-      h: { value: new TextEncoder().encode('vwx'), total: 26, period: time },
-      i: { value: new TextEncoder().encode('yz'), total: 26, period: time }
+      a: { bytes: new TextEncoder().encode('abc'), total: 26, time },
+      b: { bytes: new TextEncoder().encode('def'), total: 26, time },
+      c: { bytes: new TextEncoder().encode('ghi'), total: 26, time },
+      d: { bytes: new TextEncoder().encode('jkl'), total: 26, time },
+      e: { bytes: new TextEncoder().encode('mno'), total: 26, time },
+      f: { bytes: new TextEncoder().encode('pqr'), total: 26, time },
+      g: { bytes: new TextEncoder().encode('stu'), total: 26, time },
+      h: { bytes: new TextEncoder().encode('vwx'), total: 26, time },
+      i: { bytes: new TextEncoder().encode('yz'), total: 26, time }
     };
 
     const expectedVal = {
@@ -57,15 +57,15 @@ describe('ElapsedTime', () => {
     const time = Date.now();
 
     const triggerVal = {
-      a: { value: new TextEncoder().encode('abc'), total: 26, period: time },
-      b: { value: new TextEncoder().encode('def'), total: 26, period: time },
-      c: { value: new TextEncoder().encode('ghi'), total: 26, period: time },
-      d: { value: new TextEncoder().encode('jkl'), total: 26, period: time },
-      e: { value: new TextEncoder().encode('mno'), total: 26, period: time },
-      f: { value: new TextEncoder().encode('pqr'), total: 26, period: time },
-      g: { value: new TextEncoder().encode('stu'), total: 26, period: time },
-      h: { value: new TextEncoder().encode('vwx'), total: 26, period: time },
-      i: { value: new TextEncoder().encode('yz'), total: 26, period: time }
+      a: { bytes: new TextEncoder().encode('abc'), total: 26, time },
+      b: { bytes: new TextEncoder().encode('def'), total: 26, time },
+      c: { bytes: new TextEncoder().encode('ghi'), total: 26, time },
+      d: { bytes: new TextEncoder().encode('jkl'), total: 26, time },
+      e: { bytes: new TextEncoder().encode('mno'), total: 26, time },
+      f: { bytes: new TextEncoder().encode('pqr'), total: 26, time },
+      g: { bytes: new TextEncoder().encode('stu'), total: 26, time },
+      h: { bytes: new TextEncoder().encode('vwx'), total: 26, time },
+      i: { bytes: new TextEncoder().encode('yz'), total: 26, time }
     };
 
     const expectedVal = {

@@ -103,9 +103,9 @@ const convertStreamToResponse = (stream, resp) => {
   );
 };
 
-const onStreamPull = async (controller, operators, bytes, total, period) => {
+const onStreamPull = async (controller, operators, bytes, total, time) => {
   controller.enqueue(new Uint8Array(bytes));
-  operators.map(operator => operator.next({ value: bytes, total, period }));
+  operators.map(operator => operator.next({ bytes, total, time }));
 };
 
 const onStreamEnd = (controller, operators) => {

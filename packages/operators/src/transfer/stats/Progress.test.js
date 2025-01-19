@@ -13,15 +13,15 @@ describe('Progress', () => {
 
   test('calc progress', async () => {
     const triggerVal = {
-      a: { value: new TextEncoder().encode('abc'), total: 26, period: 10 },
-      b: { value: new TextEncoder().encode('def'), total: 26, period: 20 },
-      c: { value: new TextEncoder().encode('ghi'), total: 26, period: 30 },
-      d: { value: new TextEncoder().encode('jkl'), total: 26, period: 40 },
-      e: { value: new TextEncoder().encode('mno'), total: 26, period: 50 },
-      f: { value: new TextEncoder().encode('pqr'), total: 26, period: 60 },
-      g: { value: new TextEncoder().encode('stu'), total: 26, period: 70 },
-      h: { value: new TextEncoder().encode('vwx'), total: 26, period: 80 },
-      i: { value: new TextEncoder().encode('yz'), total: 26, period: 90 }
+      a: { bytes: new TextEncoder().encode('abc'), total: 26 },
+      b: { bytes: new TextEncoder().encode('def'), total: 26 },
+      c: { bytes: new TextEncoder().encode('ghi'), total: 26 },
+      d: { bytes: new TextEncoder().encode('jkl'), total: 26 },
+      e: { bytes: new TextEncoder().encode('mno'), total: 26 },
+      f: { bytes: new TextEncoder().encode('pqr'), total: 26 },
+      g: { bytes: new TextEncoder().encode('stu'), total: 26 },
+      h: { bytes: new TextEncoder().encode('vwx'), total: 26 },
+      i: { bytes: new TextEncoder().encode('yz'), total: 26 }
     };
 
     const expectedVal = {

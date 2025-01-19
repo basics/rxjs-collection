@@ -22,11 +22,11 @@ describe('Bandwidth', () => {
     const time = Date.now();
 
     const triggerVal = {
-      a: { value: new TextEncoder().encode('abcd'), total: 20, period: time },
-      b: { value: new TextEncoder().encode('edgh'), total: 20, period: time },
-      c: { value: new TextEncoder().encode('ijkl'), total: 20, period: time },
-      d: { value: new TextEncoder().encode('mnop'), total: 20, period: time },
-      e: { value: new TextEncoder().encode('qrst'), total: 20, period: time }
+      a: { bytes: new TextEncoder().encode('abcd'), total: 20, time },
+      b: { bytes: new TextEncoder().encode('edgh'), total: 20, time },
+      c: { bytes: new TextEncoder().encode('ijkl'), total: 20, time },
+      d: { bytes: new TextEncoder().encode('mnop'), total: 20, time },
+      e: { bytes: new TextEncoder().encode('qrst'), total: 20, time }
     };
 
     const expectedVal = {
@@ -49,11 +49,11 @@ describe('Bandwidth', () => {
     const time = Date.now();
 
     const triggerVal = {
-      a: { value: new TextEncoder().encode('abcd'), total: 20, period: time },
-      b: { value: new TextEncoder().encode('edgh'), total: 20, period: time },
-      c: { value: new TextEncoder().encode('ijkl'), total: 20, period: time },
-      d: { value: new TextEncoder().encode('mnop'), total: 20, period: time },
-      e: { value: new TextEncoder().encode('qrst'), total: 20, period: time }
+      a: { bytes: new TextEncoder().encode('abcd'), total: 20, time },
+      b: { bytes: new TextEncoder().encode('edgh'), total: 20, time },
+      c: { bytes: new TextEncoder().encode('ijkl'), total: 20, time },
+      d: { bytes: new TextEncoder().encode('mnop'), total: 20, time },
+      e: { bytes: new TextEncoder().encode('qrst'), total: 20, time }
     };
 
     const expectedVal = {

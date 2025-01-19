@@ -14,5 +14,5 @@ export default {
 };
 
 const calcPercentageProgress = () => {
-  return source => source.pipe(map(({ value, total }) => Math.floor((value / total) * 100)));
+  return source => source.pipe(map(({ length, total }) => Math.floor((length / total) * 100)));
 };

@@ -27,7 +27,7 @@ const calcTimeEstimate = timeRatio => {
   return source =>
     source.pipe(
       switchMap(stats => {
-        let noEstimation = stats.value === stats.total ? EMPTY : of(Infinity).pipe(delay(500));
+        let noEstimation = stats.length === stats.total ? EMPTY : of(Infinity).pipe(delay(500));
         return concat(calcEstimation(stats, timeRatio), noEstimation);
       })
     );
@@ -35,6 +35,6 @@ const calcTimeEstimate = timeRatio => {
 
 const calcEstimation = (stats, timeRatio) => {
   return of(stats).pipe(
-    map(({ value, total, period }) => Math.ceil((total - value) * (period / value)) / timeRatio)
+    map(({ length, total, time }) => Math.ceil((total - length) * (time / length)) / timeRatio)
   );
 };

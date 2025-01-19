@@ -9,5 +9,5 @@ export default {
 };
 
 const calcElapsedTime = timeRatio => {
-  return source => source.pipe(map(({ period }) => period / timeRatio));
+  return source => source.pipe(map(({ time }) => time / timeRatio));
 };

@@ -16,12 +16,12 @@ const calcBandwidth = (byteRatio, timeRatio) => {
   return source =>
     source.pipe(
       switchMap(stats => {
-        let noBandwidth = stats.value === stats.total ? EMPTY : of(0).pipe(delay(500));
+        let noBandwidth = stats.length === stats.total ? EMPTY : of(0).pipe(delay(500));
         return concat(calcTransmittableBytes(stats, byteRatio, timeRatio), noBandwidth);
       })
     );
 };
 
 const calcTransmittableBytes = (stats, byteRatio, timeRatio) => {
-  return of(stats).pipe(map(({ value, period }) => (value / period) * byteRatio * timeRatio));
+  return of(stats).pipe(map(({ length, time }) => (length / time) * byteRatio * timeRatio));
 };
