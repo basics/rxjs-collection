@@ -7,7 +7,7 @@ const asyncReplacer = [
 export const syncReplacer = [
   { validator: value => isURL(value), handler: value => value.toString() },
   { validator: value => isDate(value), handler: value => value.toISOString() },
-  { validator: value => isBigInt(value), handler: value => value.toString() },
+  { validator: value => isBigInt(value), handler: value => `${value.toString()}n` },
   { validator: () => true, handler: value => value }
 ];
 

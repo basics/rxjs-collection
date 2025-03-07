@@ -7,7 +7,7 @@ const asyncReviver = [
 export const syncReviver = [
   { validator: value => isValidUrl(value), handler: value => new URL(value) },
   { validator: value => isValidISODateString(value), handler: value => new Date(value) },
-  { validator: value => isBigInt(value), handler: value => BigInt(value) },
+  { validator: value => isBigInt(value), handler: value => BigInt(value.slice(0, -1)) },
   { validator: () => true, handler: value => value }
 ];
 
@@ -25,5 +25,5 @@ function isValidISODateString(value) {
 }
 
 function isBigInt(value) {
-  return value?.constructor === String && /^\d+$/.test(value);
+  return value?.constructor === String && /^\d+n$/.test(value);
 }
