@@ -15,9 +15,7 @@ export const syncReviver = [
 export const createSyncReviver = (transforms = []) => [...transforms, ...syncReviver];
 export const createAsyncReviver = (transforms = []) => [...transforms, ...asyncReviver];
 
-const isValidUrl = value => {
-  return URL.canParse(value) && /^[\w]+:\/\/\S+$/gm.test(value);
-};
+const isValidUrl = value => URL.canParse(value) && /^[\w]+:\/\/\S+$/gm.test(value);
 
 const isValidISODateString = value => {
   if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(value)) return false;
@@ -25,9 +23,7 @@ const isValidISODateString = value => {
   return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === value; // valid date
 };
 
-const isBigInt = value => {
-  return value?.constructor === String && /^\d+n$/.test(value);
-};
+const isBigInt = value => value?.constructor === String && /^\d+n$/.test(value);
 
 const isRegExp = value => value?.constructor === String && /^\/.*\/[gimuy]*$/.test(value);
 
