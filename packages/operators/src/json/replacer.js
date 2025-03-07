@@ -8,6 +8,7 @@ export const syncReplacer = [
   { validator: value => isURL(value), handler: value => value.toString() },
   { validator: value => isDate(value), handler: value => value.toISOString() },
   { validator: value => isBigInt(value), handler: value => `${value.toString()}n` },
+  { validator: value => isRegExp(value), handler: value => value.toString() },
   { validator: () => true, handler: value => value }
 ];
 
@@ -17,3 +18,4 @@ export const createAsyncReplacer = (transforms = []) => [...transforms, ...async
 const isURL = value => value?.constructor === URL;
 const isDate = value => value?.constructor === Date;
 const isBigInt = value => value?.constructor === BigInt;
+const isRegExp = value => value?.constructor === RegExp;

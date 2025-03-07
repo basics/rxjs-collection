@@ -41,18 +41,21 @@ describe('log', () => {
       bigInt: BigInt(123),
       date: new Date(),
       url: new URL('https://example.com'),
+      regexp: /\w/g,
       image: readFile('./packages/operators/fixtures/images/test_image.jpg'),
       array: [
         Promise.resolve('hello world'),
         BigInt(123),
         new Date(),
-        new URL('https://example.com')
+        new URL('https://example.com'),
+        /\w/g
       ],
       nested: Promise.resolve({
         text: Promise.resolve('hello world'),
         bigInt: BigInt(123),
         date: new Date(),
         url: new URL('https://example.com'),
+        regexp: Promise.resolve(new RegExp('\\w', 'g')),
         image: from(readFile('./packages/operators/fixtures/images/test_image.jpg'))
       })
     });
