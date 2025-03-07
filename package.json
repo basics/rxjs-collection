@@ -31,8 +31,7 @@
   "workspaces": [
     "packages/operators",
     "packages/observables",
-    "packages/playground",
-    "packages/poc"
+    "packages/playground"
   ],
   "devDependencies": {
     "@commitlint/config-conventional": "19.6.0",

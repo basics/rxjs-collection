@@ -3,29 +3,6 @@ import { concatAll, concatMap, from, map, Observable, of, toArray } from 'rxjs';
 import { createAsyncReplacer, createSyncReplacer } from './json/replacer.js';
 import { createAsyncReviver, createSyncReviver } from './json/reviver.js';
 
-export const serialize = (asyncTransforms, syncTransforms) => source =>
-  source.pipe(
-    traverse(createAsyncReplacer(asyncTransforms)),
-    toJSONString(createSyncReplacer(syncTransforms))
-    //
-  );
-
-export const deserialize = (asyncTransforms, syncTransforms) => source =>
-  source.pipe(
-    fromJSONString(createSyncReviver(syncTransforms)),
-    traverse(createAsyncReviver(asyncTransforms))
-    //
-  );
-
-const traverse = transforms => source =>
-  source.pipe(
-    concatMap(data => of(data).pipe(getOperator(data)(transforms))),
-    transform(transforms)
-    //
-  );
-
-const getOperator = data => traverseInstructions[data.constructor] || (() => source => source);
-
 const traverseInstructions = {
   [Object]: transforms => source =>
     source.pipe(
@@ -52,6 +29,35 @@ const traverseInstructions = {
       traverse(transforms)
     )
 };
+
+export const serialize = (asyncTransforms, syncTransforms) => source =>
+  source.pipe(
+    traverse(createAsyncReplacer(asyncTransforms)),
+    stringify(syncTransforms)
+    //
+  );
+
+export const deserialize = (asyncTransforms, syncTransforms) => source =>
+  source.pipe(
+    parse(syncTransforms),
+    traverse(createAsyncReviver(asyncTransforms))
+    //
+  );
+
+export const stringify = syncTransforms => source =>
+  source.pipe(toJSONString(createSyncReplacer(syncTransforms)));
+
+export const parse = syncTransforms => source =>
+  source.pipe(fromJSONString(createSyncReviver(syncTransforms)));
+
+const traverse = transforms => source =>
+  source.pipe(
+    concatMap(data => of(data).pipe(getOperator(data)(transforms))),
+    transform(transforms)
+    //
+  );
+
+const getOperator = data => traverseInstructions[data.constructor] || (() => source => source);
 
 const transform = transforms => source =>
   source.pipe(concatMap(data => of(data).pipe(findTransform(transforms, data).handler())));
