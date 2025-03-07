@@ -25,12 +25,14 @@
     "test:project:observables": "vitest --project packages/observables",
     "test:project:operators": "vitest --project packages/operators",
     "test:project:playground": "vitest --project packages/playground",
+    "test:project:poc": "vitest --project packages/poc",
     "coverage": "vitest run --coverage"
   },
   "workspaces": [
     "packages/operators",
     "packages/observables",
-    "packages/playground"
+    "packages/playground",
+    "packages/poc"
   ],
   "devDependencies": {
     "@commitlint/config-conventional": "19.6.0",
