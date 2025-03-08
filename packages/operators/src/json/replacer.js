@@ -9,7 +9,6 @@ export const syncReplacer = [
   { validator: value => isDate(value), handler: value => value.toISOString() },
   { validator: value => isBigInt(value), handler: value => `${value.toString()}n` },
   { validator: value => isRegExp(value), handler: value => value.toString() },
-  { validator: value => isRegExp(value), handler: value => value.toString() },
   { validator: value => isSymbol(value), handler: value => symbolToString(value) },
   { validator: () => true, handler: value => value }
 ];
