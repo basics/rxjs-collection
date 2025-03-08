@@ -9,6 +9,7 @@ export const syncReviver = [
   { validator: value => isValidISODateString(value), handler: value => new Date(value) },
   { validator: value => isBigInt(value), handler: value => BigInt(value.slice(0, -1)) },
   { validator: value => isRegExp(value), handler: value => regExpFromString(value) },
+  { validator: value => isSymbol(value), handler: value => symbolFromString(value) },
   { validator: () => true, handler: value => value }
 ];
 
@@ -24,11 +25,11 @@ const isValidISODateString = value => {
 };
 
 const isBigInt = value => value?.constructor === String && /^\d+n$/.test(value);
-
 const isRegExp = value => value?.constructor === String && /^\/.*\/[gimuy]*$/.test(value);
+const isSymbol = value => value?.constructor === String && /(\w?)Symbol\((\w+)\)/g.test(value);
 
-const regExpFromString = q => {
-  const match = q.match(/^\/(.*)\/([gimuy]*)$/);
+const regExpFromString = value => {
+  const match = value.match(/^\/(.*)\/([gimuy]*)$/);
   if (!match) return null;
   const [, pattern, flags] = match;
   try {
@@ -36,4 +37,12 @@ const regExpFromString = q => {
   } catch {
     return null;
   }
+};
+
+const symbolFromString = value => {
+  const { prefix, name } = /(?<prefix>\w?)Symbol\((?<name>\w+)\)/g.exec(value).groups;
+  if (prefix === 'g') {
+    return Symbol.for(name);
+  }
+  return Symbol(name);
 };

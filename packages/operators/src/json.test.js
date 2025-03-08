@@ -42,6 +42,8 @@ describe('log', () => {
       date: new Date(),
       url: new URL('https://example.com'),
       regexp: /\w/g,
+      globalSymbol: Symbol.for('foo'),
+      symbol: Symbol('bar'),
       image: readFile('./packages/operators/fixtures/images/test_image.jpg'),
       array: [
         Promise.resolve('hello world'),
@@ -66,5 +68,7 @@ describe('log', () => {
 
     const deserialized = await lastValueFrom(of(serialized).pipe(deserialize(reviver)));
     console.log('DESERIALIZED', deserialized);
+
+    console.log((await data).globalSymbol === deserialized.globalSymbol);
   });
 });
