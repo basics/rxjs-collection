@@ -23,12 +23,8 @@ const isValidISODateString = value => {
   if (typeof value !== 'string' || value.trim() === '') {
     return false;
   }
-  try {
-    const d = new Date(value);
-    return !Number.isNaN(d.valueOf()) && d.toISOString() === value;
-  } catch {
-    return false;
-  }
+  const d = new Date(value);
+  return !Number.isNaN(d.valueOf()) && d.toISOString() === value;
 };
 
 const isString = value => value?.constructor === String;
@@ -37,14 +33,8 @@ const isRegExp = value => isString(value) && /^\/.*\/[gimuy]*$/.test(value);
 const isSymbol = value => isString(value) && /(\w?)Symbol\((\w+)\)/g.test(value);
 
 const regExpFromString = value => {
-  const match = value.match(/^\/(.*)\/([gimuy]*)$/);
-  if (!match) return null;
-  const [, pattern, flags] = match;
-  try {
-    return new RegExp(pattern, flags);
-  } catch {
-    return null;
-  }
+  const [, pattern, flags] = value.match(/^\/(.*)\/([gimuy]*)$/);
+  return new RegExp(pattern, flags);
 };
 
 const symbolFromString = value => {
