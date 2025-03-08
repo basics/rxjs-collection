@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
-import { from, lastValueFrom, map, of } from 'rxjs';
+import { lastValueFrom, map, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest';
 
@@ -15,6 +15,388 @@ describe('log', () => {
 
   afterAll(() => {
     vi.restoreAllMocks();
+  });
+
+  test('boolean - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = { a: true, b: false };
+    const expectedVal = { a: 'true', b: 'false' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('ab|', triggerVal).pipe(serialize())).toBe('ab|', expectedVal);
+    });
+  });
+
+  test('boolean - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = { a: 'true', b: 'false' };
+    const expectedVal = { a: true, b: false };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('string - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = { a: { string: 'hello world' } };
+    const expectedVal = { a: '{"string":"hello world"}' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('string - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = { a: '"hello world"' };
+    const expectedVal = { a: 'hello world' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('number - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = { a: 42, b: 4.2, c: BigInt(42n) };
+    const expectedVal = { a: '42', b: '4.2', c: '"42n"' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('abc|', triggerVal).pipe(serialize())).toBe('abc|', expectedVal);
+    });
+  });
+
+  test('number - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = { a: '42', b: '4.2', c: '"42n"' };
+    const expectedVal = { a: 42, b: 4.2, c: BigInt(42n) };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('url - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = { a: new URL('https://www.example.com/') };
+    const expectedVal = { a: '"https://www.example.com/"' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('url - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const expectedVal = { a: new URL('https://www.example.com/') };
+    const triggerVal = { a: '"https://www.example.com/"' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('date - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = { a: new Date(2025, 2, 8, 14, 42, 27, 357) };
+    const expectedVal = { a: '"2025-03-08T13:42:27.357Z"' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('date - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = { a: '"2025-03-08T13:42:27.357Z"' };
+    const expectedVal = { a: new Date(2025, 2, 8, 14, 42, 27, 357) };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('regexp - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = { a: /[\w?\s]+/gm };
+    const expectedVal = { a: '"/[\\\\w?\\\\s]+/gm"' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('regexp - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = { a: '"/[\\\\w?\\\\s]+/gm"' };
+    const expectedVal = { a: /[\w?\s]+/gm };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('symbol - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = { a: Symbol('foo'), b: Symbol.for('bar') };
+    const expectedVal = { a: '"Symbol(foo)"', b: '"gSymbol(bar)"' };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('ab|', triggerVal).pipe(serialize())).toBe('ab|', expectedVal);
+    });
+  });
+
+  test('symbol - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = { a: '"gSymbol(bar)"' };
+    const expectedVal = { a: Symbol.for('bar') };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('array - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = {
+      a: [
+        true,
+        'hello world',
+        42,
+        4.2,
+        BigInt(42),
+        new URL('https://www.example.com/'),
+        new Date(2025, 2, 8, 14, 42, 27, 357),
+        /[\w?\s]+/gm,
+        Symbol.for('bar')
+      ]
+    };
+    const expectedVal = {
+      a: '[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"]'
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('array - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = {
+      a: '[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"]'
+    };
+
+    const expectedVal = {
+      a: [
+        true,
+        'hello world',
+        42,
+        4.2,
+        BigInt(42),
+        new URL('https://www.example.com/'),
+        new Date(2025, 2, 8, 14, 42, 27, 357),
+        /[\w?\s]+/gm,
+        Symbol.for('bar')
+      ]
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('object - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = {
+      a: {
+        boolean: true,
+        string: 'hello world',
+        integer: 42,
+        float: 4.2,
+        bigInt: BigInt(42),
+        url: new URL('https://www.example.com/'),
+        date: new Date(2025, 2, 8, 14, 42, 27, 357),
+        regexp: /[\w?\s]+/gm,
+        symbol: Symbol.for('bar')
+      }
+    };
+    const expectedVal = {
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)"}'
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('object - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = {
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)"}'
+    };
+
+    const expectedVal = {
+      a: {
+        boolean: true,
+        string: 'hello world',
+        integer: 42,
+        float: 4.2,
+        bigInt: BigInt(42),
+        url: new URL('https://www.example.com/'),
+        date: new Date(2025, 2, 8, 14, 42, 27, 357),
+        regexp: /[\w?\s]+/gm,
+        symbol: Symbol.for('bar')
+      }
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('observable - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = {
+      a: of({
+        boolean: of(true),
+        string: of('hello world'),
+        integer: of(42),
+        float: of(4.2),
+        bigInt: of(BigInt(42)),
+        url: of(new URL('https://www.example.com/')),
+        date: of(new Date(2025, 2, 8, 14, 42, 27, 357)),
+        regexp: of(/[\w?\s]+/gm),
+        symbol: of(Symbol.for('bar'))
+      })
+    };
+    const expectedVal = {
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)"}'
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('observable - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = {
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)"}'
+    };
+
+    const expectedVal = {
+      a: {
+        boolean: true,
+        string: 'hello world',
+        integer: 42,
+        float: 4.2,
+        bigInt: BigInt(42),
+        url: new URL('https://www.example.com/'),
+        date: new Date(2025, 2, 8, 14, 42, 27, 357),
+        regexp: /[\w?\s]+/gm,
+        symbol: Symbol.for('bar')
+      }
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('mixed - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = {
+      a: {
+        boolean: true,
+        string: 'hello world',
+        integer: 42,
+        float: 4.2,
+        bigInt: BigInt(42),
+        url: new URL('https://www.example.com/'),
+        date: new Date(2025, 2, 8, 14, 42, 27, 357),
+        regexp: /[\w?\s]+/gm,
+        symbol: Symbol.for('bar'),
+        array: of([
+          true,
+          'hello world',
+          42,
+          4.2,
+          BigInt(42),
+          new URL('https://www.example.com/'),
+          new Date(2025, 2, 8, 14, 42, 27, 357),
+          /[\w?\s]+/gm,
+          Symbol.for('bar')
+        ]),
+        observable: of('foo bar')
+      }
+    };
+    const expectedVal = {
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar"}'
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
+  test('mixed - deserialize', async () => {
+    const { deserialize } = await import('./json');
+
+    const triggerVal = {
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar"}'
+    };
+
+    const expectedVal = {
+      a: {
+        boolean: true,
+        string: 'hello world',
+        integer: 42,
+        float: 4.2,
+        bigInt: BigInt(42),
+        url: new URL('https://www.example.com/'),
+        date: new Date(2025, 2, 8, 14, 42, 27, 357),
+        regexp: /[\w?\s]+/gm,
+        symbol: Symbol.for('bar'),
+        array: [
+          true,
+          'hello world',
+          42,
+          4.2,
+          BigInt(42),
+          new URL('https://www.example.com/'),
+          new Date(2025, 2, 8, 14, 42, 27, 357),
+          /[\w?\s]+/gm,
+          Symbol.for('bar')
+        ],
+        observable: 'foo bar'
+      }
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+    });
   });
 
   test('default', async () => {
