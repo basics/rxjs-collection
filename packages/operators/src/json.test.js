@@ -50,14 +50,18 @@ describe('log', () => {
         BigInt(123),
         new Date(),
         new URL('https://example.com'),
-        /\w/g
+        /\w/g,
+        Symbol.for('foo'),
+        Symbol('bar')
       ],
-      nested: Promise.resolve({
+      nested: of({
         text: Promise.resolve('hello world'),
         bigInt: BigInt(123),
         date: new Date(),
         url: new URL('https://example.com'),
         regexp: Promise.resolve(new RegExp('\\w', 'g')),
+        globalSymbol: Symbol.for('foo'),
+        symbol: Symbol('bar'),
         image: from(readFile('./packages/operators/fixtures/images/test_image.jpg'))
       })
     });

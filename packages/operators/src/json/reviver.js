@@ -16,17 +16,19 @@ export const syncReviver = [
 export const createSyncReviver = (transforms = []) => [...transforms, ...syncReviver];
 export const createAsyncReviver = (transforms = []) => [...transforms, ...asyncReviver];
 
-const isValidUrl = value => URL.canParse(value) && /^[\w]+:\/\/\S+$/gm.test(value);
+const isValidUrl = value =>
+  isString(value) && URL.canParse(value) && /^[\w]+:\/\/\S+$/gm.test(value);
 
 const isValidISODateString = value => {
-  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(value)) return false;
+  if (!isString(value) || !/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(value)) return false;
   const d = new Date(value);
   return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === value; // valid date
 };
 
-const isBigInt = value => value?.constructor === String && /^\d+n$/.test(value);
-const isRegExp = value => value?.constructor === String && /^\/.*\/[gimuy]*$/.test(value);
-const isSymbol = value => value?.constructor === String && /(\w?)Symbol\((\w+)\)/g.test(value);
+const isString = value => value?.constructor === String;
+const isBigInt = value => isString(value) && /^\d+n$/.test(value);
+const isRegExp = value => isString(value) && /^\/.*\/[gimuy]*$/.test(value);
+const isSymbol = value => isString(value) && /(\w?)Symbol\((\w+)\)/g.test(value);
 
 const regExpFromString = value => {
   const match = value.match(/^\/(.*)\/([gimuy]*)$/);

@@ -23,4 +23,4 @@ const isBigInt = value => value?.constructor === BigInt;
 const isRegExp = value => value?.constructor === RegExp;
 const isSymbol = value => value?.constructor === Symbol;
 
-const symbolToString = value => `${Symbol.keyFor(value) && 'g'}${value.toString()}`;
+const symbolToString = value => `${(Symbol.keyFor(value) && 'g') || ''}${value.toString()}`;
