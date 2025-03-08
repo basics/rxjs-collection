@@ -20,9 +20,15 @@ const isValidUrl = value =>
   isString(value) && URL.canParse(value) && /^[\w]+:\/\/\S+$/gm.test(value);
 
 const isValidISODateString = value => {
-  if (!isString(value) || !/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(value)) return false;
-  const d = new Date(value);
-  return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === value; // valid date
+  if (typeof value !== 'string' || value.trim() === '') {
+    return false;
+  }
+  try {
+    const d = new Date(value);
+    return !Number.isNaN(d.valueOf()) && d.toISOString() === value;
+  } catch {
+    return false;
+  }
 };
 
 const isString = value => value?.constructor === String;
