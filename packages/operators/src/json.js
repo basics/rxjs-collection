@@ -1,4 +1,4 @@
-import { concatAll, concatMap, from, map, Observable, of, toArray } from 'rxjs';
+import { concatAll, concatMap, from, map, mergeMap, Observable, of, toArray } from 'rxjs';
 
 import { createAsyncReplacer, createSyncReplacer } from './json/replacer.js';
 import { createAsyncReviver, createSyncReviver } from './json/reviver.js';
@@ -52,7 +52,7 @@ export const parse = syncTransforms => source =>
 
 const traverse = transforms => source =>
   source.pipe(
-    concatMap(data => of(data).pipe(getOperator(data)(transforms))),
+    mergeMap(data => of(data).pipe(getOperator(data)(transforms))),
     transform(transforms)
     //
   );

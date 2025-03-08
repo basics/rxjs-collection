@@ -37,6 +37,12 @@ describe('log', () => {
     ];
 
     const data = Promise.resolve({
+      image: new Promise(resolve =>
+        setTimeout(
+          () => resolve(readFile('./packages/operators/fixtures/images/test_image.jpg')),
+          1000
+        )
+      ),
       text: Promise.resolve('hello world'),
       bigInt: BigInt(123),
       date: new Date(),
@@ -44,7 +50,6 @@ describe('log', () => {
       regexp: /\w/g,
       globalSymbol: Symbol.for('foo'),
       symbol: Symbol('bar'),
-      image: readFile('./packages/operators/fixtures/images/test_image.jpg'),
       array: [
         Promise.resolve('hello world'),
         BigInt(123),
@@ -55,14 +60,19 @@ describe('log', () => {
         Symbol('bar')
       ],
       nested: of({
+        image: new Promise(resolve =>
+          setTimeout(
+            () => resolve(readFile('./packages/operators/fixtures/images/test_image.jpg')),
+            1000
+          )
+        ),
         text: Promise.resolve('hello world'),
         bigInt: BigInt(123),
         date: new Date(),
         url: new URL('https://example.com'),
         regexp: Promise.resolve(new RegExp('\\w', 'g')),
         globalSymbol: Symbol.for('foo'),
-        symbol: Symbol('bar'),
-        image: from(readFile('./packages/operators/fixtures/images/test_image.jpg'))
+        symbol: Symbol('bar')
       })
     });
     console.log('DATA', data);
