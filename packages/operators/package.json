@@ -28,7 +28,8 @@
     "debug": "^4.3.7",
     "fast-equals": "5.0.1",
     "minimatch": "^10.0.1",
-    "rxjs": "7.8.1"
+    "rxjs": "7.8.1",
+    "sync-promise-js": "^1.0.0"
   },
   "devDependencies": {
     "node-fetch": "3.3.2"

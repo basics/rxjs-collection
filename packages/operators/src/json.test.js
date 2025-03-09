@@ -1,25 +1,32 @@
+import { mockPromise } from '#mocks/Promise.js';
 import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
 import { lastValueFrom, map, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
-import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterAll, beforeAll, beforeEach, afterEach, describe, expect, test, vi } from 'vitest';
 
-import { deserialize, serialize } from './json';
-
-describe('log', () => {
+describe('json', () => {
   let testScheduler;
+
+  beforeAll(() => {
+    mockPromise();
+  });
 
   beforeEach(() => {
     testScheduler = new TestScheduler((actual, expected) => expect(actual).deep.equal(expected));
   });
 
+  afterEach(() => {
+    //
+  });
+
   afterAll(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
   test('boolean - serialize', async () => {
     const { serialize } = await import('./json');
-
     const triggerVal = { a: true, b: false };
     const expectedVal = { a: 'true', b: 'false' };
 
@@ -163,11 +170,16 @@ describe('log', () => {
   test('symbol - deserialize', async () => {
     const { deserialize } = await import('./json');
 
-    const triggerVal = { a: '"gSymbol(bar)"' };
-    const expectedVal = { a: Symbol.for('bar') };
+    const triggerVal = { a: '"gSymbol(bar)"', b: '"Symbol(foo)"' };
+    const expectedVal = { a: Symbol, b: Symbol };
 
     testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
+      expectObservable(
+        cold('ab|', triggerVal).pipe(
+          deserialize(),
+          map(value => value.constructor)
+        )
+      ).toBe('ab|', expectedVal);
     });
   });
 
@@ -273,6 +285,32 @@ describe('log', () => {
     });
   });
 
+  test('promise - serialize', async () => {
+    const { serialize } = await import('./json');
+
+    const triggerVal = {
+      a: Promise.resolve({
+        boolean: Promise.resolve(true),
+        string: Promise.resolve('hello world'),
+        integer: Promise.resolve(42),
+        float: Promise.resolve(4.2),
+        bigInt: Promise.resolve(BigInt(42)),
+        url: Promise.resolve(new URL('https://www.example.com/')),
+        date: Promise.resolve(new Date(2025, 2, 8, 14, 42, 27, 357)),
+        regexp: Promise.resolve(/[\w?\s]+/gm),
+        symbol: Promise.resolve(Symbol.for('bar'))
+      })
+    };
+
+    const expectedVal = {
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)"}'
+    };
+
+    testScheduler.run(({ cold, expectObservable }) => {
+      expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
+    });
+  });
+
   test('observable - serialize', async () => {
     const { serialize } = await import('./json');
 
@@ -295,32 +333,6 @@ describe('log', () => {
 
     testScheduler.run(({ cold, expectObservable }) => {
       expectObservable(cold('a|', triggerVal).pipe(serialize())).toBe('a|', expectedVal);
-    });
-  });
-
-  test('observable - deserialize', async () => {
-    const { deserialize } = await import('./json');
-
-    const triggerVal = {
-      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)"}'
-    };
-
-    const expectedVal = {
-      a: {
-        boolean: true,
-        string: 'hello world',
-        integer: 42,
-        float: 4.2,
-        bigInt: BigInt(42),
-        url: new URL('https://www.example.com/'),
-        date: new Date(2025, 2, 8, 14, 42, 27, 357),
-        regexp: /[\w?\s]+/gm,
-        symbol: Symbol.for('bar')
-      }
-    };
-
-    testScheduler.run(({ cold, expectObservable }) => {
-      expectObservable(cold('a|', triggerVal).pipe(deserialize())).toBe('a|', expectedVal);
     });
   });
 
@@ -349,11 +361,12 @@ describe('log', () => {
           /[\w?\s]+/gm,
           Symbol.for('bar')
         ]),
-        observable: of('foo bar')
+        observable: of('foo bar'),
+        promise: Promise.resolve('test')
       }
     };
     const expectedVal = {
-      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar"}'
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar","promise":"test"}'
     };
 
     testScheduler.run(({ cold, expectObservable }) => {
@@ -365,7 +378,7 @@ describe('log', () => {
     const { deserialize } = await import('./json');
 
     const triggerVal = {
-      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar"}'
+      a: '{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"2025-03-08T13:42:27.357Z","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar","promise":"test"}'
     };
 
     const expectedVal = {
@@ -390,7 +403,8 @@ describe('log', () => {
           /[\w?\s]+/gm,
           Symbol.for('bar')
         ],
-        observable: 'foo bar'
+        observable: 'foo bar',
+        promise: 'test'
       }
     };
 
@@ -401,6 +415,8 @@ describe('log', () => {
 
   /* v8 ignore start */
   test.skip('default', async () => {
+    const { serialize, deserialize } = await import('./json');
+
     const replacer = [
       {
         validator: value => value?.constructor === Buffer,
