@@ -27,7 +27,8 @@ const traverseInstructions = {
     source.pipe(
       concatMap(value => value),
       traverse(transforms)
-    )
+    ),
+  [undefined]: () => source => source
 };
 
 export const serialize = (asyncTransforms, syncTransforms) => source =>
@@ -52,12 +53,13 @@ export const parse = syncTransforms => source =>
 
 const traverse = transforms => source =>
   source.pipe(
-    mergeMap(data => of(data).pipe(getOperator(data)(transforms))),
+    mergeMap(data => of(data).pipe(traverseInstructions[getInstructionKey(data)](transforms))),
     transform(transforms)
     //
   );
 
-const getOperator = data => traverseInstructions[data.constructor] || (() => source => source);
+const getInstructionKey = ({ constructor }) =>
+  constructor in traverseInstructions ? constructor : undefined;
 
 const transform = transforms => source =>
   source.pipe(concatMap(data => of(data).pipe(findTransform(transforms, data).handler())));
