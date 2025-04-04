@@ -1,9 +1,11 @@
 import { mockPromise } from '#mocks/Promise.js';
 import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
-import { lastValueFrom, map, of } from 'rxjs';
+import { concatMap, firstValueFrom, lastValueFrom, map, of, share, tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, afterEach, describe, expect, test, vi } from 'vitest';
+
+import { requestJSON } from './request';
 
 describe('json', () => {
   let testScheduler;
@@ -483,6 +485,38 @@ describe('json', () => {
     console.log('DESERIALIZED', deserialized);
 
     console.log((await data).globalSymbol === deserialized.globalSymbol);
+  });
+
+  test('demo', async () => {
+    const { serialize, deserialize } = await import('./json');
+
+    const baseURL = 'https://jsonplaceholder.typicode.com/';
+    const eMail = 'Nathan@yesenia.net';
+    const user = of(new URL(`users?email=${eMail}`, baseURL)).pipe(
+      requestJSON(),
+      tap(() => console.log('REQUEST')),
+      map(([item]) => item),
+      share()
+    );
+
+    const resolvePosts = () => source =>
+      source.pipe(
+        concatMap(user => of(new URL(`users/${user.id}/posts`, baseURL)).pipe(requestJSON()))
+      );
+
+    const resolveTodos = () => source =>
+      source.pipe(
+        concatMap(user => of(new URL(`users/${user.id}/todos`, baseURL)).pipe(requestJSON()))
+      );
+
+    const p = of({
+      user,
+      posts: user.pipe(resolvePosts()),
+      todos: user.pipe(resolveTodos())
+    }).pipe(serialize());
+
+    const res = await firstValueFrom(p);
+    console.log(JSON.parse(res));
   });
   /* v8 ignore stop */
 });
