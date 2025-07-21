@@ -1,12 +1,6 @@
 {
-  "baseBranches": [
-    "beta"
-  ],
+  "baseBranchPatterns": ["beta"],
   "configMigration": true,
-  "extends": [
-    "config:recommended",
-    "group:allNonMajor",
-    ":semanticCommits"
-  ],
+  "extends": ["config:recommended", "group:allNonMajor", ":semanticCommits"],
   "rangeStrategy": "pin"
 }
