@@ -207,16 +207,16 @@ describe('test', () => {
     const { request } = await import('./request.js');
 
     const progress = Progress.create();
-    progress.subscribe({ next: e => console.log('DOWNLOAD', e) });
+    // progress.subscribe({ next: e => console.log('DOWNLOAD', e) });
 
     const bandwidth = Bandwidth.create(MBYTE, SECOND);
-    bandwidth.subscribe({ next: e => console.log('RATE', e) });
+    // bandwidth.subscribe({ next: e => console.log('RATE', e) });
 
     const timeEstimate = TimeEstimate.create(SECOND);
-    timeEstimate.subscribe({ next: e => console.log('ESTIMATE', e) });
+    // timeEstimate.subscribe({ next: e => console.log('ESTIMATE', e) });
 
     const elapsedTime = ElapsedTime.create(SECOND);
-    elapsedTime.subscribe({ next: e => console.log('ELAPSED', e) });
+    // elapsedTime.subscribe({ next: e => console.log('ELAPSED', e) });
 
     const fileMap = {
       VIDEO_170MB:
