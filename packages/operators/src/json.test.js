@@ -391,7 +391,7 @@ describe('json', () => {
         float: 4.2,
         bigInt: BigInt(42),
         url: new URL('https://www.example.com/'),
-        date: new Date(2025, 2, 8, 14, 42, 27, 357),
+        date: new Date(Date.UTC(2025, 2, 8, 13, 42, 27, 357)),
         regexp: /[\w?\s]+/gm,
         symbol: Symbol.for('bar'),
         array: [
@@ -401,7 +401,7 @@ describe('json', () => {
           4.2,
           BigInt(42),
           new URL('https://www.example.com/'),
-          new Date(2025, 2, 8, 14, 42, 27, 357),
+          new Date(Date.UTC(2025, 2, 8, 13, 42, 27, 357)),
           /[\w?\s]+/gm,
           Symbol.for('bar')
         ],
