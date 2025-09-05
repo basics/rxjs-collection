@@ -1,5 +1,39 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.2.0-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.1.2-beta.2...@rxjs-collection/operators-v1.2.0-beta.1) (2025-09-05)
+
+
+### Bug Fixes
+
+* **interceptTransfer:** rename reworkers to operators ([36bd4ea](https://github.com/basics/rxjs-collection/commit/36bd4ea8d34552dcf60210166c5c3b198a5150c9))
+* **json:** enhance Symbol handling in serialization and deserialization ([0d9a51e](https://github.com/basics/rxjs-collection/commit/0d9a51eaf68841ae8aa878ffec9d70b30f668980))
+* **json:** improve ISO date string validation logic ([aaf9914](https://github.com/basics/rxjs-collection/commit/aaf9914f0c2ea74d72b0df2402a44424a2ea1208))
+* **json:** remove duplicate RegExp handler in syncReplacer ([68a1317](https://github.com/basics/rxjs-collection/commit/68a1317a05bc0639922440079eb90cf6d60ed6c7))
+* **json:** replace concatMap with mergeMap for improved data handling ([e4ace79](https://github.com/basics/rxjs-collection/commit/e4ace794c9fc3b04a1cc314db33973f028df4fda))
+* **json:** skip default test and improve ISO date validation logic ([94784d7](https://github.com/basics/rxjs-collection/commit/94784d78dce4800c002440c4d1694920a182b39b))
+* **json:** update BigInt handling in replacer and reviver ([427cc44](https://github.com/basics/rxjs-collection/commit/427cc44fc1c53983911e64dd8892ccb37aca72cb))
+* **json:** update traverseInstructions to handle undefined constructor cases ([5dcaad5](https://github.com/basics/rxjs-collection/commit/5dcaad5ab5437e368404dc26896fe3e629a4dcce))
+* **operators:** refactored request workflow and tests ([b1559aa](https://github.com/basics/rxjs-collection/commit/b1559aacc619d6b9cc387d2cc1e0816f95ad030e))
+* **operators:** request optim ([8215cd6](https://github.com/basics/rxjs-collection/commit/8215cd65182c2299d4ceb60a51cfc0cf874db6fc))
+* **operators:** request optimization ([f515a50](https://github.com/basics/rxjs-collection/commit/f515a50757c2bca6c923dbfc2a9335113eab3281))
+* **request:** added stats parameter definition ([683164c](https://github.com/basics/rxjs-collection/commit/683164cd003bd30d2d13dcfa05a0bde4ae0df9fb))
+* **request:** added stats test and optimized stats ([9c3668e](https://github.com/basics/rxjs-collection/commit/9c3668e45c5d62f09135a3dfa806d14bbadb4f50))
+* **request:** refactored stream to transfer ([ba876c2](https://github.com/basics/rxjs-collection/commit/ba876c2cbf28424194f5e7e777efd922808538e4))
+* **request:** renamed vars ([af0dbb8](https://github.com/basics/rxjs-collection/commit/af0dbb869b088a0664fc65c680a5c80a60aac190))
+* **request:** updated request stats observables ([8c666a7](https://github.com/basics/rxjs-collection/commit/8c666a713f42bc9dda96b1c2909080c87b279045))
+* **test:** adjust date initialization to use UTC for consistency ([b777cdc](https://github.com/basics/rxjs-collection/commit/b777cdc34542618f6b9fc35e6b27b823100d7ae5))
+* **transfer:** optimized stats workflow ([5ca78e4](https://github.com/basics/rxjs-collection/commit/5ca78e46d3eb5a0ab339dbcf0edcbce4e932c5cd))
+* **unit-test:** updated operator tests ([05ab39b](https://github.com/basics/rxjs-collection/commit/05ab39b28b780061c732f279daa3714c9cd58e5f))
+
+
+### Features
+
+* **json:** add demo test for requestJSON with user posts and todos resolution ([a685ce2](https://github.com/basics/rxjs-collection/commit/a685ce2bf788933d1335179ad903e9e8211ac80c))
+* **json:** add RegExp handling in replacer and reviver ([0fe6257](https://github.com/basics/rxjs-collection/commit/0fe625769ea0f528e6f72c6a64263fdbfc3e08e3))
+* **json:** add support for Symbol serialization and deserialization ([1fb4435](https://github.com/basics/rxjs-collection/commit/1fb4435571d6fbdc622cf466d289a46f34671630))
+* **json:** add sync-promise-js dependency and mock implementation for Promise ([f660406](https://github.com/basics/rxjs-collection/commit/f66040639e5069ba2679c6caf8625336a54c0802))
+* **operators:** add JSON serialization and deserialization utilities ([279426f](https://github.com/basics/rxjs-collection/commit/279426fe5bafbd03c16c3f615a5d8d09a2d24829))
+
 # [@rxjs-collection/operators-v1.1.2-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.1.2-beta.1...@rxjs-collection/operators-v1.1.2-beta.2) (2025-01-08)
 
 
