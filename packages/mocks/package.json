@@ -1,7 +1,7 @@
 {
-  "name": "@rxjs-collection/observables",
-  "version": "1.0.8",
-  "description": "rxjs observables",
+  "name": "@rxjs-collection/mocks",
+  "version": "1.0.0",
+  "description": "rxjs mocks",
   "license": "MIT",
   "contributors": [
     {
@@ -17,12 +17,8 @@
   "scripts": {
     "release": "npx semantic-release"
   },
-  "imports": {
-    "#mocks/*": "../mocks/*"
-  },
   "dependencies": {
-    "@rxjs-collection/operators": "workspace:",
-    "@rxjs-collection/mocks": "workspace:",
-    "rxjs": "7.8.1"
+    "rxjs": "7.8.1",
+    "sync-promise-js": "^1.0.0"
   }
 }
