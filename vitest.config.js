@@ -12,9 +12,10 @@ export default defineConfig({
         'commitlint.config.js',
         'eslint.ignores.js',
         'vitest.workspace.js',
-        './coverage/**/*.*',
-        './packages/mocks/',
-        './packages/*/src/index.js'
+        'coverage/**/*.*',
+        'packages/mocks/',
+        'packages/*/src/index.js',
+        'packages/playground/**/*.test.js'
       ]
     },
     include: ['./packages/**/*.test.js']

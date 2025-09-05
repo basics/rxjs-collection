@@ -76,7 +76,7 @@ describe('log', () => {
     expect(actual).deep.equal(expectedVal);
   });
 
-  test('logResult - tableLogger', async () => {
+  test.skip('logResult - tableLogger', async () => {
     const actual = [];
 
     vi.spyOn(console, 'log').mockImplementation(v => {

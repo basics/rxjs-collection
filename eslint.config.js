@@ -17,14 +17,15 @@ export default [
   eslintPluginSecurity.configs.recommended,
   eslintPluginPrettierRecommended,
   js.configs.recommended,
+  eslintIgnores,
   {
     files: ['**/*.js'],
-    ignores: eslintIgnores,
     languageOptions: {
       globals: {
         ...globals.browser,
         expect: 'readonly',
-        global: 'readonly'
+        global: 'readonly',
+        __dirname: 'readonly'
       }
     },
     plugins: {

@@ -48,5 +48,6 @@
   },
   "window.title": "${dirty} ${activeEditorMedium}${separator}${rootName}",
   "workbench.settings.enableNaturalLanguageSearch": false,
-  "task.autoDetect": "off"
+  "task.autoDetect": "off",
+  "terminal.integrated.scrollback": 50000
 }

@@ -15,6 +15,8 @@
     "naumovs.color-highlight",
     "humao.rest-client",
     "techer.open-in-browser",
-    "vitest.explorer"
-  ]
+    "vitest.explorer",
+    "soulcode.vscode-unwanted-extensions"
+  ],
+  "unwantedRecommendations": []
 }

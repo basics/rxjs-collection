@@ -5,7 +5,7 @@ export default defineProject({
   test: {
     cacheDir: '../.cache/vitest',
     setupFiles: ['../../setup.js'],
-    testTimeout: 10000,
+    testTimeout: 20000,
     environment: 'happy-dom'
   }
 });

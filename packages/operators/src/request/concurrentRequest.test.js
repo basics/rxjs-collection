@@ -13,7 +13,7 @@ describe('concurrent request', () => {
   beforeAll(() => {
     vi.spyOn(global, 'fetch').mockImplementation(({ v, t }) => mockAsync(v).pipe(delay(t)));
 
-    global.Response = mockResponse();
+    vi.spyOn(global, 'Response').mockImplementation(mockResponse());
   });
 
   beforeEach(() => {

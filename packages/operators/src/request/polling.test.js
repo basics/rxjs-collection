@@ -10,7 +10,7 @@ describe('polling', () => {
   let testScheduler;
 
   beforeAll(async () => {
-    global.Response = mockResponse();
+    vi.spyOn(global, 'Response').mockImplementation(mockResponse());
   });
 
   beforeEach(() => {
