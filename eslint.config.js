@@ -17,9 +17,9 @@ export default [
   eslintPluginSecurity.configs.recommended,
   eslintPluginPrettierRecommended,
   js.configs.recommended,
+  eslintIgnores,
   {
     files: ['**/*.js'],
-    ignores: eslintIgnores,
     languageOptions: {
       globals: {
         ...globals.browser,
