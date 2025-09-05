@@ -368,7 +368,7 @@ describe('json', () => {
       }
     };
     const expectedVal = {
-      a: `{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"${new Date(2025, 2, 8, 14, 42, 27, 357).toISOString()}","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","2025-03-08T13:42:27.357Z","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar","promise":"test"}`
+      a: `{"boolean":true,"string":"hello world","integer":42,"float":4.2,"bigInt":"42n","url":"https://www.example.com/","date":"${new Date(2025, 2, 8, 14, 42, 27, 357).toISOString()}","regexp":"/[\\\\w?\\\\s]+/gm","symbol":"gSymbol(bar)","array":[true,"hello world",42,4.2,"42n","https://www.example.com/","${new Date(2025, 2, 8, 14, 42, 27, 357).toISOString()}","/[\\\\w?\\\\s]+/gm","gSymbol(bar)"],"observable":"foo bar","promise":"test"}`
     };
 
     testScheduler.run(({ cold, expectObservable }) => {
@@ -380,7 +380,7 @@ describe('json', () => {
     const { deserialize } = await import('./json');
 
     const triggerVal = {
-      a: `{ "boolean":true, "string":"hello world", "integer":42, "float":4.2, "bigInt":"42n", "url":"https://www.example.com/", "date":"${new Date(2025, 2, 8, 14, 42, 27, 357).toISOString()}", "regexp":"/[\\\\w?\\\\s]+/gm", "symbol":"gSymbol(bar)", "array": [true, "hello world", 42, 4.2, "42n", "https://www.example.com/", "2025-03-08T13:42:27.357Z", "/[\\\\w?\\\\s]+/gm", "gSymbol(bar)"], "observable":"foo bar", "promise":"test"}`
+      a: `{ "boolean":true, "string":"hello world", "integer":42, "float":4.2, "bigInt":"42n", "url":"https://www.example.com/", "date":"${new Date(2025, 2, 8, 14, 42, 27, 357).toISOString()}", "regexp":"/[\\\\w?\\\\s]+/gm", "symbol":"gSymbol(bar)", "array": [true, "hello world", 42, 4.2, "42n", "https://www.example.com/", "${new Date(2025, 2, 8, 14, 42, 27, 357).toISOString()}", "/[\\\\w?\\\\s]+/gm", "gSymbol(bar)"], "observable":"foo bar", "promise":"test"}`
     };
 
     const expectedVal = {
