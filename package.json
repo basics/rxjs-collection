@@ -34,6 +34,7 @@
   ],
   "devDependencies": {
     "@commitlint/config-conventional": "19.6.0",
+    "@eslint/js": "^9.35.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "13.0.1",
     "@semantic-release/git": "10.0.1",
@@ -51,13 +52,16 @@
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-security": "3.0.1",
     "fetch-mock": "12.2.0",
+    "globals": "^16.3.0",
     "happy-dom": "18.0.1",
     "husky": "9.1.7",
     "lint-staged": "15.3.0",
     "prettier": "3.4.2",
     "semantic-release": "24.2.1",
     "semantic-release-monorepo": "8.0.2",
-    "vitest": "2.1.8"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.42.0",
+    "vitest": "3.2.4"
   },
   "dependencies": {
     "@edge-runtime/vm": "^5.0.0"

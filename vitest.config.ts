@@ -1,8 +1,9 @@
 import { defineConfig, configDefaults } from 'vitest/config';
 
+
+
 export default defineConfig({
   test: {
-    cacheDir: './.cache/vitest',
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'lcov', 'html'],
@@ -18,6 +19,19 @@ export default defineConfig({
         'packages/playground/**/*.test.js'
       ]
     },
-    include: ['./packages/**/*.test.js']
+    include: ['./packages/**/*.test.js', './packages/**/*.test.ts'],
+    projects: [
+      {
+        extends: './packages/observables/vitest.config.ts'
+      },
+      {
+        extends: './packages/operators/vitest.config.ts'
+      },
+      {
+        extends: './packages/playground/vitest.config.ts'
+      }
+    ]
   }
 });
+
+

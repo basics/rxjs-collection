@@ -10,6 +10,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 // https://github.com/eslint-community/eslint-plugin-security
 import eslintPluginSecurity from 'eslint-plugin-security';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 import eslintIgnores from './eslint.ignores.js';
 
@@ -17,6 +18,7 @@ export default [
   eslintPluginSecurity.configs.recommended,
   eslintPluginPrettierRecommended,
   js.configs.recommended,
+  tseslint.configs.recommended,
   eslintIgnores,
   {
     files: ['**/*.js'],
