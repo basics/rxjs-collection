@@ -7,7 +7,7 @@ import { connectionObservable } from './window.js';
 
 // HINT: https://betterprogramming.pub/rxjs-testing-write-unit-tests-for-observables-603af959e251
 describe('DOM/window: network', function () {
-  let testScheduler;
+  let testScheduler: TestScheduler;
 
   beforeEach(function () {
     testScheduler = new TestScheduler((actual, expected) => {

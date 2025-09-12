@@ -129,9 +129,6 @@ importers:
       '@rxjs-collection/observables':
         specifier: 'workspace:'
         version: link:../observables
-      '@types/debug':
-        specifier: ^4.1.12
-        version: 4.1.12
       ansi-colors:
         specifier: 4.1.3
         version: 4.1.3
@@ -160,6 +157,9 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
+      '@types/debug':
+        specifier: ^4.1.12
+        version: 4.1.12
       node-fetch:
         specifier: 3.3.2
         version: 3.3.2
@@ -167,10 +167,10 @@ importers:
   packages/playground:
     dependencies:
       '@rxjs-collection/observables':
-        specifier: '*'
+        specifier: 'workspace:'
         version: link:../observables
       '@rxjs-collection/operators':
-        specifier: '*'
+        specifier: 'workspace:'
         version: link:../operators
       rxjs:
         specifier: 7.8.1

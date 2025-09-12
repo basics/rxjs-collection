@@ -1,8 +1,13 @@
 import { vi } from 'vitest';
 
+export enum NetworkStatus {
+  Online = 'online',
+  Offline = 'offline'
+}
+
 const statusMap = new Map([
-  [true, 'online'],
-  [false, 'offline']
+  [true, NetworkStatus.Online],
+  [false, NetworkStatus.Offline]
 ]);
 let spy;
 
@@ -19,6 +24,6 @@ const updateStatus = status => {
 };
 
 const updateEvent = () => {
-  const e = new window.Event(statusMap.get(navigator.onLine), { bubbles: true, cancelable: false });
+  const e = new window.Event(statusMap.get(navigator.onLine) ?? NetworkStatus.Offline, { bubbles: true, cancelable: false });
   window.dispatchEvent(e);
 };
