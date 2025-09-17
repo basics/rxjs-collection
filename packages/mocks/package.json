@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "rxjs": "7.8.2",
-    "sync-promise-js": "^1.0.0"
+    "sync-promise-js": "1.0.0"
   }
 }
