@@ -61,24 +61,22 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: checkout repo
+      - name: Checkout Repo
         uses: actions/checkout@v5
 
-      - name: setup node
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
+          cache: 'pnpm'
 
-      - name: cache node_modules
-        uses: actions/cache@v4
-        id: cache
-        with:
-          path: node_modules
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
-
-      - name: install dependencies (no cache available)
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Install dependencies
+        run: pnpm install
 
       - name: release versioning
         env:
