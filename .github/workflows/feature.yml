@@ -16,30 +16,27 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [20]
+        node: [22]
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: checkout repo
-        uses: actions/checkout@v4
+      - name: Checkout Repo
+        uses: actions/checkout@v5
 
-      - name: setup node
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: 'pnpm'
 
-      - name: cache node_modules
-        uses: actions/cache@v4
-        id: cache
-        with:
-          path: |
-            node_modules
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
-
-      - name: install dependencies (no cache available)
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Install dependencies
+        run: pnpm install
 
       - name: lint
         run: npm run lint
@@ -59,7 +56,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [20]
+        node: [22]
 
     runs-on: ${{ matrix.os }}
 
@@ -75,8 +72,8 @@ jobs:
           name: vitest-code-coverage-report
           path: ./coverage/
 
-      - name: SonarCloud scan
-        uses: SonarSource/sonarcloud-github-action@master
+      - name: SonarCloud (SonarQube) Scan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Zum Abruf von PR-Daten etc.
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

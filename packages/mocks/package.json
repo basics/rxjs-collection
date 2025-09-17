@@ -1,0 +1,23 @@
+{
+  "name": "@rxjs-collection/mocks",
+  "version": "1.0.0",
+  "description": "rxjs mocks",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Stephan Gerbeth",
+      "email": "stephan.gerbeth@gmail.com"
+    }
+  ],
+  "type": "module",
+  "files": [
+    "./*"
+  ],
+  "scripts": {
+    "release": "npx semantic-release"
+  },
+  "dependencies": {
+    "rxjs": "7.8.2",
+    "sync-promise-js": "^1.0.0"
+  }
+}

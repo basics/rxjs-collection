@@ -10,12 +10,12 @@
     }
   ],
   "type": "module",
-  "main": "src/index.js",
   "files": [
     "./src/*"
   ],
   "scripts": {
     "release": "npx semantic-release",
+    "start": "tsx watch src/index.ts",
     "dev": "npx vitest"
   },
   "imports": {
@@ -24,11 +24,9 @@
     "#mocks/*": "../mocks/*"
   },
   "dependencies": {
-    "@rxjs-collection/observables": "*",
-    "@rxjs-collection/operators": "*",
-    "rxjs": "7.8.1"
+    "rxjs": "7.8.2"
   },
   "devDependencies": {
-    "node-fetch": "3.3.2"
+    "tsx": "4.20.5"
   }
 }

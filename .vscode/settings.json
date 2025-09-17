@@ -13,9 +13,10 @@
   "git.pruneOnFetch": true,
   "editor.formatOnSave": true,
   "eslint.validate": [
+    "typescript",
+    "typescriptreact",
     "javascript",
     "javascriptreact",
-    "vue",
     "html"
   ],
   "files.exclude": {
@@ -31,23 +32,5 @@
     "**/.DS_Store": true,
     ".*": false
   },
-  "files.associations": {
-    ".branchlintrc": "json",
-    ".huskyrc": "json",
-    ".lintstagedrc": "json",
-    ".postcssrc": "json",
-    ".releaserc": "json",
-    ".*ignore": "ignore",
-    "*.js.tmpl": "javascript",
-    "*.html.tmpl": "html"
-  },
-  "javascript.format.enable": false,
   "javascript.suggest.paths": false,
-  "path-intellisense.mappings": {
-    "@operators/*": "${workspaceRoot}/packages/operators/src"
-  },
-  "window.title": "${dirty} ${activeEditorMedium}${separator}${rootName}",
-  "workbench.settings.enableNaturalLanguageSearch": false,
-  "task.autoDetect": "off",
-  "terminal.integrated.scrollback": 50000
 }

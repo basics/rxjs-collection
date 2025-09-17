@@ -11,6 +11,7 @@ describe('response', () => {
 
   beforeAll(() => {
     global.Response = mockResponse();
+    vi.spyOn(global, 'Response').mockImplementation(mockResponse());
   });
 
   beforeEach(() => {

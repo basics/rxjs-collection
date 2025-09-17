@@ -10,18 +10,28 @@
     }
   ],
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./dist/*"
+  },
   "files": [
-    "./src/*"
+    "dist"
   ],
   "scripts": {
-    "release": "npx semantic-release"
+    "release": "npx semantic-release",
+    "build": "unbuild"
   },
   "imports": {
     "#mocks/*": "../mocks/*"
   },
   "dependencies": {
-    "@rxjs-collection/operators": "*",
-    "rxjs": "7.8.1"
+    "rxjs": "7.8.2"
   }
 }

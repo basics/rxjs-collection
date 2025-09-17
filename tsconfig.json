@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "target": "ESNext",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "paths": {
+      "#mocks/*": [
+        "./packages/mocks/*"
+      ],
+      "#observables/*": [
+        "./packages/observables/src/*"
+      ],
+      "#operators/*": [
+        "./packages/operators/src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}
