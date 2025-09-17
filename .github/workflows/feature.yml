@@ -72,8 +72,8 @@ jobs:
           name: vitest-code-coverage-report
           path: ./coverage/
 
-      - name: SonarCloud scan
-        uses: SonarSource/sonarcloud-github-action@master
+      - name: SonarCloud (SonarQube) Scan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Zum Abruf von PR-Daten etc.
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
