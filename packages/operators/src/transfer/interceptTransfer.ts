@@ -55,12 +55,12 @@ const interceptStream = (operators: TransferSubject[], chunkSize: number) => {
     source.pipe(
       map(({ stream, total }) => {
         let time = 0;
-        let chunks: AsyncGenerator<ArrayBuffer, any, any> | null = null;
+        let chunks: AsyncGenerator<Uint8Array, any, any> | null = null;
         return new ReadableStream(
           {
             start: function () {
               time = Date.now();
-              chunks = readBytes(stream, chunkSize);
+              chunks = readBytes(stream!, chunkSize);
             },
             pull: async function (controller) {
               const { done, value } = await chunks!.next();
@@ -148,7 +148,7 @@ const convertStreamToResponse = (stream: ReadableStream, resp: Response) => {
 const onStreamPull = async (
   controller: ReadableStreamDefaultController,
   operators: TransferSubject[],
-  bytes: ArrayBuffer,
+  bytes: Uint8Array,
   total: number,
   time: number
 ) => {

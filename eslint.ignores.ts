@@ -1,3 +1,3 @@
 export default {
-  ignores: ['.history']
+  ignores: ['.history', '**/dist/*']
 };

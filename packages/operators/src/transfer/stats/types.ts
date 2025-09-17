@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 
 export interface TransferStats {
-  bytes: ArrayBuffer;
+  bytes: Uint8Array;
   total: number;
   time: number;
 }
