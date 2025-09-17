@@ -3,6 +3,7 @@
   "version": "1.0.1-beta.1",
   "description": "rxjs playground",
   "license": "MIT",
+  "private": true,
   "contributors": [
     {
       "name": "Stephan Gerbeth",

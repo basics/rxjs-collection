@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "rxjs mocks",
   "license": "MIT",
+  "private": true,
   "contributors": [
     {
       "name": "Stephan Gerbeth",

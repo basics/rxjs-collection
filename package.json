@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "collection of rxjs helpers",
   "license": "MIT",
+  "private": true,
   "contributors": [
     {
       "name": "Stephan Gerbeth",
