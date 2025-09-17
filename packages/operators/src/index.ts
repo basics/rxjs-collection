@@ -1,5 +1,5 @@
-// export { autoPagination } from './request/autoPagination';
-// export { cache } from './cache';
+export { autoPagination } from './request/autoPagination';
+export { cache } from './cache';
 // export { concurrentRequest } from './request/concurrentRequest';
 // export { lazyPagination } from './request/lazyPagination';
 // export { polling } from './request/polling';
