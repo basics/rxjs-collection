@@ -17,6 +17,9 @@
       ],
       "#observables/*": [
         "./packages/observables/src/*"
+      ],
+      "#operators/*": [
+        "./packages/operators/src/*"
       ]
     }
   },

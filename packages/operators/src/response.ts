@@ -1,21 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { shallowEqual } from 'fast-equals';
 import { combineLatest, concatMap, distinctUntilChanged, from, map, Observable, of } from 'rxjs';
 
-export function resolve<T extends Record<string, any>>(type = 'json') {
-  return (source: Observable<T>) => source.pipe(concatMap(e => from(e[String(type)]())));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function resolve<R = any>(type: 'json' | 'text' | 'blob') {
+  return (source: Observable<Response>) =>
+    source.pipe(
+      concatMap(e => {
+        if (type === 'json') return from(e.json() as Promise<R>);
+        if (type === 'text') return from(e.text() as Promise<R>);
+        if (type === 'blob') return from(e.blob() as Promise<R>);
+        throw new Error(`Unsupported type: ${type}`);
+      })
+    );
 }
 
-export function resolveJSON<T extends Record<string, any>>() {
-  return resolve<T>('json');
+// Record<string, any>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function resolveJSON<R = Record<string, any>>() {
+  return resolve<R>('json');
 }
 
 export const resolveText = () => {
-  return resolve('text');
+  return resolve<string>('text');
 };
 
 export function resolveBlob() {
-  return resolve('blob');
+  return resolve<Blob>('blob');
 }
 
 export const distinctUntilResponseChanged = () => {
