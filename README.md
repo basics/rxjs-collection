@@ -19,11 +19,13 @@
 
 ```bash
 # npm
-npm install github:basics/rxjs-collection
+npm install fast-equals github:basics/rxjs-collection
 
 # pnpm
-pnpm add github:basics/rxjs-collection
+pnpm add fast-equals github:basics/rxjs-collection
 ```
+
+> ⚠️ The dependency “fast-equals” must be installed separately. Temporarily, until the packages are published on npmjs.com.
 
 ### Temporary adjustments as not published
 
