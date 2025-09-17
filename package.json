@@ -16,8 +16,10 @@
   },
   "files": [
     "packages/operators/dist",
+    "packages/operators/node-modules",
     "packages/operators/package.json",
     "packages/observables/dist",
+    "packages/observables/node-modules",
     "packages/observables/package.json"
   ],
   "scripts": {
