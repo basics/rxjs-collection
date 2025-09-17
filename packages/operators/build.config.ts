@@ -1,3 +1,4 @@
+import typescript from '@rollup/plugin-typescript';
 import { defineBuildConfig } from 'unbuild';
 import Replace from 'unplugin-replace/rollup';
 
@@ -11,6 +12,12 @@ export default defineBuildConfig({
   clean: true,
   hooks: {
     'rollup:options'(ctx, options) {
+      options.plugins.push(
+        typescript({
+          tsconfig: '../../tsconfig.json'
+        })
+      );
+
       options.plugins.push(
         Replace({
           values: [
