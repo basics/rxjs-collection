@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { shallowEqual } from 'fast-equals';
 import { combineLatest, concatMap, distinctUntilChanged, from, map, Observable, of } from 'rxjs';
 
-export function resolve<T>(type = 'json') {
+export function resolve<T extends Record<string, any>>(type = 'json') {
   return (source: Observable<T>) => source.pipe(concatMap(e => from(e[String(type)]())));
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function resolveJSON<T extends Record<string, any>>() {
   return resolve<T>('json');
 }

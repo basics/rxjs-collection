@@ -1,6 +1,10 @@
 import { merge, partition, share, Observable, OperatorFunction } from 'rxjs';
 
-export const pipeWhen = <T>(condition: (value: T, index: number) => boolean, ...operators: OperatorFunction<T, T>[]) => {
+export const pipeWhen = <T>(
+  // eslint-disable-next-line no-unused-vars
+  condition: (value: T, index: number) => boolean,
+  ...operators: OperatorFunction<T, T>[]
+) => {
   const combinedOperators = operators.reduce(
     (acc, currentOp) => {
       return (source: Observable<T>) => source.pipe(acc, currentOp);

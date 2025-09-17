@@ -1,4 +1,3 @@
-import js from '@eslint/js';
 // https://github.com/vitest-dev/eslint-plugin-vitest
 import vitest from '@vitest/eslint-plugin';
 // https://github.com/nickdeis/eslint-plugin-no-secrets
@@ -9,19 +8,19 @@ import perfectionist from 'eslint-plugin-perfectionist';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 // https://github.com/eslint-community/eslint-plugin-security
 import eslintPluginSecurity from 'eslint-plugin-security';
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-import eslintIgnores from './eslint.ignores.js';
+import eslintIgnores from './eslint.ignores.ts';
 
-export default [
+export default defineConfig(
   eslintPluginSecurity.configs.recommended,
   eslintPluginPrettierRecommended,
-  js.configs.recommended,
   tseslint.configs.recommended,
   eslintIgnores,
   {
-    files: ['**/*.js'],
+    files: ['**/*.js', '**/*.ts'],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -70,4 +69,4 @@ export default [
       ]
     }
   }
-];
+);

@@ -1,4 +1,5 @@
-import { vi } from 'vitest';
+/* eslint-disable no-unused-vars */
+import { MockInstance, vi } from 'vitest';
 
 export enum NetworkStatus {
   Online = 'online',
@@ -9,7 +10,7 @@ const statusMap = new Map([
   [true, NetworkStatus.Online],
   [false, NetworkStatus.Offline]
 ]);
-let spy;
+let spy: MockInstance;
 
 export const mockOnline = () => updateStatus(true);
 export const mockOffline = () => updateStatus(false);
@@ -18,12 +19,15 @@ export const mockReset = () => {
   updateEvent();
 };
 
-const updateStatus = status => {
+const updateStatus = (status: boolean) => {
   spy = vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(status);
   updateEvent();
 };
 
 const updateEvent = () => {
-  const e = new window.Event(statusMap.get(navigator.onLine) ?? NetworkStatus.Offline, { bubbles: true, cancelable: false });
+  const e = new window.Event(statusMap.get(navigator.onLine) ?? NetworkStatus.Offline, {
+    bubbles: true,
+    cancelable: false
+  });
   window.dispatchEvent(e);
 };

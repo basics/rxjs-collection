@@ -1,4 +1,4 @@
-import { scan } from 'rxjs';
+import { Observable, scan } from 'rxjs';
 
 export const BYTE = 1;
 export const BIT = BYTE * 8;
@@ -12,8 +12,20 @@ export const SECOND = MSECOND * 1000;
 export const MINUTE = SECOND * 60;
 export const HOUR = MINUTE * 60;
 
-export const calcReceivedStats = () => {
-  return source =>
+export interface ReceivedStats {
+  length: number;
+  total: number;
+  time: number;
+}
+
+export function calcReceivedStats() {
+  return (
+    source: Observable<{
+      bytes: ArrayBuffer;
+      total: number;
+      time: number;
+    }>
+  ): Observable<ReceivedStats> =>
     source.pipe(
       scan(
         (acc, { bytes, total, time }) => {
@@ -26,4 +38,4 @@ export const calcReceivedStats = () => {
         { length: 0, total: 0, time: 0 }
       )
     );
-};
+}

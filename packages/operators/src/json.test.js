@@ -1,14 +1,17 @@
-import { mockPromise } from '#mocks/Promise.js';
+/* eslint-disable no-console */
+import { mockPromise } from '#mocks/Promise';
 import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
 import { concatMap, firstValueFrom, lastValueFrom, map, of, share, tap } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, afterEach, describe, expect, test, vi } from 'vitest';
 
+import { fixTLS } from '../../../vitest.utils';
 import { requestJSON } from './request';
 
-// eslint-disable-next-line no-undef
-process.env.TZ = 'UTC'; // ensure consistent date serialization
+process.env.TZ = 'UTC';
+
+fixTLS();
 
 describe('json', () => {
   let testScheduler;
@@ -491,7 +494,7 @@ describe('json', () => {
   });
 
   test('demo', async () => {
-    const { serialize, deserialize } = await import('./json');
+    const { serialize } = await import('./json');
 
     const baseURL = 'https://jsonplaceholder.typicode.com/';
     const eMail = 'Nathan@yesenia.net';

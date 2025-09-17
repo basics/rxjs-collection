@@ -1,3 +1,5 @@
 import { of } from 'rxjs';
 
-export const mockAsync = v => of(v);
+export function mockAsync<T>(v: T) {
+  return of(v);
+}

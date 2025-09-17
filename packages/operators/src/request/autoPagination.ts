@@ -1,25 +1,36 @@
-import { concatMap, expand, filter, from, map, Observable } from 'rxjs';
+import { concatMap, expand, filter, from, map, Observable, tap } from 'rxjs';
 
 import { request } from '../request';
 
-export type ResolveRoute = (url: string, response?: Response) => Observable<Request>;
+export type ResolveRoute = (
+  reqResp: Request | Response,
+  response?: Response
+) => Observable<Request>;
 
-export const autoPagination = ({ resolveRoute }: { resolveRoute: ResolveRoute }) => {
-  return (source: Observable<string>) =>
+export function autoPagination({ resolveRoute }: { resolveRoute: ResolveRoute }) {
+  return (source: Observable<Request | Response>) =>
     source.pipe(
-      concatMap(url => from(resolveRoute(url)).pipe(request(), getNext(resolveRoute, url))),
+      concatMap(req =>
+        from(resolveRoute(req)).pipe(
+          tap(t => {
+            console.log(t);
+          }),
+          request(),
+          getNext(resolveRoute, req)
+        )
+      ),
       map(resp => resp.clone())
     );
-};
+}
 
-const getNext = (resolveRoute: ResolveRoute, url: string) => {
+function getNext(resolveRoute: ResolveRoute, reqResp: Request | Response) {
   return (source: Observable<Response>) =>
     source.pipe(
       expand(resp =>
-        from(resolveRoute(url, resp)).pipe(
-          filter(url => !!url),
+        from(resolveRoute(reqResp, resp)).pipe(
+          filter(req => !!req),
           request()
         )
       )
     );
-};
+}

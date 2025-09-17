@@ -1,4 +1,4 @@
-import { mockResponse } from '#mocks/response.js';
+import { mockResponse } from '#mocks/response';
 import { map } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 import { afterAll, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest';

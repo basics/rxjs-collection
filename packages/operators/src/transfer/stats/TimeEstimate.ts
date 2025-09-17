@@ -5,16 +5,18 @@ import {
   distinctUntilChanged,
   EMPTY,
   map,
+  Observable,
   of,
   Subject,
   switchMap
 } from 'rxjs';
 
-import { calcReceivedStats, MSECOND } from './utils';
+import { TransferStats } from './types';
+import { calcReceivedStats, MSECOND, ReceivedStats } from './utils';
 
 export default {
   create: (timeRatio = MSECOND) => {
-    return new Subject().pipe(
+    return new Subject<TransferStats>().pipe(
       calcReceivedStats(),
       calcTimeEstimate(timeRatio),
       concatWith(of(0)),
@@ -23,18 +25,18 @@ export default {
   }
 };
 
-const calcTimeEstimate = timeRatio => {
-  return source =>
+function calcTimeEstimate(timeRatio: number) {
+  return (source: Observable<ReceivedStats>) =>
     source.pipe(
       switchMap(stats => {
-        let noEstimation = stats.length === stats.total ? EMPTY : of(Infinity).pipe(delay(500));
+        const noEstimation = stats.length === stats.total ? EMPTY : of(Infinity).pipe(delay(500));
         return concat(calcEstimation(stats, timeRatio), noEstimation);
       })
     );
-};
+}
 
-const calcEstimation = (stats, timeRatio) => {
+function calcEstimation(stats: ReceivedStats, timeRatio: number) {
   return of(stats).pipe(
     map(({ length, total, time }) => Math.ceil((total - length) * (time / length)) / timeRatio)
   );
-};
+}

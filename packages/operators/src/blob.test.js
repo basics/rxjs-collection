@@ -1,4 +1,4 @@
-import { mockBlob } from '#mocks/blob.js';
+import { mockBlob } from '#mocks/blob';
 import fs from 'node:fs';
 import { map } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
@@ -17,7 +17,7 @@ describe('blob', () => {
   });
 
   test('blob to text', async () => {
-    const { blobToText } = await import('./blob.js');
+    const { blobToText } = await import('./blob');
 
     const expectedVal = {
       a: 'hello world',
@@ -35,7 +35,7 @@ describe('blob', () => {
   });
 
   test('blob to json', async () => {
-    const { blobToJSON } = await import('./blob.js');
+    const { blobToJSON } = await import('./blob');
 
     const expectedVal = {
       a: { hello: 'world' },
@@ -53,7 +53,7 @@ describe('blob', () => {
   });
 
   test('blob to xml', async () => {
-    const { blobToXML } = await import('./blob.js');
+    const { blobToXML } = await import('./blob');
 
     const expectedVal = {
       a: new DOMParser().parseFromString('<xml></xml>', 'text/xml'),
@@ -73,7 +73,7 @@ describe('blob', () => {
   test('blob to url', async () => {
     vi.restoreAllMocks();
 
-    const { blobToURL } = await import('./blob.js');
+    const { blobToURL } = await import('./blob');
 
     const triggerVal = {
       a: new Blob([fs.readFileSync(`${__dirname}/../fixtures/videos/demo.mp4`)], 'video/mp4')
@@ -94,7 +94,7 @@ describe('blob', () => {
   });
 
   test('blob to (auto detect)', async () => {
-    const { blobTo } = await import('./blob.js');
+    const { blobTo } = await import('./blob');
 
     const expectedVal = {
       a: 'hello world',

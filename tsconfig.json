@@ -8,10 +8,20 @@
     "strict": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "paths": {
+      "#mocks/*": [
+        "./packages/mocks/*"
+      ],
+      "#observables/*": [
+        "./packages/observables/src/*"
+      ]
+    }
   },
   "include": [
-    "**/*"
+    "**/*.ts"
   ],
   "exclude": [
     "node_modules",

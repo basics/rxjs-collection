@@ -1,20 +1,35 @@
 import { connectionObservable } from '#observables/dom/window';
 import debug from 'debug';
-import { combineLatest, concatMap, delay, filter, map, Observable, retry, tap, throwError } from 'rxjs';
+import {
+  combineLatest,
+  concatMap,
+  delay,
+  filter,
+  map,
+  Observable,
+  retry,
+  tap,
+  throwError
+} from 'rxjs';
 
 import { pipeWhen } from './when';
 
-export function defaultTimeout(count) {
+export function defaultTimeout(count: number) {
   return Math.min(60000, Math.pow(count, 2) * 1000);
 }
 
 export interface RetryWhenRequestErrorOptions {
   retryableStatuses?: number[];
+  // eslint-disable-next-line no-unused-vars
   timeout?: (count: number) => number;
   count?: number;
 }
 
-export function retryWhenRequestError({ retryableStatuses, timeout = defaultTimeout, count }: RetryWhenRequestErrorOptions = {}) {
+export function retryWhenRequestError({
+  retryableStatuses,
+  timeout = defaultTimeout,
+  count
+}: RetryWhenRequestErrorOptions = {}) {
   let counter = 0;
 
   return (source: Observable<Response>) => {
@@ -28,6 +43,7 @@ export function retryWhenRequestError({ retryableStatuses, timeout = defaultTime
   };
 }
 
+// eslint-disable-next-line no-unused-vars
 const determineDelayWhenOnline = (timeout: (counter: number) => number, counter: number) => {
   return combineLatest([connectionObservable])
     .pipe(

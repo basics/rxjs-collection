@@ -10,32 +10,34 @@
     }
   ],
   "type": "module",
-  "main": "src/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "./src/*"
   ],
   "scripts": {
-    "release": "npx semantic-release"
+    "release": "npx semantic-release",
+    "build": "unbuild"
   },
   "imports": {
     "#observables/*": "../observables/src/*",
     "#mocks/*": "../mocks/*"
   },
   "dependencies": {
-    "@rxjs-collection/mocks": "workspace:",
-    "@rxjs-collection/observables": "workspace:",
     "ansi-colors": "4.1.3",
-    "ascii-table3": "^0.9.0",
-    "chalk": "^5.6.0",
-    "debug": "^4.3.7",
-    "fast-equals": "5.0.1",
-    "minimatch": "^10.0.1",
-    "rxjs": "7.8.1",
-    "strip-ansi": "^7.1.0",
-    "sync-promise-js": "^1.0.0"
+    "ascii-table3": "1.0.1",
+    "chalk": "5.6.2",
+    "debug": "4.4.3",
+    "fast-equals": "5.2.2",
+    "minimatch": "10.0.3",
+    "rxjs": "7.8.2",
+    "strip-ansi": "7.1.2",
+    "sync-promise-js": "1.0.0"
   },
   "devDependencies": {
-    "node-fetch": "3.3.2",
-    "@types/debug": "^4.1.12"
+    "@types/debug": "4.1.12",
+    "unbuild": "3.6.1",
+    "typescript": "5.9.2"
   }
 }

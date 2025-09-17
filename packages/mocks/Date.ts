@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-export const mockDate = testScheduler => {
+export const mockDate = () => {
   const mockClassConstructor = vi.fn().mockReturnValue({
     method: vi.fn()
   });
