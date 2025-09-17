@@ -15,11 +15,11 @@ export default defineBuildConfig({
           values: [
             {
               find: /#observables\//gi,
-              replacement: '@rxjs-collection/observables/'
+              replacement: '../../observables/src/'
             },
             {
               find: /#operators\//gi,
-              replacement: '@rxjs-collection/operators/'
+              replacement: '../../operators/src/'
             }
           ]
         })

@@ -2,7 +2,6 @@
 
 const rxjs = require('rxjs');
 const fastEquals = require('fast-equals');
-const window = require('@rxjs-collection/observables/dom/window');
 const debug = require('debug');
 
 function _interopDefaultCompat (e) { return e && typeof e === 'object' && 'default' in e ? e.default : e; }
@@ -39,6 +38,15 @@ const distinctUntilResponseChanged = () => {
   );
 };
 
+const connectionObservable = rxjs.merge(
+  rxjs.of(null),
+  rxjs.fromEvent(window, "online"),
+  rxjs.fromEvent(window, "offline")
+).pipe(
+  rxjs.map(() => navigator.onLine),
+  rxjs.shareReplay(1)
+);
+
 const pipeWhen = (condition, ...operators) => {
   const combinedOperators = operators.reduce(
     (acc, currentOp) => {
@@ -72,7 +80,7 @@ function retryWhenRequestError({
   };
 }
 const determineDelayWhenOnline = (timeout, counter) => {
-  return rxjs.combineLatest([window.connectionObservable]).pipe(
+  return rxjs.combineLatest([connectionObservable]).pipe(
     // all defined observables have to be valid
     rxjs.map((values) => values.every((v) => v === true)),
     // reset counter if one observable is invalid
@@ -121,7 +129,6 @@ const interceptTransfer = (operators = [], chunkSize = 60 * 1024) => {
 const sourceToStream = () => {
   return (source) => source.pipe(
     rxjs.concatMap((reqResp) => {
-      debugger;
       return objectToStreamMap.get(reqResp.constructor)(
         reqResp
       );

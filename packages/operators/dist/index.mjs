@@ -1,6 +1,5 @@
-import { share, timer, ReplaySubject, concatMap, from, combineLatest, of, distinctUntilChanged, map, partition, merge, throwError, retry, tap, filter, delay, expand, mergeMap } from 'rxjs';
+import { share, timer, ReplaySubject, concatMap, from, combineLatest, of, distinctUntilChanged, map, merge, fromEvent, shareReplay, partition, throwError, retry, tap, filter, delay, expand, mergeMap } from 'rxjs';
 import { shallowEqual } from 'fast-equals';
-import { connectionObservable } from '@rxjs-collection/observables/dom/window';
 import debug from 'debug';
 
 function cache({ ttl } = { ttl: 0 }) {
@@ -32,6 +31,15 @@ const distinctUntilResponseChanged = () => {
     map(([resp]) => resp.clone())
   );
 };
+
+const connectionObservable = merge(
+  of(null),
+  fromEvent(window, "online"),
+  fromEvent(window, "offline")
+).pipe(
+  map(() => navigator.onLine),
+  shareReplay(1)
+);
 
 const pipeWhen = (condition, ...operators) => {
   const combinedOperators = operators.reduce(
@@ -115,7 +123,6 @@ const interceptTransfer = (operators = [], chunkSize = 60 * 1024) => {
 const sourceToStream = () => {
   return (source) => source.pipe(
     concatMap((reqResp) => {
-      debugger;
       return objectToStreamMap.get(reqResp.constructor)(
         reqResp
       );
