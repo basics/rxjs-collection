@@ -68,8 +68,9 @@
     "vitest": "3.2.4"
   },
   "dependencies": {
-    "@rollup/plugin-typescript": "12.1.4",
     "@edge-runtime/vm": "5.0.0",
+    "@rollup/plugin-typescript": "12.1.4",
+    "tslib": "^2.8.1",
     "unbuild": "3.6.1",
     "unplugin-replace": "0.6.1"
   }
