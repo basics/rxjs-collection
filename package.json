@@ -64,12 +64,12 @@
     "semantic-release-monorepo": "8.0.2",
     "typescript": "5.9.2",
     "typescript-eslint": "8.44.0",
-    "unbuild": "3.6.1",
     "undici": "7.16.0",
-    "unplugin-replace": "^0.6.1",
     "vitest": "3.2.4"
   },
   "dependencies": {
-    "@edge-runtime/vm": "5.0.0"
+    "@edge-runtime/vm": "5.0.0",
+    "unbuild": "3.6.1",
+    "unplugin-replace": "^0.6.1"
   }
 }
