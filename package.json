@@ -19,7 +19,7 @@
     "packages/observables/dist"
   ],
   "scripts": {
-    "postinstall": "pnpm -r run build",
+    "postinstall": "pnpm -F \"./packages/**\" run build",
     "build": "pnpm -r run build",
     "lint": "npm run lint:es",
     "lint:es": "eslint --flag unstable_native_nodejs_ts_config .",
