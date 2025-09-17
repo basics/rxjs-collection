@@ -16,7 +16,9 @@
   },
   "files": [
     "packages/operators/dist",
-    "packages/observables/dist"
+    "packages/operators/package.json",
+    "packages/observables/dist",
+    "packages/observables/package.json"
   ],
   "scripts": {
     "postinstall": "pnpm -F \"./packages/**\" run build",
