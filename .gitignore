@@ -7,3 +7,4 @@ node_modules
 /.github_old
 /.cache
 /.tmp
+dist
