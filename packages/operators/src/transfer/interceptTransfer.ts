@@ -153,15 +153,15 @@ const onStreamPull = async (
   time: number
 ) => {
   controller.enqueue(new Uint8Array(bytes));
-  operators.map(operator => operator.next({ bytes, total, time }));
+  operators.forEach(operator => operator.next({ bytes, total, time }));
 };
 
 const onStreamEnd = (controller: ReadableStreamDefaultController, operators: TransferSubject[]) => {
   controller.close();
-  operators.map(operator => operator.complete());
+  operators.forEach(operator => operator.complete());
   return;
 };
 
 const onStreamError = (operators: TransferSubject[], err: Error) => {
-  operators.map(operator => operator.error(err));
+  operators.forEach(operator => operator.error(err));
 };
