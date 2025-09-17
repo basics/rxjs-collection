@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { concatMap, from, map, Observable, of } from 'rxjs';
 
-import { TransferSubject } from './stats/types';
+import type { TransferSubject } from './stats/types';
+
 import { readBytes } from './utils';
 
 declare global {

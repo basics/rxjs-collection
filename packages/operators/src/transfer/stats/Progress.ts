@@ -1,6 +1,7 @@
 import { concatWith, distinctUntilChanged, map, Observable, of, Subject } from 'rxjs';
 
-import { TransferStats } from './types';
+import type { TransferStats } from './types';
+
 import { calcReceivedStats, ReceivedStats } from './utils';
 
 export default {

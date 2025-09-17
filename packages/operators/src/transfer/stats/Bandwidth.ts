@@ -1,6 +1,7 @@
 import { concat, delay, EMPTY, map, Observable, of, Subject, switchMap } from 'rxjs';
 
-import { TransferStats } from './types';
+import type { TransferStats } from './types';
+
 import { calcReceivedStats, MBIT, ReceivedStats, SECOND } from './utils';
 
 export default {

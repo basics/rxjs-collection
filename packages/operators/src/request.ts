@@ -1,10 +1,12 @@
 import { concatMap, from, Observable, throwError } from 'rxjs';
 
+import type { RetryWhenRequestErrorOptions } from './retry';
+import type { TransferSubject } from './transfer/stats/types';
+
 import { cache, CacheOptions } from './cache';
 import { resolveBlob, resolveJSON, resolveText } from './response';
-import { retryWhenRequestError, RetryWhenRequestErrorOptions } from './retry';
+import { retryWhenRequestError } from './retry';
 import { interceptTransfer } from './transfer/interceptTransfer';
-import { TransferSubject } from './transfer/stats/types';
 
 export interface RequestOptions {
   retry?: RetryWhenRequestErrorOptions;

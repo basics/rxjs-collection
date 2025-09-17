@@ -1,6 +1,7 @@
 import { map, Observable, Subject } from 'rxjs';
 
-import { TransferStats } from './types';
+import type { TransferStats } from './types';
+
 import { calcReceivedStats, MSECOND, ReceivedStats } from './utils';
 
 export default {

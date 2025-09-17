@@ -3,6 +3,7 @@ import Replace from 'unplugin-replace/rollup';
 
 export default defineBuildConfig({
   entries: ['./src/index'],
+  externals: ['rxjs'],
   declaration: true,
   rollup: {
     emitCJS: true
