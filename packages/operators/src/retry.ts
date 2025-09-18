@@ -1,16 +1,8 @@
+import type { Observable } from 'rxjs';
+
 import { connectionObservable } from '#observables/dom/window';
 import debug from 'debug';
-import {
-  combineLatest,
-  concatMap,
-  delay,
-  filter,
-  map,
-  Observable,
-  retry,
-  tap,
-  throwError
-} from 'rxjs';
+import { combineLatest, concatMap, delay, filter, map, retry, tap, throwError } from 'rxjs';
 
 import { pipeWhen } from './when';
 

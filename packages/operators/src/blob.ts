@@ -1,5 +1,7 @@
+import type { Observable } from 'rxjs';
+
 import { minimatch } from 'minimatch';
-import { concatMap, from, map, Observable, of } from 'rxjs';
+import { concatMap, from, map, of } from 'rxjs';
 
 export function blobToJSON() {
   return (source: Observable<Blob>) =>

@@ -1,8 +1,11 @@
-import { concatWith, distinctUntilChanged, map, Observable, of, Subject } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { concatWith, distinctUntilChanged, map, of, Subject } from 'rxjs';
 
 import type { TransferStats } from './types';
+import type { ReceivedStats } from './utils';
 
-import { calcReceivedStats, ReceivedStats } from './utils';
+import { calcReceivedStats } from './utils';
 
 export default {
   create: () => {

@@ -1,4 +1,6 @@
-import { concatMap, from, Observable, throwError } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { concatMap, from, throwError } from 'rxjs';
 
 import type { CacheOptions } from './cache';
 import type { RetryWhenRequestErrorOptions } from './retry';

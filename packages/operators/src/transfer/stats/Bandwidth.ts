@@ -1,8 +1,11 @@
-import { concat, delay, EMPTY, map, Observable, of, Subject, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { concat, delay, EMPTY, map, of, Subject, switchMap } from 'rxjs';
 
 import type { TransferStats } from './types';
+import type { ReceivedStats } from './utils';
 
-import { calcReceivedStats, MBIT, ReceivedStats, SECOND } from './utils';
+import { calcReceivedStats, MBIT, SECOND } from './utils';
 
 export default {
   create: (byteRatio = MBIT, timeRatio = SECOND) => {

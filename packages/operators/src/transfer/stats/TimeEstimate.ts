@@ -1,3 +1,5 @@
+import type { Observable } from 'rxjs';
+
 import {
   concat,
   concatWith,
@@ -5,15 +7,15 @@ import {
   distinctUntilChanged,
   EMPTY,
   map,
-  Observable,
   of,
   Subject,
   switchMap
 } from 'rxjs';
 
 import type { TransferStats } from './types';
+import type { ReceivedStats } from './utils';
 
-import { calcReceivedStats, MSECOND, ReceivedStats } from './utils';
+import { calcReceivedStats, MSECOND } from './utils';
 
 export default {
   create: (timeRatio = MSECOND) => {

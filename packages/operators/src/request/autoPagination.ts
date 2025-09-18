@@ -1,4 +1,6 @@
-import { concatMap, expand, filter, from, map, Observable, tap } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { concatMap, expand, filter, from, map } from 'rxjs';
 
 import { request } from '../request';
 
@@ -10,15 +12,7 @@ export type ResolveRoute = (
 export function autoPagination({ resolveRoute }: { resolveRoute: ResolveRoute }) {
   return (source: Observable<Request | Response>) =>
     source.pipe(
-      concatMap(req =>
-        from(resolveRoute(req)).pipe(
-          tap(t => {
-            console.log(t);
-          }),
-          request(),
-          getNext(resolveRoute, req)
-        )
-      ),
+      concatMap(req => from(resolveRoute(req)).pipe(request(), getNext(resolveRoute, req))),
       map(resp => resp.clone())
     );
 }

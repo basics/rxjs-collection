@@ -1,4 +1,6 @@
-import { Observable, scan } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { scan } from 'rxjs';
 
 export const BYTE = 1;
 export const BIT = BYTE * 8;
@@ -21,7 +23,7 @@ export interface ReceivedStats {
 export function calcReceivedStats() {
   return (
     source: Observable<{
-      bytes: ArrayBuffer;
+      bytes: Uint8Array;
       total: number;
       time: number;
     }>

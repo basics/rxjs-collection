@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { concatMap, map, Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { concatMap, map } from 'rxjs';
 
 import { concurrentRequest } from './concurrentRequest';
 

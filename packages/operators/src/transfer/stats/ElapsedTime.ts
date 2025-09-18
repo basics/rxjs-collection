@@ -1,8 +1,11 @@
-import { map, Observable, Subject } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { map, Subject } from 'rxjs';
 
 import type { TransferStats } from './types';
+import type { ReceivedStats } from './utils';
 
-import { calcReceivedStats, MSECOND, ReceivedStats } from './utils';
+import { calcReceivedStats, MSECOND } from './utils';
 
 export default {
   create: (timeUnit = MSECOND) => {

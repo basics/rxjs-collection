@@ -66,7 +66,8 @@ export default defineConfig(
           customGroups: { type: {}, value: {} },
           environment: 'node'
         }
-      ]
+      ],
+      '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }]
     }
   }
 );

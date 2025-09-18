@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { MockInstance, vi } from 'vitest';
+import type { MockInstance } from 'vitest';
+
+import { vi } from 'vitest';
 
 export enum NetworkStatus {
   Online = 'online',

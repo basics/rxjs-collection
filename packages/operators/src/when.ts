@@ -1,4 +1,6 @@
-import { merge, partition, share, Observable, OperatorFunction } from 'rxjs';
+import type { Observable, OperatorFunction } from 'rxjs';
+
+import { merge, partition, share } from 'rxjs';
 
 export const pipeWhen = <T>(
   // eslint-disable-next-line no-unused-vars

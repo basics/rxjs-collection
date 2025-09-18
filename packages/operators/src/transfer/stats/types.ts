@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import type { Subject } from 'rxjs';
 
 export interface TransferStats {
   bytes: Uint8Array;

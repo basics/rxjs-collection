@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { concatMap, from, map, Observable, of } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { concatMap, from, map, of } from 'rxjs';
 
 import type { TransferSubject } from './stats/types';
 

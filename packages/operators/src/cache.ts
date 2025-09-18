@@ -1,4 +1,6 @@
-import { Observable, ReplaySubject, share, timer } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { ReplaySubject, share, timer } from 'rxjs';
 
 export interface CacheOptions {
   ttl: number;

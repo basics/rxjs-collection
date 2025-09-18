@@ -1,5 +1,7 @@
+import type { Observable } from 'rxjs';
+
 import { shallowEqual } from 'fast-equals';
-import { combineLatest, concatMap, distinctUntilChanged, from, map, Observable, of } from 'rxjs';
+import { combineLatest, concatMap, distinctUntilChanged, from, map, of } from 'rxjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function resolve<R = any>(type: 'json' | 'text' | 'blob') {

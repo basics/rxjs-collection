@@ -1,4 +1,6 @@
-import { delay, expand, Observable, of } from 'rxjs';
+import type { Observable } from 'rxjs';
+
+import { delay, expand, of } from 'rxjs';
 
 import { request } from '../request';
 import { distinctUntilResponseChanged } from '../response';
