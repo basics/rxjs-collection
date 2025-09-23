@@ -40,12 +40,12 @@
   },
   "exports": {
     "./observables": {
-      "import": "./packages/observables/dist/index.js",
+      "import": "./packages/observables/dist/index.mjs",
       "require": "./packages/observables/dist/index.cjs",
       "types": "./packages/observables/dist/index.d.ts"
     },
     "./operators": {
-      "import": "./packages/operators/dist/index.js",
+      "import": "./packages/operators/dist/index.mjs",
       "require": "./packages/operators/dist/index.cjs",
       "types": "./packages/operators/dist/index.d.ts"
     }
