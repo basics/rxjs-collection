@@ -21,7 +21,11 @@
       }
     ],
     [
-      "@semantic-release/npm"
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "packages/observables",
+        "npmPublish": false
+      }
     ],
     [
       "@semantic-release/git",

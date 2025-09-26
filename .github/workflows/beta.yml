@@ -78,10 +78,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: node -v
-      - run: pnpm -v
-      - run: npm -v
-
       - name: release versioning
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
