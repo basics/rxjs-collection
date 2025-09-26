@@ -15,7 +15,8 @@
     "./*"
   ],
   "scripts": {
-    "release": "npx semantic-release"
+    "release": "npx semantic-release",
+    "build": "print 'no build needed'"
   },
   "dependencies": {
     "rxjs": "7.8.2",
