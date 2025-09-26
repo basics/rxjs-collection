@@ -21,11 +21,7 @@
       }
     ],
     [
-      "@semantic-release/npm",
-      {
-        "pkgRoot": "packages/playground",
-        "npmPublish": false
-      }
+      "@semantic-release/npm"
     ],
     [
       "@semantic-release/git",

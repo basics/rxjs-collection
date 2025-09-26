@@ -21,11 +21,7 @@
       }
     ],
     [
-      "@semantic-release/npm",
-      {
-        "pkgRoot": "packages/operators",
-        "npmPublish": false
-      }
+      "@semantic-release/npm"
     ],
     [
       "@semantic-release/git",
