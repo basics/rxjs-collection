@@ -1,5 +1,13 @@
 # Project Changelog
 
+# [@rxjs-collection/observables-v1.0.9-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.8...@rxjs-collection/observables-v1.0.9-beta.1) (2025-09-26)
+
+
+### Bug Fixes
+
+* correct global reference in connectionObservable for event handling ([1c1d5ea](https://github.com/basics/rxjs-collection/commit/1c1d5ea0c5d774ff72aa507cb48a5a5bd86cdd67))
+* use globalThis for event listeners in connectionObservable ([83b771b](https://github.com/basics/rxjs-collection/commit/83b771b4f716a2f70af40a6c54027a40b20e51b5))
+
 # [@rxjs-collection/observables-v1.0.8](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/observables-v1.0.7...@rxjs-collection/observables-v1.0.8) (2024-11-28)
 
 
