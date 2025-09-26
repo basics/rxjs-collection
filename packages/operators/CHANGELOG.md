@@ -1,5 +1,13 @@
 # Project Changelog
 
+# [@rxjs-collection/operators-v1.2.0-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.2.0-beta.1...@rxjs-collection/operators-v1.2.0-beta.2) (2025-09-26)
+
+
+### Bug Fixes
+
+* enhance response handling in operators ([845962e](https://github.com/basics/rxjs-collection/commit/845962e633846373024d4cd16f880e0ed55434e5))
+* handle null requests in autoPagination and improve error handling ([0cdb8e9](https://github.com/basics/rxjs-collection/commit/0cdb8e9134ca37cb201c19a21708db0ab0c336f5))
+
 # [@rxjs-collection/operators-v1.2.0-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/operators-v1.1.2-beta.2...@rxjs-collection/operators-v1.2.0-beta.1) (2025-09-05)
 
 
