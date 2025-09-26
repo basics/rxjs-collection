@@ -21,7 +21,7 @@
       }
     ],
     [
-      "@anolilab/semantic-release-pnpm"
+      "@semantic-release/npm"
     ],
     [
       "@semantic-release/git",
