@@ -18,7 +18,7 @@
     "release": "npx semantic-release",
     "start": "tsx watch src/index.ts",
     "dev": "npx vitest",
-    "build": "print 'no build needed'"
+    "build": "echo 'no build needed'"
   },
   "imports": {
     "#observables/*": "../observables/src/*",

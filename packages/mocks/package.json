@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "release": "npx semantic-release",
-    "build": "print 'no build needed'"
+    "build": "echo 'no build needed'"
   },
   "dependencies": {
     "rxjs": "7.8.2",
