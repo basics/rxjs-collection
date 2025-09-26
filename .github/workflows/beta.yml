@@ -33,7 +33,10 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
-          cache: 'pnpm'
+          cache: "pnpm"
+
+      - name: Downgrade npm (Bugfix for npm version in workspaces)
+        run: corepack prepare npm@9.9.3 --activate
 
       - name: Install dependencies
         run: pnpm install
@@ -73,7 +76,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
@@ -100,7 +103,7 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: download vitest code coverage results
         uses: actions/download-artifact@v5
@@ -111,5 +114,5 @@ jobs:
       - name: SonarCloud scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
