@@ -25,7 +25,6 @@
   ],
   "scripts": {
     "postinstall": "npm run build:packages",
-    "build": "npm run build:packages",
     "build:packages": "npm run build --workspaces --if-present",
     "lint": "npm run lint:es",
     "lint:es": "eslint --flag unstable_native_nodejs_ts_config .",
