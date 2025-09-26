@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/playground-v1.0.1-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/playground-v1.0.1-beta.1...@rxjs-collection/playground-v1.0.1-beta.2) (2025-09-26)
+
+
+### Bug Fixes
+
+* enhance response handling in operators ([845962e](https://github.com/basics/rxjs-collection/commit/845962e633846373024d4cd16f880e0ed55434e5))
+
 # [@rxjs-collection/playground-v1.0.1-beta.1](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/playground-v1.0.0...@rxjs-collection/playground-v1.0.1-beta.1) (2024-12-06)
 
 
