@@ -21,7 +21,8 @@
     "packages/operators/package.json",
     "packages/observables/dist",
     "packages/observables/node-modules",
-    "packages/observables/package.json"
+    "packages/observables/package.json",
+    "scripts/build-workspaces.js"
   ],
   "scripts": {
     "postinstall": "node scripts/build-workspaces.js",
