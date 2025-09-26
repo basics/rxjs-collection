@@ -75,9 +75,6 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: "pnpm"
 
-      - name: Downgrade npm (Bugfix for npm version in workspaces)
-        run: corepack prepare npm@9.9.3 --activate
-
       - name: Install dependencies
         run: pnpm install
 
