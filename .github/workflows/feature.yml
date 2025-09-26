@@ -73,7 +73,7 @@ jobs:
           path: ./coverage/
 
       - name: SonarCloud (SonarQube) Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Zum Abruf von PR-Daten etc.
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
