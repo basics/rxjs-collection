@@ -1,5 +1,12 @@
 # Project Changelog
 
+# [@rxjs-collection/playground-v1.0.1-beta.3](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/playground-v1.0.1-beta.2...@rxjs-collection/playground-v1.0.1-beta.3) (2025-10-10)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([cc020c1](https://github.com/basics/rxjs-collection/commit/cc020c1303571238e7ee0589955a0c72c5e4182e))
+
 # [@rxjs-collection/playground-v1.0.1-beta.2](https://github.com/basics/rxjs-collection/compare/@rxjs-collection/playground-v1.0.1-beta.1...@rxjs-collection/playground-v1.0.1-beta.2) (2025-09-26)
 
 
