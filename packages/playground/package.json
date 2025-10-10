@@ -29,6 +29,6 @@
     "rxjs": "7.8.2"
   },
   "devDependencies": {
-    "tsx": "4.20.5"
+    "tsx": "4.20.6"
   }
 }
