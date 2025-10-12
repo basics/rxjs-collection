@@ -24,7 +24,7 @@
   "dependencies": {
     "@rxjs-collection/observables": "*",
     "ansi-colors": "4.1.3",
-    "consola": "3.2.3",
+    "consola": "3.3.0",
     "fast-equals": "5.0.1",
     "rxjs": "7.8.1"
   },
