@@ -45,7 +45,7 @@ jobs:
         run: npm run coverage
 
       - name: archive vitest code coverage results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: vitest-code-coverage-report
           path: ./coverage/
@@ -67,7 +67,7 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: download vitest code coverage results
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: vitest-code-coverage-report
           path: ./coverage/
