@@ -22,15 +22,15 @@ jobs:
 
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.1.0
 
       - name: setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v5.0.0
         with:
           node-version: ${{ matrix.node }}
 
       - name: cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v4.3.0
         id: cache
         with:
           path: |
@@ -48,7 +48,7 @@ jobs:
         run: npm run coverage
 
       - name: archive vitest code coverage results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: vitest-code-coverage-report
           path: ./coverage/
@@ -65,15 +65,15 @@ jobs:
 
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.1.0
 
       - name: setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v5.0.0
         with:
           node-version: ${{ matrix.node }}
 
       - name: cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v4.3.0
         id: cache
         with:
           path: node_modules
@@ -103,12 +103,12 @@ jobs:
 
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.1.0
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: download vitest code coverage results
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v5.0.0
         with:
           name: vitest-code-coverage-report
           path: ./coverage/
@@ -131,12 +131,12 @@ jobs:
 
     steps:
       - name: download vitest code coverage results
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v5.0.0
         with:
           name: vitest-code-coverage-report
           path: ./coverage/
       - name: deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: coverage
