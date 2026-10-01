@@ -78,7 +78,7 @@
     "eslint-plugin-security": "3.0.1",
     "fetch-mock": "12.5.4",
     "globals": "16.4.0",
-    "happy-dom": "20.0.0",
+    "happy-dom": "20.8.9",
     "husky": "9.1.7",
     "lint-staged": "16.2.3",
     "prettier": "3.6.2",
